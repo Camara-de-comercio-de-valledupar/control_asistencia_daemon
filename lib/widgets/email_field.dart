@@ -20,7 +20,7 @@ class EmailField extends StatelessWidget {
       this.textInputAction,
       this.style,
       this.strutStyle,
-      this.suffixText = "ccvalledupar.org.co"});
+      this.suffixText = "@ccvalledupar.org.co"});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,10 @@ class EmailField extends StatelessWidget {
               Theme.of(context).inputDecorationTheme.hintStyle?.color,
         );
     return TextFormField(
+      controller: controller,
+      focusNode: focusNode,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
       style: textStyle,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.email),

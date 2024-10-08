@@ -7,15 +7,25 @@ sealed class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-final class AuthenticationInitial extends AuthenticationState {}
+final class AuthenticationInitial extends AuthenticationState {
+  final String email;
+  final String password;
+  final bool rememberMe;
+
+  const AuthenticationInitial({
+    this.email = "",
+    this.password = "",
+    this.rememberMe = false,
+  });
+}
 
 final class AuthenticationSuccess extends AuthenticationState {
-  final User user;
+  final Member member;
 
-  const AuthenticationSuccess(this.user);
+  const AuthenticationSuccess(this.member);
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [member];
 }
 
 final class AuthenticationInProgress extends AuthenticationState {}
@@ -35,6 +45,6 @@ final class AuthenticationInvalidCredentialsFailure
       : super("invalid-credentials");
 }
 
-final class AuthenticationUserNotFoundFailure extends AuthenticationFailure {
-  const AuthenticationUserNotFoundFailure() : super("user-not-found");
+final class AuthenticationUnknownFailure extends AuthenticationFailure {
+  const AuthenticationUnknownFailure() : super("unknown-error");
 }
