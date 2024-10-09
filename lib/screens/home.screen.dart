@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,87 +10,93 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
-      runSpacing: 20,
-      alignment: WrapAlignment.center,
-      children: [
-        _buildTitle(context),
-        _buildCustomCardButton(
-          context,
-          "Marcar asistencia",
-          Icons.camera_alt,
-          () {},
-        ),
-        _buildCustomCardButton(
-          context,
-          "Historial de asistencias",
-          Icons.history,
-          () {},
-        ),
-        _buildCustomCardButton(
-          context,
-          "Estadísticas",
-          Icons.bar_chart,
-          () {},
-        ),
-        _buildLogoutButton(context),
-      ],
-    );
-  }
-
-  Widget _buildLogoutButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 20),
-      width: 300,
-      child: CustomCardButton(
-        onPressed: () {
-          BlocProvider.of<AuthenticationBloc>(context)
-              .add(AuthenticationLogoutRequested());
+    return BlocProvider(
+      create: (context) => DashboardBloc(),
+      child: BlocListener<DashboardBloc, DashboardState>(
+        listener: (context, state) {
+          if (kDebugMode) {
+            log("DashboardBloc: $state");
+          }
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        child: BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) {
+          Widget child = const LoadingScreen();
+          if (state is DashboardInitial) {
+            child = const DashboardScreen();
+          }
+          if (state is DashboardShowAssistanceView) {
+            child = const AssistanceScreen();
+          }
+          if (state is DashboardShowLoading) {
+            child = const LoadingScreen();
+          }
+          if (state is DashboardShowAssistanceHistoryView) {
+            child = const AssistanceHistoryScreen();
+          }
+
+          return DashboardLayout(
+            child: child,
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class DashboardLayout extends StatelessWidget {
+  final Widget child;
+  const DashboardLayout({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            Icon(Icons.logout,
-                size: 30, color: Theme.of(context).colorScheme.onPrimary),
-            const SizedBox(width: 10),
-            Text("Cerrar sesión",
-                style: Theme.of(context).textTheme.bodyMedium),
+            DashboardHeader(
+              title: state.title,
+              hasBackButton: state is! DashboardInitial,
+            ),
+            Expanded(
+              child: child,
+            ),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
+}
 
-  Widget _buildTitle(BuildContext context) {
+class DashboardHeader extends StatelessWidget {
+  final String title;
+  final bool hasBackButton;
+  const DashboardHeader(
+      {super.key, required this.title, this.hasBackButton = true});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
-      width: 600,
-      child: Text(
-        "Bienvenido funcionario, por favor seleccione una opción.",
-        style: Theme.of(context).textTheme.headlineSmall,
-        textAlign: TextAlign.center,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          if (hasBackButton)
+            BackButton(
+              color: Theme.of(context).colorScheme.onPrimary,
+              onPressed: () {
+                BlocProvider.of<DashboardBloc>(context)
+                    .add(DashboardShowInitialViewRequested());
+              },
+            ),
+          const Spacer(),
+          Text(title,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall
+                  ?.copyWith(color: Theme.of(context).colorScheme.onPrimary)),
+        ],
       ),
-    );
-  }
-
-  Widget _buildCustomCardButton(BuildContext context, String title,
-      IconData icon, VoidCallback onPressed) {
-    return SizedBox(
-      width: 200,
-      child: CustomCardButton(
-          onPressed: onPressed,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(icon,
-                  size: 30, color: Theme.of(context).colorScheme.onPrimary),
-              const SizedBox(width: 10),
-              Text(title, style: Theme.of(context).textTheme.bodyMedium),
-            ],
-          )),
     );
   }
 }
