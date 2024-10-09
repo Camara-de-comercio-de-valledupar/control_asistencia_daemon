@@ -12,6 +12,13 @@ class DashboardScreen extends StatelessWidget {
       runSpacing: 20,
       alignment: WrapAlignment.center,
       children: [
+        const SizedBox(
+          height: 150,
+          width: double.infinity,
+          child: Center(
+            child: SizedBox(width: 150, child: CameraView()),
+          ),
+        ),
         _buildTitle(context),
         _buildCustomCardButton(
           context,

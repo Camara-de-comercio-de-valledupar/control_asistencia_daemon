@@ -17,6 +17,12 @@ class _CameraViewState extends State<CameraView> {
     _initializeCamera();
   }
 
+  @override
+  void dispose() {
+    _renderer.dispose();
+    super.dispose();
+  }
+
   void _initializeCamera() async {
     await _renderer.initialize();
     final mediaConstraints = {
@@ -36,16 +42,27 @@ class _CameraViewState extends State<CameraView> {
   }
 
   @override
-  void dispose() {
-    _renderer.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return RTCVideoView(
-      mirror: true,
-      _renderer,
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onPrimary,
+          width: 4,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 10,
+            spreadRadius: 2,
+          ),
+        ],
+      ),
+      child: RTCVideoView(
+        _renderer,
+      ),
     );
   }
 }
