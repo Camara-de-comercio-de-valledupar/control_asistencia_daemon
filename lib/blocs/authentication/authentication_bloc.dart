@@ -29,8 +29,13 @@ class AuthenticationBloc
 
   FutureOr<void> _logout(AuthenticationLogoutRequested event,
       Emitter<AuthenticationState> emit) async {
-    await _authenticationService.signOut();
-    emit(const AuthenticationInitial());
+    try {
+      await _authenticationService.signOut();
+      emit(const AuthenticationInitial());
+    } catch (e) {
+      emit(AuthenticationFailure(e.toString()));
+      emit(const AuthenticationInitial());
+    }
   }
 
   FutureOr<void> _login(event, emit) async {
@@ -47,8 +52,8 @@ class AuthenticationBloc
       emit(AuthenticationSuccess(user));
     } catch (e) {
       emit(AuthenticationFailure(e.toString()));
+      emit(const AuthenticationInitial());
     }
-    emit(const AuthenticationInvalidCredentialsFailure());
   }
 
   FutureOr<void> _rememberCredentials({
@@ -96,7 +101,7 @@ class AuthenticationBloc
       if (member != null) {
         emit(AuthenticationSuccess(member));
       } else {
-        emit(const AuthenticationInitial());
+        await _getRememberedCredentials(event, emit);
       }
     } catch (e) {
       emit(const AuthenticationUnknownFailure());

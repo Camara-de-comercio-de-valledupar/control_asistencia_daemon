@@ -27,85 +27,83 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {});
         }
       },
-      child: GuestLayout(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Bienvenido funcionario, por favor inicie sesión para registrar su asistencia.",
-              style: Theme.of(context).textTheme.headlineSmall,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: spacerY,
-            ),
-            SizedBox(
-              width: 500,
-              child: CustomCard(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Form(
-                    key: _formKey,
-                    canPop: false,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        EmailField(
-                          controller: _emailCtrl,
-                        ),
-                        PasswordField(
-                          controller: _passwordCtrl,
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Checkbox(
-                                value: _rememberMe.value,
-                                onChanged: (value) {
-                                  _rememberMe.value = value!;
-                                  setState(() {});
-                                }),
-                            const Text("Recordar mi usuario"),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {
-                                BlocProvider.of<AuthenticationBloc>(context).add(
-                                    AuthenticationForgotPasswordRequested());
-                              },
-                              child: Text(
-                                "Olvidé mi contraseña",
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            "Bienvenido funcionario, por favor inicie sesión para registrar su asistencia.",
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: spacerY,
+          ),
+          SizedBox(
+            width: 500,
+            child: CustomCard(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: _formKey,
+                  canPop: false,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      EmailField(
+                        controller: _emailCtrl,
+                      ),
+                      PasswordField(
+                        controller: _passwordCtrl,
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Checkbox(
+                              value: _rememberMe.value,
+                              onChanged: (value) {
+                                _rememberMe.value = value!;
+                                setState(() {});
+                              }),
+                          const Text("Recordar mi usuario"),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              BlocProvider.of<AuthenticationBloc>(context)
+                                  .add(AuthenticationForgotPasswordRequested());
+                            },
+                            child: Text(
+                              "Olvidé mi contraseña",
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        LoginButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              BlocProvider.of<AuthenticationBloc>(context).add(
-                                AuthenticationLoginRequested(
-                                  _emailCtrl.text,
-                                  _passwordCtrl.text,
-                                  _rememberMe.value,
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      LoginButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            BlocProvider.of<AuthenticationBloc>(context).add(
+                              AuthenticationLoginRequested(
+                                _emailCtrl.text,
+                                _passwordCtrl.text,
+                                _rememberMe.value,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

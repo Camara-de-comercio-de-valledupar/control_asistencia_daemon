@@ -40,22 +40,20 @@ class SecurityLayer extends StatelessWidget {
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
+            Widget child = LoadingScreen();
             if (kDebugMode) {
               log("AuthenticationBloc: $state");
             }
             if (state is AuthenticationInitial) {
-              return const LoginScreen();
+              child = LoginScreen();
             }
             if (state is AuthenticationSuccess) {
-              return const HomeScreen();
-            }
-            if (state is AuthenticationFailure) {
-              return const LoginScreen();
+              child = HomeScreen();
             }
             if (state is AuthenticationInProgress) {
-              return const LoadingScreen();
+              child = LoadingScreen();
             }
-            return const LoadingScreen();
+            return GuestLayout(child: child);
           },
         ),
       ),

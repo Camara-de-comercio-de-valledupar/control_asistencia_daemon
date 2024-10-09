@@ -14,4 +14,13 @@ class Member extends Equatable {
 
   @override
   List<Object?> get props => [id, firstName, lastName, email];
+
+  factory Member.empty() {
+    return const Member(
+      id: '1',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'johndoe@unknown.com',
+    );
+  }
 }

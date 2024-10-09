@@ -10,18 +10,18 @@ class AuthenticationService {
 
   Future<Member> signInWithEmailAndPassword(
       String email, String password) async {
-    // TODO: Implement authentication
-    throw UnimplementedError();
+    return Member.empty();
   }
 
   FutureOr<Member?> get loggedInMember {
-    // TODO: Implement authentication
-    throw UnimplementedError();
+    return Member.empty();
   }
 
   Stream<Member?> get memberChanges {
-    // TODO Implement authentication
-    throw UnimplementedError();
+    return Stream<Member?>.periodic(
+      const Duration(seconds: 4),
+      (int index) => Member.empty(),
+    );
   }
 
   Future<void> signOut() async {
