@@ -10,9 +10,9 @@ var primaryTheme = ThemeData(
     bodyMedium: TextStyle(color: Color(0xFFF2F2F2)),
     bodySmall: TextStyle(color: Color(0xFFF2F2F2)),
   ),
-  scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+  scaffoldBackgroundColor: const Color(0xFFFFFFFF),
   appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0xFF90CAF9),
+    backgroundColor: Colors.blue,
     elevation: 0,
     titleTextStyle: TextStyle(
       color: Color(0xFFF2F2F2),

@@ -72,13 +72,7 @@ class GuestLayout extends StatelessWidget {
               const SizedBox(width: 20),
             ],
           ),
-          body: Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
-            ),
-            padding: const EdgeInsets.all(20),
-            child: Center(child: child),
-          ),
+          body: Center(child: child),
         );
       },
     );
