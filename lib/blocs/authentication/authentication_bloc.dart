@@ -100,6 +100,7 @@ class AuthenticationBloc
       }
     } catch (e) {
       emit(const AuthenticationUnknownFailure());
+      emit(const AuthenticationInitial());
     }
   }
 }

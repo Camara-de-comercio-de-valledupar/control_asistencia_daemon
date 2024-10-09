@@ -13,6 +13,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
   final _rememberMe = ValueNotifier<bool>(false);
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final spacerY = MediaQuery.of(context).size.height * 0.1;
@@ -43,55 +44,62 @@ class _LoginScreenState extends State<LoginScreen> {
               child: CustomCard(
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      EmailField(
-                        controller: _emailCtrl,
-                      ),
-                      PasswordField(
-                        controller: _passwordCtrl,
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                              value: _rememberMe.value,
-                              onChanged: (value) {
-                                _rememberMe.value = value!;
-                                setState(() {});
-                              }),
-                          const Text("Recordar mi usuario"),
-                          const Spacer(),
-                          TextButton(
-                            onPressed: () {
-                              BlocProvider.of<AuthenticationBloc>(context)
-                                  .add(AuthenticationForgotPasswordRequested());
-                            },
-                            child: Text(
-                              "Olvidé mi contraseña",
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
+                  child: Form(
+                    key: _formKey,
+                    canPop: false,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        EmailField(
+                          controller: _emailCtrl,
+                        ),
+                        PasswordField(
+                          controller: _passwordCtrl,
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: _rememberMe.value,
+                                onChanged: (value) {
+                                  _rememberMe.value = value!;
+                                  setState(() {});
+                                }),
+                            const Text("Recordar mi usuario"),
+                            const Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                BlocProvider.of<AuthenticationBloc>(context).add(
+                                    AuthenticationForgotPasswordRequested());
+                              },
+                              child: Text(
+                                "Olvidé mi contraseña",
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      LoginButton(
-                        onPressed: () {
-                          BlocProvider.of<AuthenticationBloc>(context).add(
-                            AuthenticationLoginRequested(
-                              _emailCtrl.text,
-                              _passwordCtrl.text,
-                              _rememberMe.value,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        LoginButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              BlocProvider.of<AuthenticationBloc>(context).add(
+                                AuthenticationLoginRequested(
+                                  _emailCtrl.text,
+                                  _passwordCtrl.text,
+                                  _rememberMe.value,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
