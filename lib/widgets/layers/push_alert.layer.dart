@@ -4,6 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
 
+const alertIconByType = {
+  PushAlertType.error: Icons.error,
+  PushAlertType.success: Icons.check_circle,
+  PushAlertType.warning: Icons.warning,
+  PushAlertType.info: Icons.info,
+};
+
 class PushAlertLayer extends StatelessWidget {
   final Widget child;
   const PushAlertLayer({super.key, required this.child});
@@ -27,30 +34,50 @@ class PushAlertLayer extends StatelessWidget {
                   padding: const EdgeInsets.all(2.0),
                   child: Container(
                       padding: const EdgeInsets.all(10.0),
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        color: Color(0xFFF2F2F2),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(5)),
+                          color: const Color(0xFFF2F2F2),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 12,
+                              spreadRadius: 12,
+                              offset: const Offset(0, 5),
+                            ),
+                          ]),
+                      child: Row(
                         children: [
-                          Text(state.pushAlert.title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    color: snackbarColor[state.pushAlert.type],
-                                  )),
-                          Text(state.pushAlert.body,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    color: Theme.of(context)
+                          Icon(
+                              alertIconByType[state.pushAlert.type] ??
+                                  Icons.info,
+                              color: snackbarColor[state.pushAlert.type]),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(state.pushAlert.title,
+                                    style: Theme.of(context)
                                         .textTheme
-                                        .headlineLarge
-                                        ?.color,
-                                  )),
+                                        .bodyMedium
+                                        ?.copyWith(
+                                          color: snackbarColor[
+                                              state.pushAlert.type],
+                                        )),
+                                Text(state.pushAlert.body,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .headlineLarge
+                                              ?.color,
+                                        )),
+                              ],
+                            ),
+                          ),
                         ],
                       )),
                 ),

@@ -14,6 +14,8 @@ class AuthenticationBloc
   final AuthenticationService _authenticationService =
       AuthenticationService.instance;
 
+  String token = "";
+
   AuthenticationBloc() : super(const AuthenticationInitial()) {
     on<AuthenticationEvent>(_logEvent);
     on<AuthenticationStarted>(_onAuthenticationStarted);

@@ -23,4 +23,13 @@ class Member extends Equatable {
       email: 'johndoe@unknown.com',
     );
   }
+
+  factory Member.fromJson(Map<String, dynamic> json) {
+    return Member(
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      email: json['email'],
+    );
+  }
 }

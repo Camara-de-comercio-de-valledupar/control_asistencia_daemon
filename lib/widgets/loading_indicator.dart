@@ -96,7 +96,7 @@ class _LoadingIndicatorState extends State<LoadingIndicator>
           Text(
             widget.label!,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: widget.color,
+                  color: widget.color ?? Theme.of(context).colorScheme.primary,
                 ),
           ),
       ],

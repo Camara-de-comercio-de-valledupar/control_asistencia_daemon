@@ -1,4 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,11 +13,24 @@ class DashboardScreen extends StatelessWidget {
       runSpacing: 20,
       alignment: WrapAlignment.center,
       children: [
-        const SizedBox(
-          height: 150,
+        SizedBox(
           width: double.infinity,
-          child: Center(
-            child: SizedBox(width: 150, child: CameraView()),
+          child: CameraView(
+            onError: (value) {
+              if (kDebugMode) {
+                print(value.code);
+              }
+              BlocProvider.of<PushAlertBloc>(context).add(
+                const PushAlertBasicError(
+                  title: "Error al cargar la cámara",
+                  body: "Ocurrió un error al cargar la cámara",
+                ),
+              );
+            },
+            onCameraControllerLoaded: (value) {
+              BlocProvider.of<AssistanceBloc>(context)
+                  .add(AssistanceLoadCameraController(value));
+            },
           ),
         ),
         _buildTitle(context),
@@ -25,9 +39,8 @@ class DashboardScreen extends StatelessWidget {
           "Marcar asistencia",
           Icons.camera_alt,
           () {
-            BlocProvider.of<DashboardBloc>(context).add(
-              DashboardTakeAssistanceRequested(),
-            );
+            BlocProvider.of<AssistanceBloc>(context)
+                .add(const AssistanceTakeAPicture());
           },
         ),
         _buildCustomCardButton(
@@ -56,7 +69,7 @@ class DashboardScreen extends StatelessWidget {
 
   Widget _buildLogoutButton(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 10),
       width: 300,
       child: CustomCardButton(
         onPressed: () {
@@ -80,7 +93,7 @@ class DashboardScreen extends StatelessWidget {
 
   Widget _buildTitle(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 10),
       width: 600,
       child: Text(
         "Bienvenido funcionario, por favor seleccione una opción.",
