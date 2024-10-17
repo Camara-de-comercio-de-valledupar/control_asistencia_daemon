@@ -115,31 +115,27 @@ class HttpClient {
     return _instance!;
   }
 
-  Future<Map<String, dynamic>> post(
-      String url, Map<String, dynamic> body) async {
+  Future<T> post<T>(String url, Object? body) async {
     final response = await _dio.post(url, data: body);
     return response.data ?? {};
   }
 
-  Future<Map<String, dynamic>> get(String url,
-      [Map<String, dynamic>? params]) async {
+  Future<T> get<T>(String url, [Map<String, dynamic>? params]) async {
     final response = await _dio.get(url, queryParameters: params);
     return response.data;
   }
 
-  Future<Map<String, dynamic>> put(
-      String url, Map<String, dynamic> body) async {
+  Future<T> put<T>(String url, Map<String, dynamic> body) async {
     final response = await _dio.put(url, data: body);
     return response.data;
   }
 
-  Future<Map<String, dynamic>> delete(String url) async {
+  Future<T> delete<T>(String url) async {
     final response = await _dio.delete(url);
     return response.data;
   }
 
-  Future<Map<String, dynamic>> patch(
-      String url, Map<String, dynamic> body) async {
+  Future<T> patch<T>(String url, Map<String, dynamic> body) async {
     final response = await _dio.patch(url, data: body);
     return response.data;
   }

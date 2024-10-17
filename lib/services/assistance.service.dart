@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:dio/dio.dart';
 
 class SendAssistanceRequest {
   final String token;
@@ -10,17 +11,28 @@ class SendAssistanceRequest {
 }
 
 class AssistanceService {
-  static final AssistanceService instance = AssistanceService._internal();
+  final HttpClient _client;
+  static AssistanceService? _instance;
 
-  AssistanceService._internal();
+  AssistanceService(this._client);
+
+  static AssistanceService getInstance() {
+    _instance ??= AssistanceService(HttpClient.getInstance());
+    return _instance!;
+  }
 
   Future<void> sendAssistanceRequest(SendAssistanceRequest request) async {
-    // Send the assistance request
-    throw UnimplementedError();
+    final form = FormData.fromMap({
+      "images": [
+        MultipartFile.fromBytes(request.picture, filename: "picture.jpg")
+      ],
+    });
+    await _client.post("/assistances/", form);
   }
 
   Future<List<Assistance>> getAssistanceRequests() async {
-    // Get the assistance requests
-    throw UnimplementedError();
+    final response =
+        await _client.get<List<Map<String, dynamic>>>("/assistances/");
+    return response.map((e) => Assistance.fromJson(e)).toList();
   }
 }

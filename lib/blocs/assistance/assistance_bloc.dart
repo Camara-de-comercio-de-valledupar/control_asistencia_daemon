@@ -12,7 +12,7 @@ part 'assistance_state.dart';
 class AssistanceBloc extends Bloc<AssistanceEvent, AssistanceState> {
   CameraController? cameraController;
 
-  AssistanceService assistanceService = AssistanceService.instance;
+  AssistanceService assistanceService = AssistanceService.getInstance();
 
   AssistanceBloc() : super(AssistanceInitial()) {
     on<AssistanceLoadCameraController>((event, emit) {
@@ -32,15 +32,9 @@ class AssistanceBloc extends Bloc<AssistanceEvent, AssistanceState> {
 
   FutureOr<void> _sendAssistanceRequest(
       AssistanceSendAssistanceRequest event, emit) async {
-    try {
-      emit(AssistanceSendingRequest());
-      await assistanceService.sendAssistanceRequest(
-          SendAssistanceRequest(event.token, event.picture));
-      emit(AssistanceRequestSent());
-    } catch (e) {
-      emit(AssistanceRequestFailed());
-    } finally {
-      emit(AssistanceInitial());
-    }
+    emit(AssistanceSendingRequest());
+    await assistanceService.sendAssistanceRequest(
+        SendAssistanceRequest(event.token, event.picture));
+    emit(AssistanceRequestSent());
   }
 }
