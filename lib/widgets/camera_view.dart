@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:camera_windows/camera_windows.dart';
 import 'package:control_asistencia_daemon/lib.dart';
@@ -30,11 +32,9 @@ class _CameraViewState extends State<CameraView> {
 
   void _initializeCamera() async {
     try {
-      final cameras = await cameraWindows.availableCameras();
-      if (kDebugMode) {
-        print(cameras);
-      }
-
+      final cameras = Platform.isWindows
+          ? await cameraWindows.availableCameras()
+          : await availableCameras();
       if (cameras.isNotEmpty) {
         _cameraController =
             CameraController(cameras.first, ResolutionPreset.medium);
@@ -43,6 +43,9 @@ class _CameraViewState extends State<CameraView> {
       await Future.delayed(const Duration(seconds: 1), () {
         if (_cameraController != null) {
           _cameraController!.initialize().then((_) {
+            if (kDebugMode) {
+              print('Camera initialized');
+            }
             if (!mounted) {
               return;
             }

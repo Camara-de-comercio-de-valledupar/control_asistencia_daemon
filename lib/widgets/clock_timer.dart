@@ -21,6 +21,12 @@ class _ClockTimerState extends State<ClockTimer>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       builder: (context, value) {

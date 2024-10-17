@@ -9,6 +9,15 @@ sealed class AuthenticationEvent extends Equatable {
 
 final class AuthenticationStarted extends AuthenticationEvent {}
 
+final class AuthenticationProfileFetched extends AuthenticationEvent {
+  final String token;
+
+  const AuthenticationProfileFetched(this.token);
+
+  @override
+  List<Object> get props => [token];
+}
+
 final class AuthenticationLoginRequested extends AuthenticationEvent {
   final String email;
   final String password;

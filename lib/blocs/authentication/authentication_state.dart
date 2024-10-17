@@ -19,6 +19,15 @@ final class AuthenticationInitial extends AuthenticationState {
   });
 }
 
+final class AuthenticationPreSuccess extends AuthenticationState {
+  final String token;
+
+  const AuthenticationPreSuccess(this.token);
+
+  @override
+  List<Object> get props => [token];
+}
+
 final class AuthenticationSuccess extends AuthenticationState {
   final Member member;
 

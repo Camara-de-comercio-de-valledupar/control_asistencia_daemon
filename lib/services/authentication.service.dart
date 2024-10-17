@@ -3,29 +3,32 @@ import 'dart:async';
 import 'package:control_asistencia_daemon/lib.dart';
 
 class AuthenticationService {
-  static final AuthenticationService instance =
-      AuthenticationService._internal();
+  final HttpClient _client;
+  static AuthenticationService? _instance;
 
-  AuthenticationService._internal();
+  AuthenticationService(this._client);
 
-  Future<Member> signInWithEmailAndPassword(
+  static AuthenticationService getInstance() {
+    _instance ??= AuthenticationService(HttpClient.getInstance());
+    return _instance!;
+  }
+
+  Future<String> signInWithEmailAndPassword(
       String email, String password) async {
-    return Member.empty();
-  }
-
-  FutureOr<Member?> get loggedInMember {
-    return Member.empty();
-  }
-
-  Stream<Member?> get memberChanges {
-    return Stream<Member?>.periodic(
-      const Duration(seconds: 4),
-      (int index) => Member.empty(),
+    final response = await _client.post(
+      "/auth/login",
+      {"email": email, "password": password},
     );
+    return response["access_token"];
+  }
+
+  FutureOr<Member> get loggedInMember {
+    return _client.get("/auth/me").then((response) {
+      return Member.fromJson(response);
+    });
   }
 
   Future<void> signOut() async {
-    // TODO: Implement authentication
-    throw UnimplementedError();
+    await _client.post("/auth/logout", {});
   }
 }

@@ -28,14 +28,9 @@ class SecurityLayer extends StatelessWidget {
       create: (context) => AuthenticationBloc()..add(AuthenticationStarted()),
       child: BlocListener<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-          if (state is AuthenticationFailure) {
-            const lang = "es";
-            final data = messages[lang]![state.message] ??
-                messages[lang]!["unknown-error"]!;
-            BlocProvider.of<PushAlertBloc>(context).add(PushAlertBasicError(
-              title: data["title"]!,
-              body: data["body"]!,
-            ));
+          if (state is AuthenticationPreSuccess) {
+            BlocProvider.of<AuthenticationBloc>(context)
+                .add(AuthenticationProfileFetched(state.token));
           }
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(

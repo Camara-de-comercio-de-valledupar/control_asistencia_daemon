@@ -7,6 +7,7 @@ import 'package:window_manager/window_manager.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isWindows) {
+    await CacheService.init();
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = const WindowOptions(
       title: "Control de Asistencia CCV",

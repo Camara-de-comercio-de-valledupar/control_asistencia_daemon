@@ -4,16 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationService _authenticationService =
-      AuthenticationService.instance;
+      AuthenticationService.getInstance();
 
+  final cacheService = CacheService.getInstance();
   String token = "";
 
   AuthenticationBloc() : super(const AuthenticationInitial()) {
@@ -21,6 +20,7 @@ class AuthenticationBloc
     on<AuthenticationStarted>(_onAuthenticationStarted);
     on<AuthenticationLoginRequested>(_login);
     on<AuthenticationLogoutRequested>(_logout);
+    on<AuthenticationProfileFetched>(_fetchProfile);
   }
 
   void _logEvent(AuthenticationEvent event, Emitter<AuthenticationState> emit) {
@@ -29,33 +29,31 @@ class AuthenticationBloc
     }
   }
 
+  FutureOr<void> _fetchProfile(AuthenticationProfileFetched event,
+      Emitter<AuthenticationState> emit) async {
+    emit(AuthenticationInProgress());
+    await cacheService.setString('token', event.token);
+    final member = await _authenticationService.loggedInMember;
+    emit(AuthenticationSuccess(member));
+  }
+
   FutureOr<void> _logout(AuthenticationLogoutRequested event,
       Emitter<AuthenticationState> emit) async {
-    try {
-      await _authenticationService.signOut();
-      emit(const AuthenticationInitial());
-    } catch (e) {
-      emit(AuthenticationFailure(e.toString()));
-      emit(const AuthenticationInitial());
-    }
+    await _authenticationService.signOut();
+    emit(const AuthenticationInitial());
   }
 
   FutureOr<void> _login(event, emit) async {
     emit(AuthenticationInProgress());
     await Future.delayed(const Duration(seconds: 2));
     String email = "${event.email}@ccvalledupar.org.co";
-    try {
-      final user = await _authenticationService.signInWithEmailAndPassword(
-          email, event.password);
-      await _rememberCredentials(
-          rememberMe: event.rememberMe,
-          email: event.email,
-          password: event.password);
-      emit(AuthenticationSuccess(user));
-    } catch (e) {
-      emit(AuthenticationFailure(e.toString()));
-      emit(const AuthenticationInitial());
-    }
+    final token = await _authenticationService.signInWithEmailAndPassword(
+        email, event.password);
+    await _rememberCredentials(
+        rememberMe: event.rememberMe,
+        email: event.email,
+        password: event.password);
+    emit(AuthenticationPreSuccess(token));
   }
 
   FutureOr<void> _rememberCredentials({
@@ -64,28 +62,25 @@ class AuthenticationBloc
     required String password,
   }) async {
     if (rememberMe) {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setBool('rememberMe', rememberMe);
-      prefs.setString('email', email);
-      prefs.setString('password', password);
+      cacheService.setBool('rememberMe', rememberMe);
+      cacheService.setString('email', email);
+      cacheService.setString('password', password);
     }
   }
 
   FutureOr<void> _forgetCredentials() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove('rememberMe');
-    prefs.remove('email');
-    prefs.remove('password');
+    cacheService.remove('rememberMe');
+    cacheService.remove('email');
+    cacheService.remove('password');
   }
 
   FutureOr<void> _getRememberedCredentials(
       AuthenticationStarted event, Emitter<AuthenticationState> emit) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final rememberMe = prefs.getBool('rememberMe') ?? false;
+    final rememberMe = cacheService.getBool('rememberMe') ?? false;
     if (rememberMe) {
-      final email = prefs.getString('email') ?? '';
-      final password = prefs.getString('password') ?? '';
-      final rememberMe = prefs.getBool('rememberMe') ?? false;
+      final email = cacheService.getString('email') ?? '';
+      final password = cacheService.getString('password') ?? '';
+      final rememberMe = cacheService.getBool('rememberMe') ?? false;
       emit(AuthenticationInitial(
           email: email, password: password, rememberMe: rememberMe));
     }
@@ -95,19 +90,11 @@ class AuthenticationBloc
       AuthenticationStarted event, Emitter<AuthenticationState> emit) async {
     emit(AuthenticationInProgress());
     await Future.delayed(const Duration(seconds: 2));
-    try {
-      final member = await _authenticationService.loggedInMember;
-      if (kDebugMode) {
-        log("AuthenticationBloc -> member: $member");
-      }
-      if (member != null) {
-        emit(AuthenticationSuccess(member));
-      } else {
-        await _getRememberedCredentials(event, emit);
-      }
-    } catch (e) {
-      emit(const AuthenticationUnknownFailure());
-      emit(const AuthenticationInitial());
+    await _getRememberedCredentials(event, emit);
+    final member = await _authenticationService.loggedInMember;
+    if (kDebugMode) {
+      log("AuthenticationBloc -> member: $member");
     }
+    emit(AuthenticationSuccess(member));
   }
 }
