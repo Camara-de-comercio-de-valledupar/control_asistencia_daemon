@@ -25,3 +25,14 @@ final class AssistanceSendingRequest extends AssistanceState {}
 final class AssistanceRequestSent extends AssistanceState {}
 
 final class AssistanceRequestFailed extends AssistanceState {}
+
+final class AssistanceHistoryLoaded extends AssistanceState {
+  final List<Assistance> assistances;
+
+  const AssistanceHistoryLoaded(this.assistances);
+
+  @override
+  List<Object> get props => [assistances];
+}
+
+final class AssistanceHistoryEmpty extends AssistanceState {}

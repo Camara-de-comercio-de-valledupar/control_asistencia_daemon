@@ -31,8 +31,7 @@ class AssistanceService {
   }
 
   Future<List<Assistance>> getAssistanceRequests() async {
-    final response =
-        await _client.get<List<Map<String, dynamic>>>("/assistances/");
+    final response = await _client.get<List>("/assistances/");
     return response.map((e) => Assistance.fromJson(e)).toList();
   }
 }

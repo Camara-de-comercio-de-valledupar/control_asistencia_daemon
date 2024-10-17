@@ -66,6 +66,42 @@ const errorMsg = {
       "Permiso no encontrado para leer autenticación de actualización",
   "permission_not_found_verify_authentication":
       "Permiso no encontrado para verificar autenticación",
+  "user_has_not_permission_create_user":
+      "El usuario no tiene permiso para crear usuario",
+  "user_has_not_permission_read_user":
+      "El usuario no tiene permiso para leer usuario",
+  "user_has_not_permission_update_user":
+      "El usuario no tiene permiso para actualizar usuario",
+  "user_has_not_permission_delete_user":
+      "El usuario no tiene permiso para eliminar usuario",
+  "user_has_not_permission_create_role":
+      "El usuario no tiene permiso para crear rol",
+  "user_has_not_permission_read_role":
+      "El usuario no tiene permiso para leer rol",
+  "user_has_not_permission_update_role":
+      "El usuario no tiene permiso para actualizar rol",
+  "user_has_not_permission_delete_role":
+      "El usuario no tiene permiso para eliminar rol",
+  "user_has_not_permission_create_permission":
+      "El usuario no tiene permiso para crear permiso",
+  "user_has_not_permission_read_permission":
+      "El usuario no tiene permiso para leer permiso",
+  "user_has_not_permission_read_assistance":
+      "El usuario no tiene permiso para leer asistencia",
+  "user_has_not_permission_create_assistance":
+      "El usuario no tiene permiso para crear asistencia",
+  "user_has_not_permission_update_assistance":
+      "El usuario no tiene permiso para actualizar asistencia",
+  "user_has_not_permission_delete_assistance":
+      "El usuario no tiene permiso para eliminar asistencia",
+  "user_has_not_permission_login_authentication":
+      "El usuario no tiene permiso para autenticación de inicio de sesión",
+  "user_has_not_permission_logout_authentication":
+      "El usuario no tiene permiso para autenticación de cierre de sesión",
+  "user_has_not_permission_read_refresh_authentication":
+      "El usuario no tiene permiso para leer autenticación de actualización",
+  "user_has_not_permission_verify_authentication":
+      "El usuario no tiene permiso para verificar autenticación",
   "500": "Error interno del servidor",
   "403": "No tienes permiso para realizar esta acción",
 };

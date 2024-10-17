@@ -25,3 +25,7 @@ class AssistanceSendAssistanceRequest extends AssistanceEvent {
   final String token;
   const AssistanceSendAssistanceRequest(this.picture, this.token);
 }
+
+class AssistanceGetAssistanceRequests extends AssistanceEvent {
+  const AssistanceGetAssistanceRequests();
+}

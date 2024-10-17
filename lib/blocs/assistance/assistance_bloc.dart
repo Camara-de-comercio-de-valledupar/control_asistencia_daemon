@@ -21,6 +21,17 @@ class AssistanceBloc extends Bloc<AssistanceEvent, AssistanceState> {
     });
     on<AssistanceTakeAPicture>(_takeAPicture);
     on<AssistanceSendAssistanceRequest>(_sendAssistanceRequest);
+    on<AssistanceGetAssistanceRequests>(_getAssistanceRequests);
+  }
+
+  FutureOr<void> _getAssistanceRequests(
+      AssistanceGetAssistanceRequests event, emit) async {
+    final assistances = await assistanceService.getAssistanceRequests();
+    if (assistances.isEmpty) {
+      emit(AssistanceHistoryEmpty());
+      return;
+    }
+    emit(AssistanceHistoryLoaded(assistances));
   }
 
   FutureOr<void> _takeAPicture(event, emit) async {
