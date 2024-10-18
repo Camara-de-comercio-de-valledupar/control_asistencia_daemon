@@ -92,46 +92,21 @@ class _CameraViewState extends State<CameraView> {
 
   @override
   Widget build(BuildContext context) {
-    double cameraWidth =
-        (_cameraController?.value.previewSize?.width ?? 640) * 0.35;
-    double cameraHeight =
-        (_cameraController?.value.previewSize?.height ?? 480) * 0.35;
-    if (kDebugMode) {
-      print('cameraWidth: $cameraWidth');
-      print('cameraHeight: $cameraHeight');
-    }
-    return Center(
-      child: GestureDetector(
-        onTap: () {
-          _takePicture();
-        },
-        child: Container(
-          width: cameraWidth,
-          height: cameraHeight,
-          decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onPrimary,
-              border: Border.all(
-                color: Colors.black,
-                width: 4.0,
+    return GestureDetector(
+      onTap: () {
+        _takePicture();
+      },
+      child: _cameraController != null && _cameraController!.value.isInitialized
+          ? Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: CameraPreview(_cameraController!),
               ),
-              borderRadius: BorderRadius.circular(20)),
-          child: _cameraController != null &&
-                  _cameraController!.value.isInitialized
-              ? Center(
-                  child: AspectRatio(
-                    aspectRatio: _cameraController!.value.aspectRatio / .992,
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(13),
-                        child: CameraPreview(_cameraController!)),
-                  ),
-                )
-              : const Center(
-                  child: LoadingIndicator(
-                  label: null,
-                  color: Colors.black,
-                )),
-        ),
-      ),
+            )
+          : const Center(
+              child: LoadingIndicator(
+              label: null,
+            )),
     );
   }
 }

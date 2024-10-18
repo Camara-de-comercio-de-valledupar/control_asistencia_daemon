@@ -43,6 +43,8 @@ dependencies:
   form_validation: ^3.1.1+8
   camera_windows: ^0.2.5
   camera: ^0.11.0+2
+  intl: ^0.19.0
+  timezone: ^0.9.4
 
 dev_dependencies:
   flutter_test:

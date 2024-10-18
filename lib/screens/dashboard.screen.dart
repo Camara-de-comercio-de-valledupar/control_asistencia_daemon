@@ -104,8 +104,8 @@ class DashboardScreen extends StatelessWidget {
           );
         },
         onCameraControllerLoaded: (value) {
-          BlocProvider.of<AssistanceBloc>(context)
-              .add(AssistanceLoadCameraController(value));
+          BlocProvider.of<MyAssistanceBloc>(context)
+              .add(MyAssistanceLoadCameraController(value));
         },
       ),
     );

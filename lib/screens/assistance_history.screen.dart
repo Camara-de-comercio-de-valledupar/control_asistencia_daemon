@@ -7,22 +7,53 @@ class AssistanceHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AssistanceBloc>(context)
-        .add(const AssistanceGetAssistanceRequests());
-    return BlocBuilder<AssistanceBloc, AssistanceState>(
+    BlocProvider.of<MyAssistanceBloc>(context)
+        .add(const MyAssistanceGetAssistanceRequests());
+    return BlocBuilder<MyAssistanceBloc, MyAssistanceState>(
         builder: (context, state) {
-      if (state is AssistanceHistoryLoaded) {
+      if (state is MyAssistanceHistoryLoaded) {
         return ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: 100),
           itemCount: state.assistances.length,
           itemBuilder: (context, index) {
             final assistance = state.assistances[index];
-            return ListTile(
-              subtitle: Text(assistance.createdAt.toString()),
+            return Container(
+              margin: const EdgeInsets.symmetric(vertical: 5),
+              child: CustomCardButton(
+                onPressed: () {},
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.history,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                          "Asistencia marcada con fecha: ${formatDateToHuman(convertUTCToBogota(assistance.createdAt))}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary)),
+                    ),
+                    const Spacer(),
+                    Icon(
+                      Icons.check_circle,
+                      size: 30,
+                      color: Theme.of(context).colorScheme.primary,
+                    )
+                  ],
+                ),
+              ),
             );
           },
         );
       }
-      if (state is AssistanceHistoryEmpty) {
+      if (state is MyAssistanceHistoryEmpty) {
         return Center(
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

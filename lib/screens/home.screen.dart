@@ -21,22 +21,25 @@ class HomeScreen extends StatelessWidget {
           }
         },
         child: BlocProvider(
-          create: (context) => AssistanceBloc(),
-          child: BlocListener<AssistanceBloc, AssistanceState>(
+          create: (context) => MyAssistanceBloc(),
+          child: BlocListener<MyAssistanceBloc, MyAssistanceState>(
             listener: (context, state) {
-              if (state is AssistancePictureTaken) {
-                BlocProvider.of<AssistanceBloc>(context).add(
-                    AssistanceSendAssistanceRequest(state.picture,
-                        BlocProvider.of<AuthenticationBloc>(context).token));
+              if (state is MyAssistancePictureTaken) {
+                BlocProvider.of<MyAssistanceBloc>(context)
+                    .add(MyAssistanceSendAssistanceRequest(
+                  state.picture,
+                ));
               }
-              if (state is AssistanceRequestSent) {
+              if (state is MyAssistanceRequestSent) {
                 BlocProvider.of<PushAlertBloc>(context)
                     .add(const PushAlertBasicSuccess(
                   title: "Gracias! Has marcado tu asistencia",
                   body: "Ahora puedes continuar con tus labores",
                 ));
+                BlocProvider.of<DashboardBloc>(context)
+                    .add(DashboardShowInitialViewRequested());
               }
-              if (state is AssistanceRequestFailed) {
+              if (state is MyAssistanceRequestFailed) {
                 BlocProvider.of<PushAlertBloc>(context).add(
                   const PushAlertBasicError(
                     title: "Ups! Error al marcar asistencia",
@@ -57,7 +60,7 @@ class HomeScreen extends StatelessWidget {
               if (state is DashboardShowTakeAssistanceView) {
                 child = const TakeAssistanceScreen();
               }
-              if (state is DashboardShowStatisticsView) {
+              if (state is DashboardShowAssistanceStatisticsView) {
                 child = const StatisticsScreen();
               }
 
@@ -67,6 +70,10 @@ class HomeScreen extends StatelessWidget {
 
               if (state is DashboardShowAssistanceManagementView) {
                 child = const AssistanceScreen();
+              }
+
+              if (state is DashboardShowStatisticsView) {
+                child = const StatisticsScreen();
               }
 
               if (state is DashboardShowRoleManagementView) {

@@ -4,10 +4,9 @@ import 'package:control_asistencia_daemon/lib.dart';
 import 'package:dio/dio.dart';
 
 class SendAssistanceRequest {
-  final String token;
   final Uint8List picture;
 
-  SendAssistanceRequest(this.token, this.picture);
+  SendAssistanceRequest(this.picture);
 }
 
 class AssistanceService {
