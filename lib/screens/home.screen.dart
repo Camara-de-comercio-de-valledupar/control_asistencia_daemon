@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final List<Role> roles;
+  final List<Permission> permissions;
+  const HomeScreen({super.key, required this.roles, required this.permissions});
 
   @override
   Widget build(BuildContext context) {
@@ -47,11 +49,30 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, state) {
               Widget child = const LoadingScreen();
               if (state is DashboardInitial) {
-                child = const DashboardScreen();
+                child = DashboardScreen(
+                  roles: roles,
+                  permissions: permissions,
+                );
               }
-              if (state is DashboardShowAssistanceView) {
-                child = const DashboardScreen();
+              if (state is DashboardShowTakeAssistanceView) {
+                child = const TakeAssistanceScreen();
               }
+              if (state is DashboardShowStatisticsView) {
+                child = const StatisticsScreen();
+              }
+
+              if (state is DashboardShowUserManagementView) {
+                child = const UserManagementScreen();
+              }
+
+              if (state is DashboardShowAssistanceManagementView) {
+                child = const AssistanceScreen();
+              }
+
+              if (state is DashboardShowRoleManagementView) {
+                child = const RoleManagementScreen();
+              }
+
               if (state is DashboardShowLoading) {
                 child = const LoadingScreen();
               }

@@ -43,7 +43,9 @@ class SecurityLayer extends StatelessWidget {
               child = LoginScreen();
             }
             if (state is AuthenticationSuccess) {
-              child = HomeScreen();
+              child = HomeScreen(
+                  roles: state.member.roles,
+                  permissions: state.member.permissions);
             }
             if (state is AuthenticationInProgress) {
               child = LoadingScreen();

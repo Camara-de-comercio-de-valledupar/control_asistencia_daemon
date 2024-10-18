@@ -9,8 +9,16 @@ sealed class DashboardEvent extends Equatable {
 
 final class DashboardShowInitialViewRequested extends DashboardEvent {}
 
-final class DashboardTakeAssistanceRequested extends DashboardEvent {}
-
 final class DashboardShowAssistanceHistoryRequested extends DashboardEvent {}
 
 final class DashboardShowStatisticsRequested extends DashboardEvent {}
+
+final class DashboardShowAssistanceManagementRequested extends DashboardEvent {}
+
+final class DashboardShowAssistanceStatisticsRequested extends DashboardEvent {}
+
+final class DashboardShowUserManagementRequested extends DashboardEvent {}
+
+final class DashboardShowRoleManagementRequested extends DashboardEvent {}
+
+final class DashboardShowTakeAssistanceRequested extends DashboardEvent {}
