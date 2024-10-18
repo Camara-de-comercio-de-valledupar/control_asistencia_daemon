@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:control_asistencia_daemon/lib.dart';
 
-class User extends Equatable {
+class Member extends Equatable {
   final int id;
   final String firstName;
   final String lastName;
@@ -9,9 +9,8 @@ class User extends Equatable {
   final String email;
   final List<Role> roles;
   final List<Permission> permissions;
-  final bool isActive;
 
-  const User({
+  const Member({
     required this.id,
     required this.firstName,
     required this.lastName,
@@ -19,10 +18,9 @@ class User extends Equatable {
     required this.email,
     required this.roles,
     required this.permissions,
-    required this.isActive,
   });
 
-  User copyWith({
+  Member copyWith({
     int? id,
     String? firstName,
     String? lastName,
@@ -30,9 +28,8 @@ class User extends Equatable {
     String? email,
     List<Role>? roles,
     List<Permission>? permissions,
-    bool? isActive,
   }) =>
-      User(
+      Member(
         id: id ?? this.id,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
@@ -40,10 +37,9 @@ class User extends Equatable {
         email: email ?? this.email,
         roles: roles ?? this.roles,
         permissions: permissions ?? this.permissions,
-        isActive: isActive ?? this.isActive,
       );
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Member.fromJson(Map<String, dynamic> json) => Member(
         id: json["id"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -52,7 +48,6 @@ class User extends Equatable {
         roles: List<Role>.from(json["roles"].map((x) => roleFromString(x))),
         permissions: List<Permission>.from(
             json["permissions"].map((x) => permissionFromString(x))),
-        isActive: json["is_active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -64,12 +59,9 @@ class User extends Equatable {
         "roles": List<dynamic>.from(roles.map((x) => roleToString(x))),
         "permissions":
             List<dynamic>.from(permissions.map((x) => permissionToString(x))),
-        "is_active": isActive,
       };
-
-  String get fullName => "$firstName $lastName";
 
   @override
   List<Object?> get props =>
-      [id, firstName, lastName, username, email, roles, permissions, isActive];
+      [id, firstName, lastName, username, email, roles, permissions];
 }

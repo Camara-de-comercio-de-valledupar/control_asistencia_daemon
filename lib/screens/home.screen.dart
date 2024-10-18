@@ -65,7 +65,10 @@ class HomeScreen extends StatelessWidget {
               }
 
               if (state is DashboardShowUserManagementView) {
-                child = const UserManagementScreen();
+                child = UserManagementScreen(
+                  permissions: permissions,
+                  roles: roles,
+                );
               }
 
               if (state is DashboardShowAssistanceManagementView) {
