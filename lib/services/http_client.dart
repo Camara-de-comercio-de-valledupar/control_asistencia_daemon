@@ -1,7 +1,6 @@
+import 'package:control_asistencia_daemon/lib.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:control_asistencia_daemon/lib.dart';
 
 class TokenInterceptor extends Interceptor {
   @override
@@ -102,6 +101,9 @@ const errorMsg = {
       "El usuario no tiene permiso para leer autenticación de actualización",
   "user_has_not_permission_verify_authentication":
       "El usuario no tiene permiso para verificar autenticación",
+  "user_has_not_role_superadmin": "El usuario no tiene el rol de superadmin",
+  "user_has_not_role_admin": "El usuario no tiene el rol de admin",
+  "user_has_not_role_user": "El usuario no tiene el rol de usuario",
   "500": "Error interno del servidor",
   "403": "No tienes permiso para realizar esta acción",
 };

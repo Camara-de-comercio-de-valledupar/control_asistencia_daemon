@@ -31,10 +31,14 @@ class AuthenticationBloc
 
   FutureOr<void> _fetchProfile(AuthenticationProfileFetched event,
       Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationInProgress());
-    await cacheService.setString('token', event.token);
-    final member = await _authenticationService.loggedInMember;
-    emit(AuthenticationSuccess(member));
+    try {
+      emit(AuthenticationInProgress());
+      await cacheService.setString('token', event.token);
+      final member = await _authenticationService.loggedInMember;
+      emit(AuthenticationSuccess(member));
+    } catch (e) {
+      emit(const AuthenticationInitial());
+    }
   }
 
   FutureOr<void> _logout(AuthenticationLogoutRequested event,
@@ -44,16 +48,20 @@ class AuthenticationBloc
   }
 
   FutureOr<void> _login(event, emit) async {
-    emit(AuthenticationInProgress());
-    await Future.delayed(const Duration(seconds: 2));
-    String email = "${event.email}@ccvalledupar.org.co";
-    final token = await _authenticationService.signInWithEmailAndPassword(
-        email, event.password);
-    await _rememberCredentials(
-        rememberMe: event.rememberMe,
-        email: event.email,
-        password: event.password);
-    emit(AuthenticationPreSuccess(token));
+    try {
+      emit(AuthenticationInProgress());
+      await Future.delayed(const Duration(seconds: 2));
+      String email = "${event.email}@ccvalledupar.org.co";
+      final token = await _authenticationService.signInWithEmailAndPassword(
+          email, event.password);
+      await _rememberCredentials(
+          rememberMe: event.rememberMe,
+          email: event.email,
+          password: event.password);
+      emit(AuthenticationPreSuccess(token));
+    } catch (e) {
+      emit(const AuthenticationInitial());
+    }
   }
 
   FutureOr<void> _rememberCredentials({
@@ -88,13 +96,17 @@ class AuthenticationBloc
 
   void _onAuthenticationStarted(
       AuthenticationStarted event, Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationInProgress());
-    await Future.delayed(const Duration(seconds: 2));
-    await _getRememberedCredentials(event, emit);
-    final member = await _authenticationService.loggedInMember;
-    if (kDebugMode) {
-      log("AuthenticationBloc -> member: $member");
+    try {
+      emit(AuthenticationInProgress());
+      await Future.delayed(const Duration(seconds: 2));
+      await _getRememberedCredentials(event, emit);
+      final member = await _authenticationService.loggedInMember;
+      if (kDebugMode) {
+        log("AuthenticationBloc -> member: $member");
+      }
+      emit(AuthenticationSuccess(member));
+    } catch (e) {
+      emit(const AuthenticationInitial());
     }
-    emit(AuthenticationSuccess(member));
   }
 }
