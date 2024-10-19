@@ -15,11 +15,26 @@ class UserManagementBloc
     on<UserManagementDeleteUserRequested>(_onUserManagementDeleteUserRequested);
     on<UserManagementFetchUsersRequested>(_onUserManagementFetchUsersRequested);
     on<UserManagementStoreUserRequested>(_onUserManagementStoreUserRequested);
+    on<UserManagementDeleteUserConfirmed>(_onUserManagementDeleteUserConfirmed);
+    on<UserManagementDeleteUserCancelled>(_onUserManagementDeleteUserCancelled);
   }
 
   void _init() async {
     final users = await UserService.getInstance().getUsers();
     add(UserManagementFetchUsersRequested(users));
+  }
+
+  void _onUserManagementDeleteUserConfirmed(
+      UserManagementDeleteUserConfirmed event,
+      Emitter<UserManagementState> emit) async {
+    await UserService.getInstance().deleteUser(event.user);
+    _init();
+  }
+
+  void _onUserManagementDeleteUserCancelled(
+      UserManagementDeleteUserCancelled event,
+      Emitter<UserManagementState> emit) {
+    _init();
   }
 
   void _onUserManagementStoreUserRequested(

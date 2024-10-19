@@ -78,3 +78,18 @@ class UserManagementStoreUserRequested extends UserManagementEvent {
         username
       ];
 }
+
+class UserManagementDeleteUserConfirmed extends UserManagementEvent {
+  final User user;
+  const UserManagementDeleteUserConfirmed(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class UserManagementDeleteUserCancelled extends UserManagementEvent {
+  const UserManagementDeleteUserCancelled();
+
+  @override
+  List<Object> get props => [];
+}

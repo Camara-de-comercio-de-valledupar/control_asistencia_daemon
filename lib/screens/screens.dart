@@ -8,3 +8,4 @@ export 'role_management.screen.dart';
 export 'statistics.screen.dart';
 export 'take_assistance.screen.dart';
 export 'user_management.screen.dart';
+export 'views/views.dart';
