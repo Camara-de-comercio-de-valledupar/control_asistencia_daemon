@@ -8,7 +8,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Control de Asistencia CCV',
-      home: const PushAlertLayer(child: SecurityLayer()),
+      home: const WindowManagerLayer(
+        child: PushAlertLayer(child: SecurityLayer()),
+      ),
       theme: primaryTheme,
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: scaffoldKey,

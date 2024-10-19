@@ -32,15 +32,22 @@ class SecurityLayer extends StatelessWidget {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(AuthenticationProfileFetched(state.token));
           }
+          if (state is AuthenticationSuccess) {
+            if (state.member.roles.contains(Role.SUPERADMIN) ||
+                state.member.roles.contains(Role.ADMIN)) {
+              BlocProvider.of<WindowManagerCubit>(context)
+                  .resizeWindowToAdmin();
+            }
+          }
         },
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
-            Widget child = LoadingScreen();
+            Widget child = const LoadingScreen();
             if (kDebugMode) {
               log("AuthenticationBloc: $state");
             }
             if (state is AuthenticationInitial) {
-              child = LoginScreen();
+              child = const LoginScreen();
             }
             if (state is AuthenticationSuccess) {
               child = HomeScreen(
@@ -48,7 +55,7 @@ class SecurityLayer extends StatelessWidget {
                   permissions: state.member.permissions);
             }
             if (state is AuthenticationInProgress) {
-              child = LoadingScreen();
+              child = const LoadingScreen();
             }
             return GuestLayout(child: child);
           },

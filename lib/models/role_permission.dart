@@ -214,3 +214,60 @@ String roleSpanishName(Role role) {
 
   return roleByString[role] ?? "Usuario";
 }
+
+Role roleFromSpanishName(String role) {
+  const Map<String, Role> roleByString = {
+    "Administrador": Role.ADMIN,
+    "Super Administrador": Role.SUPERADMIN,
+    "Usuario": Role.USER,
+  };
+
+  return roleByString[role] ?? Role.USER;
+}
+
+String permissionSpanishName(Permission permission) {
+  const Map<Permission, String> permissionByString = {
+    Permission.READ_USER: "Leer Usuario",
+    Permission.CREATE_USER: "Crear Usuario",
+    Permission.UPDATE_USER: "Actualizar Usuario",
+    Permission.DELETE_USER: "Eliminar Usuario",
+    Permission.CREATE_ROLE: "Crear Rol",
+    Permission.READ_ROLE: "Leer Rol",
+    Permission.UPDATE_ROLE: "Actualizar Rol",
+    Permission.DELETE_ROLE: "Eliminar Rol",
+    Permission.READ_PERMISSION: "Leer Permiso",
+    Permission.READ_ASSISTANCE: "Leer Asistencia",
+    Permission.CREATE_ASSISTANCE: "Crear Asistencia",
+    Permission.UPDATE_ASSISTANCE: "Actualizar Asistencia",
+    Permission.DELETE_ASSISTANCE: "Eliminar Asistencia",
+    Permission.LOGIN_AUTHENTICATION: "Iniciar Sesión",
+    Permission.LOGOUT_AUTHENTICATION: "Cerrar Sesión",
+    Permission.VERIFY_AUTHENTICATION: "Verificar Sesión",
+    Permission.REFRESH_AUTHENTICATION: "Refrescar Sesión",
+  };
+  return permissionByString[permission] ?? "Leer Usuario";
+}
+
+Permission permissionFromSpanishName(String permission) {
+  const Map<String, Permission> permissionByString = {
+    "Leer Usuario": Permission.READ_USER,
+    "Crear Usuario": Permission.CREATE_USER,
+    "Actualizar Usuario": Permission.UPDATE_USER,
+    "Eliminar Usuario": Permission.DELETE_USER,
+    "Crear Rol": Permission.CREATE_ROLE,
+    "Leer Rol": Permission.READ_ROLE,
+    "Actualizar Rol": Permission.UPDATE_ROLE,
+    "Eliminar Rol": Permission.DELETE_ROLE,
+    "Leer Permiso": Permission.READ_PERMISSION,
+    "Leer Asistencia": Permission.READ_ASSISTANCE,
+    "Crear Asistencia": Permission.CREATE_ASSISTANCE,
+    "Actualizar Asistencia": Permission.UPDATE_ASSISTANCE,
+    "Eliminar Asistencia": Permission.DELETE_ASSISTANCE,
+    "Iniciar Sesión": Permission.LOGIN_AUTHENTICATION,
+    "Cerrar Sesión": Permission.LOGOUT_AUTHENTICATION,
+    "Verificar Sesión": Permission.VERIFY_AUTHENTICATION,
+    "Refrescar Sesión": Permission.REFRESH_AUTHENTICATION,
+  };
+
+  return permissionByString[permission] ?? Permission.READ_USER;
+}

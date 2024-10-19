@@ -9,15 +9,43 @@ class UserManagementBloc
     extends Bloc<UserManagementEvent, UserManagementState> {
   UserManagementBloc() : super(UserManagementInitial()) {
     _init();
+    on<UserManagementShowInitialView>(_onUserManagementShowInitialView);
     on<UserManagementCreateUserRequested>(_onUserManagementCreateUserRequested);
     on<UserManagementUpdateUserRequested>(_onUserManagementUpdateUserRequested);
     on<UserManagementDeleteUserRequested>(_onUserManagementDeleteUserRequested);
     on<UserManagementFetchUsersRequested>(_onUserManagementFetchUsersRequested);
+    on<UserManagementStoreUserRequested>(_onUserManagementStoreUserRequested);
   }
 
   void _init() async {
     final users = await UserService.getInstance().getUsers();
     add(UserManagementFetchUsersRequested(users));
+  }
+
+  void _onUserManagementStoreUserRequested(
+      UserManagementStoreUserRequested event,
+      Emitter<UserManagementState> emit) async {
+    final user = User(
+      id: 0,
+      firstName: event.firstName,
+      lastName: event.lastName,
+      email: event.email,
+      username: event.username,
+      isActive: event.isActive,
+      roles: event.roles.split(",").map((e) => roleFromSpanishName(e)).toList(),
+      permissions: event.permissions
+          .split(",")
+          .map((e) => permissionFromSpanishName(e))
+          .toList(),
+    );
+    await UserService.getInstance().createUser(user, event.password);
+    _init();
+  }
+
+  void _onUserManagementShowInitialView(
+      UserManagementShowInitialView event, Emitter<UserManagementState> emit) {
+    emit(UserManagementInitial());
+    _init();
   }
 
   void _onUserManagementCreateUserRequested(

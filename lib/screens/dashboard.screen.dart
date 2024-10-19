@@ -11,76 +11,84 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 20,
-      runSpacing: 20,
-      alignment: WrapAlignment.center,
+    return Column(
       children: [
         _buildTitle(context),
-        _buildCustomCardButton(
-          context,
-          "Marcar asistencia",
-          Icons.camera_alt,
-          () {
-            BlocProvider.of<DashboardBloc>(context)
-                .add(DashboardShowTakeAssistanceRequested());
-          },
-          canCreateAssistance(permissions, roles),
+        Expanded(
+          child: Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            alignment: WrapAlignment.center,
+            children: [
+              _buildCustomCardButton(
+                context,
+                "Marcar asistencia",
+                Icons.camera_alt,
+                () {
+                  BlocProvider.of<DashboardBloc>(context)
+                      .add(DashboardShowTakeAssistanceRequested());
+                },
+                canCreateAssistance(permissions, roles),
+              ),
+              _buildCustomCardButton(
+                context,
+                "Historial de mis asistencias",
+                Icons.history,
+                () {
+                  BlocProvider.of<DashboardBloc>(context).add(
+                    DashboardShowAssistanceHistoryRequested(),
+                  );
+                },
+                canReadAssistance(permissions, roles),
+              ),
+              _buildCustomCardButton(
+                context,
+                "Estadísticas de mis asistencias",
+                Icons.bar_chart,
+                () {
+                  BlocProvider.of<DashboardBloc>(context)
+                      .add(DashboardShowAssistanceStatisticsRequested());
+                },
+                canReadAssistance(permissions, roles),
+              ),
+              _buildCustomCardButton(
+                context,
+                "Administrar asistencias",
+                Icons.admin_panel_settings,
+                () {
+                  BlocProvider.of<DashboardBloc>(context)
+                      .add(DashboardShowAssistanceManagementRequested());
+                },
+                canReadAssistance(permissions, roles),
+              ),
+              _buildCustomCardButton(
+                context,
+                "Estadísticas generales",
+                Icons.bar_chart,
+                () {
+                  BlocProvider.of<DashboardBloc>(context)
+                      .add(DashboardShowStatisticsRequested());
+                },
+                canReadAssistance(permissions, roles),
+              ),
+              _buildCustomCardButton(context, "Funcionarios", Icons.people, () {
+                BlocProvider.of<DashboardBloc>(context)
+                    .add(DashboardShowUserManagementRequested());
+              }, canReadUser(permissions, roles)),
+              _buildCustomCardButton(
+                  context, "Roles y permisos", Icons.security, () {
+                BlocProvider.of<DashboardBloc>(context)
+                    .add(DashboardShowRoleManagementRequested());
+              }, canReadRole(permissions, roles)),
+              _buildCustomCardButton(context, "Terminar jornada", Icons.logout,
+                  () {
+                BlocProvider.of<AuthenticationBloc>(context).add(
+                  AuthenticationLogoutRequested(),
+                );
+              }, canLogoutAuthentication(permissions, roles)),
+            ],
+          ),
         ),
-        _buildCustomCardButton(
-          context,
-          "Historial de mis asistencias",
-          Icons.history,
-          () {
-            BlocProvider.of<DashboardBloc>(context).add(
-              DashboardShowAssistanceHistoryRequested(),
-            );
-          },
-          canReadAssistance(permissions, roles),
-        ),
-        _buildCustomCardButton(
-          context,
-          "Estadísticas de mis asistencias",
-          Icons.bar_chart,
-          () {
-            BlocProvider.of<DashboardBloc>(context)
-                .add(DashboardShowAssistanceStatisticsRequested());
-          },
-          canReadAssistance(permissions, roles),
-        ),
-        _buildCustomCardButton(
-          context,
-          "Administrar asistencias",
-          Icons.admin_panel_settings,
-          () {
-            BlocProvider.of<DashboardBloc>(context)
-                .add(DashboardShowAssistanceManagementRequested());
-          },
-          canReadAssistance(permissions, roles),
-        ),
-        _buildCustomCardButton(
-          context,
-          "Estadísticas generales",
-          Icons.bar_chart,
-          () {
-            BlocProvider.of<DashboardBloc>(context)
-                .add(DashboardShowStatisticsRequested());
-          },
-          canReadAssistance(permissions, roles),
-        ),
-        _buildCustomCardButton(context, "Funcionarios", Icons.people, () {
-          BlocProvider.of<DashboardBloc>(context)
-              .add(DashboardShowUserManagementRequested());
-        }, canReadUser(permissions, roles)),
-        _buildCustomCardButton(context, "Roles y permisos", Icons.security, () {
-          BlocProvider.of<DashboardBloc>(context)
-              .add(DashboardShowRoleManagementRequested());
-        }, canReadRole(permissions, roles)),
-        _buildCustomCardButton(context, "Terminar jornada", Icons.logout, () {
-          BlocProvider.of<AuthenticationBloc>(context).add(
-            AuthenticationLogoutRequested(),
-          );
-        }, canLogoutAuthentication(permissions, roles)),
       ],
     );
   }
@@ -124,8 +132,7 @@ class DashboardScreen extends StatelessWidget {
           "Bienvenido supervisor absoluto, por favor seleccione una opción.";
     }
     return Container(
-      padding: const EdgeInsets.only(bottom: 10),
-      width: 600,
+      padding: const EdgeInsets.only(bottom: 40),
       child: Text(
         title,
         style: Theme.of(context).textTheme.headlineSmall,

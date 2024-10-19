@@ -16,8 +16,11 @@ class UserService {
     return response.map((e) => User.fromJson(e)).toList();
   }
 
-  Future<User> createUser(User user) async {
-    final res = await _client.post("/users/", user.toJson());
+  Future<User> createUser(User user, String password) async {
+    final res = await _client.post("/users/", {
+      ...user.toJson(),
+      "password": password,
+    });
     return User.fromJson(res);
   }
 

@@ -25,9 +25,35 @@ var primaryTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
   // Change input text color
+  dropdownMenuTheme: DropdownMenuThemeData(
+    inputDecorationTheme: const InputDecorationTheme(
+      labelStyle: TextStyle(color: Color(0xFFF2F2F2)),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6EC1E4)),
+      ),
+      border: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6EC1E4)),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Color(0xFF6EC1E4)),
+      ),
+      focusColor: Color(0xFF6EC1E4),
+      hintStyle: TextStyle(color: Color(0xFFF2F2F2)),
+      prefixIconColor: Color(0xFF6EC1E4),
+      iconColor: Color(0xFFF2F2F2),
+      suffixIconColor: Color(0xFFF2F2F2),
+    ),
+    menuStyle: MenuStyle(
+      backgroundColor: WidgetStateProperty.all<Color>(const Color(0xFF6EC1E4)),
+      elevation: WidgetStateProperty.all<double>(0),
+      side: WidgetStateProperty.all<BorderSide>(
+        const BorderSide(color: Color(0xFF6EC1E4)),
+      ),
+    ),
+  ),
 
   inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(color: Color(0xFFF2F2F2)),
+    labelStyle: TextStyle(color: Color(0xFF6EC1E4)),
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(color: Color(0xFF6EC1E4)),
     ),
