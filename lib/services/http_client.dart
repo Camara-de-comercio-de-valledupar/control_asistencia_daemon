@@ -20,6 +20,7 @@ const errorMsg = {
   "role_not_found": "Rol no encontrado",
   "invalid_credentials": "Credenciales inválidas",
   "invalid_token": "Token inválido",
+  "invalid_password": "Contraseña inválida",
   "token_expired": "Token expirado",
   "token_required": "Debes iniciar sesión",
   "user_already_exists": "Usuario ya existe",
