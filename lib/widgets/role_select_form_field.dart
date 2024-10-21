@@ -9,20 +9,6 @@ class RoleSelectFormField extends StatelessWidget {
 
   final TextEditingController controller;
 
-  bool _isRoleSelected(Role role) {
-    return controller.text.contains(role.name);
-  }
-
-  void _addRole(Role role) {
-    controller.text = controller.text.contains(role.name)
-        ? controller.text.replaceAll(role.name, "")
-        : "${controller.text}${role.name},";
-  }
-
-  void _removeRole(Role role) {
-    controller.text = controller.text.replaceAll(role.name, "");
-  }
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -33,7 +19,12 @@ class RoleSelectFormField extends StatelessWidget {
             context: context,
             backgroundColor: Colors.transparent,
             builder: (context) {
-              return const RoleMenu();
+              return RoleMenu(
+                roles: controller.text
+                    .split(",")
+                    .map((e) => roleFromSpanishName(e))
+                    .toList(),
+              );
             }).then((value) {
           if (value != null) {
             controller.text = value;
@@ -50,8 +41,10 @@ class RoleSelectFormField extends StatelessWidget {
 }
 
 class RoleMenu extends StatefulWidget {
+  final List<Role> roles;
   const RoleMenu({
     super.key,
+    required this.roles,
   });
 
   @override
@@ -60,6 +53,12 @@ class RoleMenu extends StatefulWidget {
 
 class _RoleMenuState extends State<RoleMenu> {
   List<Role> _roles = [];
+
+  @override
+  initState() {
+    super.initState();
+    _roles = widget.roles;
+  }
 
   bool _isRoleSelected(Role role) {
     return _roles.contains(role);
@@ -131,6 +130,7 @@ class _RoleMenuState extends State<RoleMenu> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               CustomCardButton(
+                onPressed: _goBackWithRoles,
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,10 +140,10 @@ class _RoleMenuState extends State<RoleMenu> {
                     Text('Cancelar'),
                   ],
                 ),
-                onPressed: _goBackWithRoles,
               ),
               const SizedBox(width: 10),
               CustomCardButton(
+                  onPressed: _goBackWithRoles,
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -152,8 +152,7 @@ class _RoleMenuState extends State<RoleMenu> {
                       SizedBox(width: 10),
                       Text('Guardar'),
                     ],
-                  ),
-                  onPressed: _goBackWithRoles),
+                  )),
             ],
           )
         ],

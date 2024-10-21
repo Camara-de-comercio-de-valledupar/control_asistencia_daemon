@@ -9,20 +9,6 @@ class PermissionSelectFormField extends StatelessWidget {
 
   final TextEditingController controller;
 
-  bool _isPermissionSelected(Permission permission) {
-    return controller.text.contains(permission.name);
-  }
-
-  void _addPermission(Permission permission) {
-    controller.text = controller.text.contains(permission.name)
-        ? controller.text.replaceAll(permission.name, "")
-        : "${controller.text}${permission.name},";
-  }
-
-  void _removePermission(Permission permission) {
-    controller.text = controller.text.replaceAll(permission.name, "");
-  }
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -33,7 +19,12 @@ class PermissionSelectFormField extends StatelessWidget {
             context: context,
             backgroundColor: Colors.transparent,
             builder: (context) {
-              return const PermissionMenu();
+              return PermissionMenu(
+                permissions: controller.text
+                    .split(",")
+                    .map((e) => permissionFromSpanishName(e))
+                    .toList(),
+              );
             }).then((value) {
           if (value != null) {
             controller.text = value;
@@ -50,8 +41,10 @@ class PermissionSelectFormField extends StatelessWidget {
 }
 
 class PermissionMenu extends StatefulWidget {
+  final List<Permission> permissions;
   const PermissionMenu({
     super.key,
+    required this.permissions,
   });
 
   @override
@@ -60,6 +53,12 @@ class PermissionMenu extends StatefulWidget {
 
 class _PermissionMenuState extends State<PermissionMenu> {
   List<Permission> _permissions = [];
+
+  @override
+  initState() {
+    super.initState();
+    _permissions = widget.permissions;
+  }
 
   bool _isPermissionSelected(Permission permission) {
     return _permissions.contains(permission);

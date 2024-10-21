@@ -11,17 +11,38 @@ class UserManagementBloc
     _init();
     on<UserManagementShowInitialView>(_onUserManagementShowInitialView);
     on<UserManagementCreateUserRequested>(_onUserManagementCreateUserRequested);
-    on<UserManagementUpdateUserRequested>(_onUserManagementUpdateUserRequested);
+    on<UserManagementEditUserRequested>(_onUserManagementEditUserRequested);
     on<UserManagementDeleteUserRequested>(_onUserManagementDeleteUserRequested);
     on<UserManagementFetchUsersRequested>(_onUserManagementFetchUsersRequested);
     on<UserManagementStoreUserRequested>(_onUserManagementStoreUserRequested);
     on<UserManagementDeleteUserConfirmed>(_onUserManagementDeleteUserConfirmed);
     on<UserManagementDeleteUserCancelled>(_onUserManagementDeleteUserCancelled);
+    on<UserManagementUpdateUserRequested>(_onUserManagementUpdateUserRequested);
   }
 
   void _init() async {
     final users = await UserService.getInstance().getUsers();
     add(UserManagementFetchUsersRequested(users));
+  }
+
+  void _onUserManagementUpdateUserRequested(
+      UserManagementUpdateUserRequested event,
+      Emitter<UserManagementState> emit) async {
+    final user = User(
+      id: event.id,
+      firstName: event.firstName,
+      lastName: event.lastName,
+      email: "${event.email}@ccvalldupar.org.co",
+      username: event.username,
+      isActive: event.isActive,
+      roles: event.roles.split(",").map((e) => roleFromSpanishName(e)).toList(),
+      permissions: event.permissions
+          .split(",")
+          .map((e) => permissionFromSpanishName(e))
+          .toList(),
+    );
+    await UserService.getInstance().updateUser(user);
+    _init();
   }
 
   void _onUserManagementDeleteUserConfirmed(
@@ -44,7 +65,7 @@ class UserManagementBloc
       id: 0,
       firstName: event.firstName,
       lastName: event.lastName,
-      email: event.email,
+      email: '${event.email}@ccvalledupar.org.co',
       username: event.username,
       isActive: event.isActive,
       roles: event.roles.split(",").map((e) => roleFromSpanishName(e)).toList(),
@@ -69,8 +90,7 @@ class UserManagementBloc
     emit(UserManagementShowCreateUserView());
   }
 
-  void _onUserManagementUpdateUserRequested(
-      UserManagementUpdateUserRequested event,
+  void _onUserManagementEditUserRequested(UserManagementEditUserRequested event,
       Emitter<UserManagementState> emit) {
     emit(UserManagementShowUpdateUserView(event.user));
   }

@@ -29,12 +29,49 @@ class UserManagementCreateUserRequested extends UserManagementEvent {
   List<Object> get props => [];
 }
 
-class UserManagementUpdateUserRequested extends UserManagementEvent {
+class UserManagementEditUserRequested extends UserManagementEvent {
   final User user;
-  const UserManagementUpdateUserRequested(this.user);
+  const UserManagementEditUserRequested(this.user);
 
   @override
   List<Object> get props => [user];
+}
+
+class UserManagementUpdateUserRequested extends UserManagementEvent {
+  final int id;
+  final String username;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String password;
+  final String roles;
+  final String permissions;
+  final bool isActive;
+
+  const UserManagementUpdateUserRequested({
+    required this.id,
+    required this.username,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.password,
+    required this.roles,
+    required this.permissions,
+    required this.isActive,
+  });
+
+  @override
+  List<Object> get props => [
+        id,
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+        roles,
+        permissions,
+        isActive
+      ];
 }
 
 class UserManagementDeleteUserRequested extends UserManagementEvent {

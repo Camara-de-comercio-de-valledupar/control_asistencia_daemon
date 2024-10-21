@@ -2,14 +2,15 @@ import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CreateUserView extends StatefulWidget {
-  const CreateUserView({super.key});
+class UpdateUserView extends StatefulWidget {
+  final User user;
+  const UpdateUserView({super.key, required this.user});
 
   @override
-  State<CreateUserView> createState() => _CreateUserViewState();
+  State<UpdateUserView> createState() => _UpdateUserViewState();
 }
 
-class _CreateUserViewState extends State<CreateUserView> {
+class _UpdateUserViewState extends State<UpdateUserView> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _firstNameController = TextEditingController();
@@ -20,10 +21,21 @@ class _CreateUserViewState extends State<CreateUserView> {
   final _onRolesChanged = TextEditingController();
   final _onPermissionsChanged = TextEditingController();
 
-  void _saveUser() {
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.text = widget.user.username;
+    _firstNameController.text = widget.user.firstName;
+    _lastNameController.text = widget.user.lastName;
+    _emailController.text = widget.user.email.split('@').first;
+    _onActiveChanged = widget.user.isActive;
+  }
+
+  void _updateUser() {
     if (_formKey.currentState?.validate() ?? false) {
       BlocProvider.of<UserManagementBloc>(context).add(
-        UserManagementStoreUserRequested(
+        UserManagementUpdateUserRequested(
+          id: widget.user.id,
           username: _usernameController.text,
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
@@ -171,7 +183,7 @@ class _CreateUserViewState extends State<CreateUserView> {
                 ),
                 const SizedBox(width: 10),
                 TextButton(
-                  onPressed: _saveUser,
+                  onPressed: _updateUser,
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.primary,
                     side: BorderSide(
