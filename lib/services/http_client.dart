@@ -137,7 +137,9 @@ class PushAlertInterceptor extends Interceptor {
   }
 }
 
-final Dio _dio = Dio(BaseOptions(baseUrl: "http://165.227.65.68:8000/api/"))
+const baseUrl = "http://165.227.65.68:8000/api/";
+
+final Dio _dio = Dio(BaseOptions(baseUrl: baseUrl))
   ..interceptors.add(LogInterceptor(
     responseBody: true,
     requestBody: true,

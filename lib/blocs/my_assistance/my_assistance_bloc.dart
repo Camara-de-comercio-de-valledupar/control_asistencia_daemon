@@ -26,7 +26,7 @@ class MyAssistanceBloc extends Bloc<MyAssistanceEvent, MyAssistanceState> {
 
   FutureOr<void> _getAssistanceRequests(
       MyAssistanceGetAssistanceRequests event, emit) async {
-    final assistances = await assistanceService.getAssistanceRequests();
+    final assistances = await assistanceService.getMyAssistance();
     if (assistances.isEmpty) {
       emit(MyAssistanceHistoryEmpty());
       return;

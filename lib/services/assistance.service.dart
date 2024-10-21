@@ -29,8 +29,13 @@ class AssistanceService {
     await _client.post("/assistances/", form);
   }
 
-  Future<List<Assistance>> getAssistanceRequests() async {
+  Future<List<Assistance>> getMyAssistance() async {
     final response = await _client.get<List>("/assistances/");
+    return response.map((e) => Assistance.fromJson(e)).toList();
+  }
+
+  Future<List<Assistance>> getAssistances() async {
+    final response = await _client.get<List>("/assistances/all/");
     return response.map((e) => Assistance.fromJson(e)).toList();
   }
 }

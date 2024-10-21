@@ -1,32 +1,34 @@
+import 'package:control_asistencia_daemon/lib.dart';
+
 class Assistance {
   final int id;
-  final int userId;
+  final User user;
   final DateTime createdAt;
   final List<Evidence> images;
 
   Assistance({
     required this.id,
-    required this.userId,
+    required this.user,
     required this.createdAt,
     required this.images,
   });
 
   Assistance copyWith({
     int? id,
-    int? userId,
+    User? user,
     DateTime? createdAt,
     List<Evidence>? images,
   }) =>
       Assistance(
         id: id ?? this.id,
-        userId: userId ?? this.userId,
+        user: user ?? this.user,
         createdAt: createdAt ?? this.createdAt,
         images: images ?? this.images,
       );
 
   factory Assistance.fromJson(Map<String, dynamic> json) => Assistance(
         id: json["id"],
-        userId: json["user_id"],
+        user: User.fromJson(json["user"]),
         createdAt: DateTime.parse(json["created_at"]),
         images: List<Evidence>.from(
             json["images"].map((x) => Evidence.fromJson(x))),
@@ -34,7 +36,7 @@ class Assistance {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "user_id": userId,
+        'user_id': user.id,
         "created_at": createdAt.toIso8601String(),
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
