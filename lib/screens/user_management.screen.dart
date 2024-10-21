@@ -207,25 +207,27 @@ class _UsersViewState extends State<UsersView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _buildAction(context,
-                          icon: Icons.edit,
-                          color: Theme.of(context).colorScheme.primary,
-                          textColor: Theme.of(context).colorScheme.onPrimary,
-                          onPressed: () {
-                        context.read<UserManagementBloc>().add(
-                              UserManagementEditUserRequested(user),
-                            );
-                      }),
+                      if (canUpdateUser(widget.permissions, widget.roles))
+                        _buildAction(context,
+                            icon: Icons.edit,
+                            color: Theme.of(context).colorScheme.primary,
+                            textColor: Theme.of(context).colorScheme.onPrimary,
+                            onPressed: () {
+                          context.read<UserManagementBloc>().add(
+                                UserManagementEditUserRequested(user),
+                              );
+                        }),
                       const SizedBox(width: 8),
-                      _buildAction(context,
-                          icon: Icons.delete,
-                          color: Theme.of(context).colorScheme.error,
-                          textColor: Theme.of(context).colorScheme.onError,
-                          onPressed: () {
-                        context.read<UserManagementBloc>().add(
-                              UserManagementDeleteUserRequested(user),
-                            );
-                      }),
+                      if (canDeleteUser(widget.permissions, widget.roles))
+                        _buildAction(context,
+                            icon: Icons.delete,
+                            color: Theme.of(context).colorScheme.error,
+                            textColor: Theme.of(context).colorScheme.onError,
+                            onPressed: () {
+                          context.read<UserManagementBloc>().add(
+                                UserManagementDeleteUserRequested(user),
+                              );
+                        }),
                     ],
                   ),
                 ]
