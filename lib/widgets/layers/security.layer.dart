@@ -37,6 +37,8 @@ class SecurityLayer extends StatelessWidget {
                 state.member.roles.contains(Role.ADMIN)) {
               BlocProvider.of<WindowManagerCubit>(context)
                   .resizeWindowToAdmin();
+            } else {
+              BlocProvider.of<WindowManagerCubit>(context).resizeWindowToUser();
             }
           }
         },

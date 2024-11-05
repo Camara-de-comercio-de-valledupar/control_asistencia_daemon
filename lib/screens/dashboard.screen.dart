@@ -43,16 +43,6 @@ class DashboardScreen extends StatelessWidget {
               ),
               _buildCustomCardButton(
                 context,
-                "Estadísticas de mis asistencias",
-                Icons.bar_chart,
-                () {
-                  BlocProvider.of<DashboardBloc>(context)
-                      .add(DashboardShowAssistanceStatisticsRequested());
-                },
-                canReadAssistance(permissions, roles),
-              ),
-              _buildCustomCardButton(
-                context,
                 "Administrar asistencias",
                 Icons.admin_panel_settings,
                 () {
@@ -75,11 +65,6 @@ class DashboardScreen extends StatelessWidget {
                 BlocProvider.of<DashboardBloc>(context)
                     .add(DashboardShowUserManagementRequested());
               }, canReadUser(permissions, roles)),
-              _buildCustomCardButton(
-                  context, "Roles y permisos", Icons.security, () {
-                BlocProvider.of<DashboardBloc>(context)
-                    .add(DashboardShowRoleManagementRequested());
-              }, canReadRole(permissions, roles)),
               _buildCustomCardButton(context, "Terminar jornada", Icons.logout,
                   () {
                 BlocProvider.of<AuthenticationBloc>(context).add(

@@ -6,3 +6,4 @@ export 'schedule/schedule.dart';
 export 'user_management/user_management.dart';
 export 'window_manager/window_manager.dart';
 export 'assistances/assistances.dart';
+export 'statistics/statistics.dart';
