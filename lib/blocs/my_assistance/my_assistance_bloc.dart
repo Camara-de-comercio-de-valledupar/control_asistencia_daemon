@@ -35,10 +35,7 @@ class MyAssistanceBloc extends Bloc<MyAssistanceEvent, MyAssistanceState> {
   }
 
   FutureOr<void> _takeAPicture(event, emit) async {
-    if (cameraController?.value.isInitialized == true) {
-      final picture = await cameraController!.takePicture();
-      emit(MyAssistancePictureTaken(await picture.readAsBytes()));
-    }
+    emit(MyAssistancePictureTaken(Uint8List(0)));
   }
 
   FutureOr<void> _sendAssistanceRequest(

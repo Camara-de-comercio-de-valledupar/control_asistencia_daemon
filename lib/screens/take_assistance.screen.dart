@@ -9,7 +9,7 @@ class TakeAssistanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildCamera(context),
+        // _buildCamera(context),
         const SizedBox(height: 20),
         _buildCustomCardButton(
           context,
@@ -22,19 +22,6 @@ class TakeAssistanceScreen extends StatelessWidget {
           },
         ),
       ],
-    );
-  }
-
-  Widget _buildCamera(BuildContext context) {
-    return SizedBox(
-      width: 480,
-      height: 360,
-      child: CameraView(
-        onCameraControllerLoaded: (value) {
-          BlocProvider.of<MyAssistanceBloc>(context)
-              .add(MyAssistanceLoadCameraController(value));
-        },
-      ),
     );
   }
 

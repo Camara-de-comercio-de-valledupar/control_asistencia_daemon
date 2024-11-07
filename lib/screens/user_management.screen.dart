@@ -145,104 +145,58 @@ class _UsersViewState extends State<UsersView> {
   }
 
   Padding _buildTable(BuildContext context) {
+    Widget? itemBuilder(BuildContext context, int index) {
+      final user = _users[index];
+      return ListTile(
+        title: Text(
+          user.fullName,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        subtitle: Text(user.email, style: const TextStyle(color: Colors.white)),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _buildAction(
+              context,
+              icon: Icons.edit,
+              color: Colors.blue,
+              textColor: Colors.white,
+              onPressed: () {
+                BlocProvider.of<UserManagementBloc>(context)
+                    .add(UserManagementEditUserRequested(user));
+              },
+            ),
+            const SizedBox(width: 10),
+            _buildAction(
+              context,
+              icon: Icons.delete,
+              color: Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                BlocProvider.of<UserManagementBloc>(context)
+                    .add(UserManagementDeleteUserRequested(user));
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CustomCard(
-        child: Table(
-          columnWidths: const {
-            0: FlexColumnWidth(1),
-            1: FlexColumnWidth(4),
-            2: FlexColumnWidth(2),
-            3: FlexColumnWidth(2),
-            4: FlexColumnWidth(2),
-          },
-          children: [
-            TableRow(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
-                border: Border(
-                  bottom: BorderSide(
-                    color: Theme.of(context).dividerColor,
-                  ),
-                ),
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              children: [
-                ...["#", "Nombres", "Estado", "Perfiles", "Operaciones"].map(
-                  (e) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      e,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            ..._users.map((user) {
-              return TableRow(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Theme.of(context).dividerColor,
-                    ),
-                  ),
-                ),
-                children: [
-                  Text(user.id.toString()),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(user.fullName),
-                      Text(user.email),
-                    ],
-                  ),
-                  Text(user.isActive ? "Activo" : "Inactivo"),
-                  Text(user.roles.map((e) => roleSpanishName(e)).join(", ")),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (canUpdateUser(widget.permissions, widget.roles))
-                        _buildAction(context,
-                            icon: Icons.edit,
-                            color: Theme.of(context).colorScheme.primary,
-                            textColor: Theme.of(context).colorScheme.onPrimary,
-                            onPressed: () {
-                          context.read<UserManagementBloc>().add(
-                                UserManagementEditUserRequested(user),
-                              );
-                        }),
-                      const SizedBox(width: 8),
-                      if (canDeleteUser(widget.permissions, widget.roles))
-                        _buildAction(context,
-                            icon: Icons.delete,
-                            color: Theme.of(context).colorScheme.error,
-                            textColor: Theme.of(context).colorScheme.onError,
-                            onPressed: () {
-                          context.read<UserManagementBloc>().add(
-                                UserManagementDeleteUserRequested(user),
-                              );
-                        }),
-                    ],
-                  ),
-                ]
-                    .map(
-                      (e) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: e,
-                      ),
-                    )
-                    .toList(),
-              );
-            }),
-          ],
-        ),
-      ),
+          child: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                itemBuilder: itemBuilder, itemCount: _users.length),
+          ),
+        ],
+      )),
     );
   }
 
