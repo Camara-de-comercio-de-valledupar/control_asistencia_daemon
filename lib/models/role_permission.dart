@@ -57,12 +57,18 @@ bool canReadUser(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.READ_USER);
 }
 
 bool canCreateUser(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.CREATE_USER);
 }
@@ -71,12 +77,18 @@ bool canUpdateUser(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.UPDATE_USER);
 }
 
 bool canDeleteUser(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.DELETE_USER);
 }
@@ -85,12 +97,18 @@ bool canCreateRole(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.CREATE_ROLE);
 }
 
 bool canReadRole(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.READ_ROLE);
 }
@@ -99,12 +117,18 @@ bool canUpdateRole(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.UPDATE_ROLE);
 }
 
 bool canDeleteRole(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.DELETE_ROLE);
 }
@@ -113,12 +137,18 @@ bool canReadPermission(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.READ_PERMISSION);
 }
 
 bool canReadAssistance(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.READ_ASSISTANCE);
 }
@@ -134,12 +164,18 @@ bool canUpdateAssistance(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
   }
+  if (roles.contains(Role.USER)) {
+    return false;
+  }
   return permissions.contains(Permission.UPDATE_ASSISTANCE);
 }
 
 bool canDeleteAssistance(List<Permission> permissions, List<Role> roles) {
   if (roles.contains(Role.SUPERADMIN)) {
     return true;
+  }
+  if (roles.contains(Role.USER)) {
+    return false;
   }
   return permissions.contains(Permission.DELETE_ASSISTANCE);
 }

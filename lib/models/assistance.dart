@@ -1,114 +1,114 @@
-import 'package:control_asistencia_daemon/lib.dart';
+import 'package:flutter/material.dart';
 
 class Assistance {
   final int id;
-  final User user;
+  final int userId;
   final DateTime createdAt;
-  final List<Evidence> images;
 
   Assistance({
     required this.id,
-    required this.user,
+    required this.userId,
     required this.createdAt,
-    required this.images,
   });
-
-  Assistance copyWith({
-    int? id,
-    User? user,
-    DateTime? createdAt,
-    List<Evidence>? images,
-  }) =>
-      Assistance(
-        id: id ?? this.id,
-        user: user ?? this.user,
-        createdAt: createdAt ?? this.createdAt,
-        images: images ?? this.images,
-      );
 
   factory Assistance.fromJson(Map<String, dynamic> json) => Assistance(
         id: json["id"],
-        user: User.fromJson(json["user"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        images: List<Evidence>.from(
-            json["images"].map((x) => Evidence.fromJson(x))),
+        userId: json["user_id"],
+        createdAt: DateTime.parse(json["created_at"])
+          ..subtract(const Duration(hours: 5)),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        'user_id': user.id,
+        "user_id": userId,
         "created_at": createdAt.toIso8601String(),
-        "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
 }
 
-class Evidence {
-  final int id;
-  final String url;
-  final String alt;
-  final String title;
-  final int width;
-  final int height;
-  final int size;
-  final String mimeType;
-  final DateTime createdAt;
+class AssistanceReport {
+  final String userEmail;
+  final String userName;
+  final DateTime date;
+  final DateTime? timeOfEntryMorning;
+  final DateTime? timeOfExitMorning;
+  final TimeOfDay? timeInOfficeMorning;
+  final DateTime? timeOfEntryAfternoon;
+  final DateTime? timeOfExitAfternoon;
+  final TimeOfDay? timeInOfficeAfternoon;
 
-  Evidence({
-    required this.id,
-    required this.url,
-    required this.alt,
-    required this.title,
-    required this.width,
-    required this.height,
-    required this.size,
-    required this.mimeType,
-    required this.createdAt,
+  AssistanceReport({
+    required this.userEmail,
+    required this.userName,
+    required this.date,
+    required this.timeOfEntryMorning,
+    required this.timeOfExitMorning,
+    required this.timeInOfficeMorning,
+    required this.timeOfEntryAfternoon,
+    required this.timeOfExitAfternoon,
+    required this.timeInOfficeAfternoon,
   });
 
-  Evidence copyWith({
-    int? id,
-    String? url,
-    String? alt,
-    String? title,
-    int? width,
-    int? height,
-    int? size,
-    String? mimeType,
-    DateTime? createdAt,
+  AssistanceReport copyWith({
+    String? userEmail,
+    String? userName,
+    DateTime? date,
+    DateTime? timeOfEntryMorning,
+    DateTime? timeOfExitMorning,
+    TimeOfDay? timeInOfficeMorning,
+    DateTime? timeOfEntryAfternoon,
+    DateTime? timeOfExitAfternoon,
+    TimeOfDay? timeInOfficeAfternoon,
   }) =>
-      Evidence(
-        id: id ?? this.id,
-        url: url ?? this.url,
-        alt: alt ?? this.alt,
-        title: title ?? this.title,
-        width: width ?? this.width,
-        height: height ?? this.height,
-        size: size ?? this.size,
-        mimeType: mimeType ?? this.mimeType,
-        createdAt: createdAt ?? this.createdAt,
+      AssistanceReport(
+        userEmail: userEmail ?? this.userEmail,
+        userName: userName ?? this.userName,
+        date: date ?? this.date,
+        timeOfEntryMorning: timeOfEntryMorning ?? this.timeOfEntryMorning,
+        timeOfExitMorning: timeOfExitMorning ?? this.timeOfExitMorning,
+        timeInOfficeMorning: timeInOfficeMorning ?? this.timeInOfficeMorning,
+        timeOfEntryAfternoon: timeOfEntryAfternoon ?? this.timeOfEntryAfternoon,
+        timeOfExitAfternoon: timeOfExitAfternoon ?? this.timeOfExitAfternoon,
+        timeInOfficeAfternoon:
+            timeInOfficeAfternoon ?? this.timeInOfficeAfternoon,
       );
 
-  factory Evidence.fromJson(Map<String, dynamic> json) => Evidence(
-        id: json["id"],
-        url: json["url"],
-        alt: json["alt"],
-        title: json["title"],
-        width: json["width"],
-        height: json["height"],
-        size: json["size"],
-        mimeType: json["mime_type"],
-        createdAt: DateTime.parse(json["created_at"]),
+  factory AssistanceReport.fromJson(Map<String, dynamic> json) =>
+      AssistanceReport(
+        userEmail: json["user_email"],
+        userName: json["user_name"],
+        date: DateTime.parse(json["date"]),
+        timeOfEntryMorning: json["time_of_entry_morning"] == null
+            ? null
+            : DateTime.parse(json["time_of_entry_morning"]).subtract(
+                const Duration(hours: 5),
+              ),
+        timeOfExitMorning: json["time_of_exit_morning"] == null
+            ? null
+            : DateTime.parse(json["time_of_exit_morning"]).subtract(
+                const Duration(hours: 5),
+              ),
+        timeOfEntryAfternoon: json["time_of_entry_afternoon"] == null
+            ? null
+            : DateTime.parse(json["time_of_entry_afternoon"]).subtract(
+                const Duration(hours: 5),
+              ),
+        timeOfExitAfternoon: json["time_of_exit_afternoon"] == null
+            ? null
+            : DateTime.parse(json["time_of_exit_afternoon"]).subtract(
+                const Duration(hours: 5),
+              ),
+        // 20:00:00
+        timeInOfficeMorning: json["time_in_office_morning"] == null
+            ? null
+            : TimeOfDay(
+                hour: int.parse(json["time_in_office_morning"].split(":")[0]),
+                minute:
+                    int.parse(json["time_in_office_morning"].split(":")[1])),
+        timeInOfficeAfternoon: json["time_in_office_afternoon"] == null
+            ? null
+            : TimeOfDay(
+                hour: int.parse(json["time_in_office_afternoon"].split(":")[0]),
+                minute:
+                    int.parse(json["time_in_office_afternoon"].split(":")[1])),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "url": url,
-        "alt": alt,
-        "title": title,
-        "width": width,
-        "height": height,
-        "size": size,
-        "mime_type": mimeType,
-        "created_at": createdAt.toIso8601String(),
-      };
 }

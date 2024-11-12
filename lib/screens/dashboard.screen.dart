@@ -25,8 +25,8 @@ class DashboardScreen extends StatelessWidget {
                 "Marcar asistencia",
                 Icons.camera_alt,
                 () {
-                  BlocProvider.of<DashboardBloc>(context)
-                      .add(DashboardShowTakeAssistanceRequested());
+                  BlocProvider.of<MyAssistanceBloc>(context)
+                      .add(const MyAssistanceTakeAPicture());
                 },
                 canCreateAssistance(permissions, roles),
               ),

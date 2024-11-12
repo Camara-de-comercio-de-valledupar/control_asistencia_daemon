@@ -10,11 +10,11 @@ sealed class AssistancesState extends Equatable {
 final class AssistancesInitial extends AssistancesState {}
 
 final class AssistancesLoaded extends AssistancesState {
-  final List<Assistance> assistances;
-  const AssistancesLoaded(this.assistances);
+  final List<AssistanceReport> reports;
+  const AssistancesLoaded(this.reports);
 
   @override
-  List<Object> get props => [assistances];
+  List<Object> get props => [reports];
 }
 
 final class AssistancesEmpty extends AssistancesState {}

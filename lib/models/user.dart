@@ -72,4 +72,15 @@ class User extends Equatable {
   @override
   List<Object?> get props =>
       [id, firstName, lastName, username, email, roles, permissions, isActive];
+
+  factory User.empty() => const User(
+        id: 0,
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        roles: [],
+        permissions: [],
+        isActive: false,
+      );
 }

@@ -8,14 +8,7 @@ class AssistanceDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        for (var image in assistance.images)
-          Image.network(
-            "${baseUrl}viewer?url=${image.url}",
-            width: 200,
-            height: 200,
-          ),
-      ],
+      children: [],
     );
   }
 }

@@ -30,12 +30,17 @@ class AssistanceService {
   }
 
   Future<List<Assistance>> getMyAssistance() async {
-    final response = await _client.get<List>("/assistances/");
+    final response = await _client.get<List>("/assistances/v2/");
     return response.map((e) => Assistance.fromJson(e)).toList();
   }
 
   Future<List<Assistance>> getAssistances() async {
-    final response = await _client.get<List>("/assistances/all/");
+    final response = await _client.get<List>("/assistances/v2/all/");
     return response.map((e) => Assistance.fromJson(e)).toList();
+  }
+
+  Future<List<AssistanceReport>> getAssistanceReports() async {
+    final response = await _client.get<List>("/reports/json");
+    return response.map((e) => AssistanceReport.fromJson(e)).toList();
   }
 }

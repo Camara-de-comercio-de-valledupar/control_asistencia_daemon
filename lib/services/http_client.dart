@@ -108,6 +108,8 @@ const errorMsg = {
   "user_has_not_role_superadmin": "El usuario no tiene el rol de superadmin",
   "user_has_not_role_admin": "El usuario no tiene el rol de admin",
   "user_has_not_role_user": "El usuario no tiene el rol de usuario",
+  "user_has_reached_the_limit_of_assistances":
+      "El usuario ha alcanzado el límite de asistencias",
   "500": "Error interno del servidor",
   "403": "No tienes permiso para realizar esta acción",
 };
