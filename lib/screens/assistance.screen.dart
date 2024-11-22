@@ -282,8 +282,9 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: assistanceReport.isLateInMorningEntry
+                                        ? Colors.red
+                                        : Theme.of(context).colorScheme.primary,
                                   )),
                           Text(
                               "Hora de salida: ${formatDatetimeToHourMinute(assistanceReport.timeOfExitMorning)}",
@@ -291,8 +292,9 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: assistanceReport.isSoonInMorningExit
+                                        ? Colors.red
+                                        : Theme.of(context).colorScheme.primary,
                                   )),
                           Text(
                               "Tiempo en la oficina: ${formatTimeOfDay(assistanceReport.timeInOfficeMorning)}",
@@ -325,8 +327,10 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: assistanceReport
+                                            .isLateInAfternoonEntry
+                                        ? Colors.red
+                                        : Theme.of(context).colorScheme.primary,
                                   )),
                           Text(
                               "Hora de salida: ${formatDatetimeToHourMinute(assistanceReport.timeOfExitAfternoon)}",
@@ -334,8 +338,10 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                                    color: assistanceReport
+                                            .isSoonInAfternoonExit
+                                        ? Colors.red
+                                        : Theme.of(context).colorScheme.primary,
                                   )),
                           Text(
                               "Tiempo en la oficina: ${formatTimeOfDay(assistanceReport.timeInOfficeAfternoon)}",

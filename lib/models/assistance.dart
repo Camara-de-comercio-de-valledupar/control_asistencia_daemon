@@ -158,4 +158,64 @@ class AssistanceReport {
                 minute:
                     int.parse(json["time_in_office_afternoon"].split(":")[1])),
       );
+
+  bool get isLateInMorningEntry {
+    if (timeOfEntryMorning == null) {
+      return false;
+    }
+    final limitDate = DateTime(
+      timeOfEntryMorning!.year,
+      timeOfEntryMorning!.month,
+      timeOfEntryMorning!.day,
+      8,
+      0,
+      0,
+    );
+    return timeOfEntryMorning!.isAfter(limitDate);
+  }
+
+  bool get isSoonInMorningExit {
+    if (timeOfExitMorning == null) {
+      return false;
+    }
+    final limitDate = DateTime(
+      timeOfExitMorning!.year,
+      timeOfExitMorning!.month,
+      timeOfExitMorning!.day,
+      12,
+      0,
+      0,
+    );
+    return timeOfExitMorning!.isBefore(limitDate);
+  }
+
+  bool get isLateInAfternoonEntry {
+    if (timeOfEntryAfternoon == null) {
+      return false;
+    }
+    final limitDate = DateTime(
+      timeOfEntryAfternoon!.year,
+      timeOfEntryAfternoon!.month,
+      timeOfEntryAfternoon!.day,
+      14,
+      0,
+      0,
+    );
+    return timeOfEntryAfternoon!.isAfter(limitDate);
+  }
+
+  bool get isSoonInAfternoonExit {
+    if (timeOfExitAfternoon == null) {
+      return false;
+    }
+    final limitDate = DateTime(
+      timeOfExitAfternoon!.year,
+      timeOfExitAfternoon!.month,
+      timeOfExitAfternoon!.day,
+      18,
+      0,
+      0,
+    );
+    return timeOfExitAfternoon!.isBefore(limitDate);
+  }
 }

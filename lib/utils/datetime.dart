@@ -40,3 +40,16 @@ DateTime convertUTCToBogota(DateTime utcDateTime) {
 void initializeTimezone() {
   tzi.initializeTimeZones();
 }
+
+bool isLate(
+  DateTime? date, {
+  int hour = 0,
+}) {
+  if (date == null) {
+    return false;
+  }
+
+  final limitDate = DateTime(date.year, date.month, date.day, hour, 0, 0);
+
+  return date.isAfter(limitDate);
+}
