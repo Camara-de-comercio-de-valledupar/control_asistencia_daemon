@@ -15,7 +15,7 @@ class Assistance {
         id: json["id"],
         userId: json["user_id"],
         createdAt: DateTime.parse(json["created_at"])
-          ..subtract(const Duration(hours: 5)),
+            .subtract(const Duration(hours: 5)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -71,6 +71,53 @@ class AssistanceReport {
         timeInOfficeAfternoon:
             timeInOfficeAfternoon ?? this.timeInOfficeAfternoon,
       );
+
+  factory AssistanceReport.fromAssistances(List<Assistance> assistance) {
+    DateTime? timeOfEntryMorning;
+    DateTime? timeOfExitMorning;
+    DateTime? timeOfEntryAfternoon;
+    DateTime? timeOfExitAfternoon;
+    TimeOfDay? timeInOfficeMorning;
+    TimeOfDay? timeInOfficeAfternoon;
+    for (var i = 0; i < assistance.length; i++) {
+      if (i % 2 == 0) {
+        if (i == 0) {
+          timeOfEntryMorning = assistance[i].createdAt;
+        } else {
+          timeOfEntryAfternoon = assistance[i].createdAt;
+        }
+      } else {
+        if (i == 1) {
+          timeOfExitMorning = assistance[i].createdAt;
+        } else {
+          timeOfExitAfternoon = assistance[i].createdAt;
+        }
+      }
+    }
+    if (timeOfEntryMorning != null && timeOfExitMorning != null) {
+      timeInOfficeMorning = TimeOfDay(
+        hour: timeOfExitMorning.hour - timeOfEntryMorning.hour,
+        minute: timeOfExitMorning.minute - timeOfEntryMorning.minute,
+      );
+    }
+    if (timeOfEntryAfternoon != null && timeOfExitAfternoon != null) {
+      timeInOfficeAfternoon = TimeOfDay(
+        hour: timeOfExitAfternoon.hour - timeOfEntryAfternoon.hour,
+        minute: timeOfExitAfternoon.minute - timeOfEntryAfternoon.minute,
+      );
+    }
+    return AssistanceReport(
+      userEmail: "",
+      userName: "",
+      date: assistance[0].createdAt,
+      timeOfEntryMorning: timeOfEntryMorning,
+      timeOfExitMorning: timeOfExitMorning,
+      timeInOfficeMorning: timeInOfficeMorning,
+      timeOfEntryAfternoon: timeOfEntryAfternoon,
+      timeOfExitAfternoon: timeOfExitAfternoon,
+      timeInOfficeAfternoon: timeInOfficeAfternoon,
+    );
+  }
 
   factory AssistanceReport.fromJson(Map<String, dynamic> json) =>
       AssistanceReport(

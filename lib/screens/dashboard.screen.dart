@@ -21,15 +21,13 @@ class DashboardScreen extends StatelessWidget {
             alignment: WrapAlignment.center,
             children: [
               _buildCustomCardButton(
-                context,
-                "Marcar asistencia",
-                Icons.camera_alt,
-                () {
-                  BlocProvider.of<MyAssistanceBloc>(context)
-                      .add(const MyAssistanceTakeAPicture());
-                },
-                canCreateAssistance(permissions, roles),
-              ),
+                  context, "Marcar asistencia", Icons.camera_alt, () {
+                BlocProvider.of<MyAssistanceBloc>(context)
+                    .add(const MyAssistanceTakeAPicture());
+              }, canCreateAssistance(permissions, roles), [
+                Colors.green,
+                Colors.green.shade800,
+              ]),
               _buildCustomCardButton(
                 context,
                 "Historial de mis asistencias",
@@ -67,40 +65,16 @@ class DashboardScreen extends StatelessWidget {
               }, canReadUser(permissions, roles)),
               _buildCustomCardButton(context, "Terminar jornada", Icons.logout,
                   () {
-                BlocProvider.of<AuthenticationBloc>(context).add(
-                  AuthenticationLogoutRequested(),
-                );
-              }, canLogoutAuthentication(permissions, roles)),
+                BlocProvider.of<MyAssistanceBloc>(context)
+                    .add(const MyAssistanceTakeAPicture());
+              }, canLogoutAuthentication(permissions, roles), [
+                Colors.red,
+                Colors.red.shade800,
+              ]),
             ],
           ),
         ),
       ],
-    );
-  }
-
-  SizedBox _buildCamera(BuildContext context, [bool enabled = true]) {
-    if (!enabled) {
-      return const SizedBox.shrink();
-    }
-    return SizedBox(
-      width: double.infinity,
-      child: CameraView(
-        onError: (value) {
-          if (kDebugMode) {
-            print(value.code);
-          }
-          BlocProvider.of<PushAlertBloc>(context).add(
-            const PushAlertBasicError(
-              title: "Error al cargar la cámara",
-              body: "Ocurrió un error al cargar la cámara",
-            ),
-          );
-        },
-        onCameraControllerLoaded: (value) {
-          BlocProvider.of<MyAssistanceBloc>(context)
-              .add(MyAssistanceLoadCameraController(value));
-        },
-      ),
     );
   }
 
@@ -128,7 +102,7 @@ class DashboardScreen extends StatelessWidget {
 
   Widget _buildCustomCardButton(
       BuildContext context, String title, IconData icon, VoidCallback onPressed,
-      [bool enabled = true]) {
+      [bool enabled = true, List<Color> colors = const []]) {
     if (!enabled) {
       return const SizedBox.shrink();
     }
@@ -136,6 +110,7 @@ class DashboardScreen extends StatelessWidget {
       width: 300,
       child: CustomCardButton(
           onPressed: onPressed,
+          colors: colors,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

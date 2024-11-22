@@ -16,7 +16,7 @@ class AppWindowManager {
     center: true,
     backgroundColor: Color(0xFFE5E5E5),
     skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
+    // titleBarStyle: TitleBarStyle.hidden,
   );
 
   static AppWindowManager getInstance() {

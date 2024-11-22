@@ -12,11 +12,16 @@ class WindowManagerLayer extends StatelessWidget {
       create: (context) => WindowManagerCubit(),
       child: BlocListener<WindowManagerCubit, WindowManagerState>(
         listener: (context, state) {
-          if (state is WindowManagerResizedToAdmin) {
-            AppWindowManager.getInstance().resizeWindow(
-              WindowManagerSize.ADMIN_SIZE,
-            );
-          }
+          // if (state is WindowManagerResizedToAdmin) {
+          //   AppWindowManager.getInstance().resizeWindow(
+          //     WindowManagerSize.ADMIN_SIZE,
+          //   );
+          // }
+          // if (state is WindowManagerResizedToUser) {
+          //   AppWindowManager.getInstance().resizeWindow(
+          //     WindowManagerSize.USER_SIZE,
+          //   );
+          // }
         },
         child: child,
       ),

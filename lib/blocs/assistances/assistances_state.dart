@@ -9,6 +9,16 @@ sealed class AssistancesState extends Equatable {
 
 final class AssistancesInitial extends AssistancesState {}
 
+final class AssistancesLoading extends AssistancesState {}
+
+final class AssistancesError extends AssistancesState {
+  final String message;
+  const AssistancesError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
+
 final class AssistancesLoaded extends AssistancesState {
   final List<AssistanceReport> reports;
   const AssistancesLoaded(this.reports);

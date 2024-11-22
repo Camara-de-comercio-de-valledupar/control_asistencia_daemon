@@ -27,12 +27,12 @@ final class MyAssistanceRequestSent extends MyAssistanceState {}
 final class MyAssistanceRequestFailed extends MyAssistanceState {}
 
 final class MyAssistanceHistoryLoaded extends MyAssistanceState {
-  final List<Assistance> assistances;
+  final List<AssistanceReport> reports;
 
-  const MyAssistanceHistoryLoaded(this.assistances);
+  const MyAssistanceHistoryLoaded(this.reports);
 
   @override
-  List<Object> get props => [assistances];
+  List<Object> get props => [reports];
 }
 
 final class MyAssistanceHistoryEmpty extends MyAssistanceState {}

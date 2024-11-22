@@ -23,80 +23,115 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AssistancesBloc, AssistancesState>(
-      listener: (context, state) {
-        if (state is AssistancesLoaded) {
-          _users = state.reports
-              .map((report) => [report.userEmail, report.userName])
-              .toList();
-          setState(() {});
-        }
-      },
-      child: BlocBuilder<AssistancesBloc, AssistancesState>(
-          builder: (context, state) {
-        if (state is! AssistancesLoaded) {
-          return const Center(child: LoadingIndicator());
-        }
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: BlocListener<AssistancesBloc, AssistancesState>(
+            listener: (context, state) {
+              if (state is AssistancesLoaded) {
+                _users = state.reports
+                    .map((report) => [report.userEmail, report.userName])
+                    .toList();
+                setState(() {});
+              }
+            },
+            child: BlocBuilder<AssistancesBloc, AssistancesState>(
+                builder: (context, state) {
+              if (state is! AssistancesLoaded) {
+                return const Center(child: LoadingIndicator());
+              }
 
-        if (state is AssistancesEmpty) {
-          return Center(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.warning,
-                size: 50,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              Text(
-                "Aun no hay funcionarios marcando asistencia",
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              if (state is AssistancesEmpty) {
+                return Center(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.warning,
+                      size: 50,
                       color: Theme.of(context).colorScheme.primary,
-                      fontWeight: FontWeight.bold,
                     ),
-              ),
-            ],
-          ));
-        }
+                    Text(
+                      "Aun no hay funcionarios marcando asistencia",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ));
+              }
 
-        final reports = state.reports.where((report) {
-          if (_selectedDateRange != null) {
-            if (report.date.isBefore(_selectedDateRange!.start) ||
-                report.date.isAfter(_selectedDateRange!.end)) {
-              return false;
-            }
-          }
+              final reports = state.reports.where((report) {
+                if (_selectedDateRange != null) {
+                  if (report.date.isBefore(_selectedDateRange!.start) ||
+                      report.date.isAfter(_selectedDateRange!.end)) {
+                    return false;
+                  }
+                }
 
-          if (_selectedUser != null) {
-            if (report.userEmail != _selectedUser![0]) {
-              return false;
-            }
-          }
+                if (_selectedUser != null) {
+                  if (report.userEmail != _selectedUser![0]) {
+                    return false;
+                  }
+                }
 
-          return true;
-        }).toList();
+                return true;
+              }).toList();
 
-        return Column(
-          children: [
-            _buildFilters(context),
-            Expanded(
-              child: CustomCard(
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 100),
-                  itemCount: reports.length,
-                  itemBuilder: (context, index) {
-                    final report = reports[index];
+              return Column(
+                children: [
+                  _buildFilters(context),
+                  Expanded(
+                    child: CustomCard(
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(horizontal: 100),
+                        itemCount: reports.length,
+                        itemBuilder: (context, index) {
+                          final report = reports[index];
 
-                    return _buildReport(context, report);
-                  },
-                ),
-              ),
-            ),
-          ],
-        );
-      }),
+                          return _buildReport(context, report);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ),
+        Positioned(
+          right: 20,
+          bottom: 20,
+          child: BlocBuilder<AssistancesBloc, AssistancesState>(
+            builder: (context, state) {
+              return FloatingActionButton.extended(
+                onPressed: () {
+                  BlocProvider.of<AssistancesBloc>(context)
+                      .add(const GetAssistancesFetchRequested());
+                },
+                label: () {
+                  if (state is AssistancesLoading) {
+                    return const Text("Cargando asistencias...");
+                  }
+                  if (state is AssistancesEmpty) {
+                    return const Text("Cargar asistencias");
+                  }
+                  return const Text("Refrescar");
+                }(),
+                icon: () {
+                  if (state is AssistancesLoading) {
+                    return null;
+                  }
+                  return const Icon(Icons.refresh);
+                }(),
+              );
+            },
+          ),
+        )
+      ],
     );
   }
 

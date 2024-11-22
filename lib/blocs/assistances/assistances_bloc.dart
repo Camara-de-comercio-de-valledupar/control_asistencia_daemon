@@ -30,8 +30,13 @@ class AssistancesBloc extends Bloc<AssistancesEvent, AssistancesState> {
 
   void _onAssistancesFetchRequested(GetAssistancesFetchRequested event,
       Emitter<AssistancesState> emit) async {
-    final assistances =
-        await AssistanceService.getInstance().getAssistanceReports();
+    emit(AssistancesLoading());
+    final assistances = await AssistanceService.getInstance()
+        .getAssistanceReports()
+        .onError((error, stackTrace) {
+      emit(AssistancesError(error.toString()));
+      return [];
+    });
     if (assistances.isEmpty) {
       emit(AssistancesEmpty());
       return;

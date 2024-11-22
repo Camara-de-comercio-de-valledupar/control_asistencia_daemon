@@ -27,11 +27,40 @@ class MyAssistanceBloc extends Bloc<MyAssistanceEvent, MyAssistanceState> {
   FutureOr<void> _getAssistanceRequests(
       MyAssistanceGetAssistanceRequests event, emit) async {
     final assistances = await assistanceService.getMyAssistance();
-    if (assistances.isEmpty) {
+
+    List<List<Assistance>> groupedAsDate = [];
+
+    for (var assistance in assistances) {
+      if (groupedAsDate.isEmpty) {
+        groupedAsDate.add([assistance]);
+        continue;
+      }
+
+      final lastGroup = groupedAsDate.last;
+      final lastAssistance = lastGroup.last;
+
+      if (lastAssistance.createdAt.difference(assistance.createdAt).inDays ==
+          0) {
+        lastGroup.add(assistance);
+      } else {
+        groupedAsDate.add([assistance]);
+      }
+    }
+
+    if (groupedAsDate.isEmpty) {
       emit(MyAssistanceHistoryEmpty());
       return;
     }
-    emit(MyAssistanceHistoryLoaded(assistances));
+
+    List<AssistanceReport> reports = [];
+
+    for (var group in groupedAsDate) {
+      reports.add(AssistanceReport.fromAssistances(group));
+    }
+
+    reports.sort((a, b) => b.date.compareTo(a.date));
+
+    emit(MyAssistanceHistoryLoaded(reports));
   }
 
   FutureOr<void> _takeAPicture(event, emit) async {
