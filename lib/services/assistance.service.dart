@@ -43,4 +43,10 @@ class AssistanceService {
     final response = await _client.get<List>("/reports/json");
     return response.map((e) => AssistanceReport.fromJson(e)).toList();
   }
+
+  Future<Uint8List> downloadReport() async {
+    // This endpoint download the report as a file
+    final response = await _client.get("/reports/excel");
+    return response.data;
+  }
 }

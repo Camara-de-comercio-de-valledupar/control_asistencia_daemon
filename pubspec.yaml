@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.19.0
   timezone: ^0.9.4
   url_launcher: ^6.3.1
+  syncfusion_flutter_charts: ^27.2.3
 
 dev_dependencies:
   flutter_test:

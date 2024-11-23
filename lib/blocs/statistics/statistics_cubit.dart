@@ -1,25 +1,43 @@
+import 'dart:typed_data';
+
 import 'package:bloc/bloc.dart';
+import 'package:control_asistencia_daemon/lib.dart';
 import 'package:equatable/equatable.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'statistics_state.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> {
   StatisticsCubit() : super(StatisticsInitial());
 
-  void openDashboard() {
-    emit(StatisticsDashboardOpened());
+  void openDashboard() async {
+    emit(StatisticsLoading());
+    final reports = await AssistanceService.getInstance()
+        .getAssistanceReports()
+        .onError((err, stacktrace) {
+      emit(StatisticsError(err.toString()));
+      return [];
+    });
+    emit(StatisticsDashboardOpened(reports));
   }
 
-  void showDashboard() {
-    final uri = Uri.parse(
-        "https://app.powerbi.com/view?r=eyJrIjoiYmMxOTU0MjItMmU0NC00ZTI3LTkxOTMtZDRiZDFhMDZkM2VkIiwidCI6ImYzZjUxNDViLWY3MWEtNDRiZi1iMjdmLWFhYWY1MGI0MjhhZiIsImMiOjR9");
-    launchUrl(uri);
+  void downloadReport() async {
+    emit(StatisticsLoading());
+    final report = await AssistanceService.getInstance()
+        .downloadReport()
+        .onError((err, stacktrace) {
+      emit(StatisticsError(err.toString()));
+      return Uint8List(0);
+    });
+
+    emit(StatisticsReportDownloaded(report));
   }
 
-  void goToDownloadReport() {
-    emit(StatisticsReportDownloaded());
+  void goToDownloadReport() async {
+    emit(StatisticsRequestDownloadReport());
   }
 
-  void downloadReport() {}
+  void saveReport(Uint8List report) async {
+    final path = await FileService.getInstance().searchFilepath();
+    await FileService.getInstance().saveFile(report, path);
+  }
 }

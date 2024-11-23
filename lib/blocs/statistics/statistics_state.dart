@@ -9,6 +9,29 @@ sealed class StatisticsState extends Equatable {
 
 final class StatisticsInitial extends StatisticsState {}
 
-final class StatisticsDashboardOpened extends StatisticsState {}
+final class StatisticsDashboardOpened extends StatisticsState {
+  final List<AssistanceReport> reports;
 
-final class StatisticsReportDownloaded extends StatisticsState {}
+  const StatisticsDashboardOpened(this.reports);
+
+  @override
+  List<Object> get props => [reports];
+}
+
+final class StatisticsRequestDownloadReport extends StatisticsState {}
+
+final class StatisticsReportDownloaded extends StatisticsState {
+  final Uint8List report;
+  const StatisticsReportDownloaded(this.report);
+}
+
+final class StatisticsLoading extends StatisticsState {}
+
+final class StatisticsError extends StatisticsState {
+  final String message;
+
+  const StatisticsError(this.message);
+
+  @override
+  List<Object> get props => [message];
+}

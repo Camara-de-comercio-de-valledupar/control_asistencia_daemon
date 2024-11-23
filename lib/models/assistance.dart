@@ -218,4 +218,10 @@ class AssistanceReport {
     );
     return timeOfExitAfternoon!.isBefore(limitDate);
   }
+
+  double get averageTimeInOffice =>
+      (timeInOfficeMorning!.hour + timeInOfficeAfternoon!.hour).toDouble();
+
+  bool get isAbsent =>
+      timeOfEntryMorning == null && timeOfEntryAfternoon == null;
 }
