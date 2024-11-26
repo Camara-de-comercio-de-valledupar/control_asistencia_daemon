@@ -19,7 +19,7 @@ class GuestLayout extends StatelessWidget {
             leading: Padding(
               padding: const EdgeInsets.only(left: 20),
               child: Image.asset(
-                "assets/logos/ccv.png",
+                "assets/logos/ccv_light.png",
               ),
             ),
             title: const Text('Control de Asistencia CCV'),
