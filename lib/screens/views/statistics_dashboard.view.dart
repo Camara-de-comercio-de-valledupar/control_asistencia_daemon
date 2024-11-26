@@ -14,6 +14,7 @@ class StatisticsDashboardView extends StatefulWidget {
 class _StatisticsDashboardViewState extends State<StatisticsDashboardView> {
   List<AssistanceReport> _reports = [];
   List<String>? _selectedUser;
+  DateTime? _selectedDate;
 
   @override
   void initState() {
@@ -32,9 +33,11 @@ class _StatisticsDashboardViewState extends State<StatisticsDashboardView> {
         Row(
           children: [
             MonthPicker(
+              value: _selectedDate,
               onChanged: (DateTime? date) {
                 if (date != null) {
                   setState(() {
+                    _selectedDate = date;
                     _reports = widget.reports
                         .where((report) =>
                             report.date.month == date.month &&
@@ -84,13 +87,43 @@ class _StatisticsDashboardViewState extends State<StatisticsDashboardView> {
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  _selectedUser == null
-                      ? "Seleccionar usuario"
-                      : _selectedUser![1],
-                  style: Theme.of(context).textTheme.bodyMedium,
+                Expanded(
+                  child: Text(
+                    _selectedUser == null
+                        ? "Seleccionar usuario"
+                        : _selectedUser![1],
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                  ),
                 ),
               ]),
+            ),
+            CustomCardButton(
+              colors: const [
+                Colors.red,
+                Colors.redAccent,
+              ],
+              onPressed: () {
+                setState(() {
+                  _reports = widget.reports;
+                  _selectedUser = null;
+                });
+              },
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.clear,
+                    size: 30,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    "Limpiar filtro",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
             ),
           ]
               .map((widget) => Expanded(
@@ -122,8 +155,9 @@ class _StatisticsDashboardViewState extends State<StatisticsDashboardView> {
 
 class MonthPicker extends StatefulWidget {
   final ValueChanged<DateTime?> onChanged;
+  final DateTime? value;
 
-  const MonthPicker({super.key, required this.onChanged});
+  const MonthPicker({super.key, required this.onChanged, this.value});
 
   @override
   State<MonthPicker> createState() => _MonthPickerState();
@@ -146,6 +180,12 @@ class _MonthPickerState extends State<MonthPicker> {
   ];
 
   DateTime? _selectedDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.value;
+  }
 
   void _showMonthPicker(BuildContext context) {
     showModalBottomSheet(
@@ -183,23 +223,26 @@ class _MonthPickerState extends State<MonthPicker> {
                   Expanded(
                     child: Wrap(
                       children: List.generate(12, (index) {
-                        return CustomCardButton(
-                          onPressed: () {
-                            setState(() {
-                              _selectedDate =
-                                  DateTime(DateTime.now().year, index + 1);
-                            });
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            monthTargets[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                ),
+                        return Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: CustomCardButton(
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate =
+                                    DateTime(DateTime.now().year, index + 1);
+                              });
+                              Navigator.pop(context);
+                            },
+                            child: Text(
+                              monthTargets[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                            ),
                           ),
                         );
                       }),
