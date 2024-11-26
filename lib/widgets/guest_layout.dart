@@ -13,6 +13,7 @@ class GuestLayout extends StatelessWidget {
         return Scaffold(
           extendBody: true,
           appBar: AppBar(
+            toolbarHeight: kToolbarHeight + 20,
             leadingWidth: 200,
             centerTitle: true,
             leading: Padding(
@@ -24,45 +25,8 @@ class GuestLayout extends StatelessWidget {
             title: const Text('Control de Asistencia CCV'),
             actions: [
               if (state is AuthenticationSuccess)
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.person,
-                            size: 30,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(state.member.email),
-                          Text(
-                            "${state.member.firstName} ${state.member.lastName}",
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                UserTagMenu(
+                  member: state.member,
                 ),
               if (state is! AuthenticationSuccess)
                 Image.asset(
@@ -75,6 +39,110 @@ class GuestLayout extends StatelessWidget {
           body: Center(child: child),
         );
       },
+    );
+  }
+}
+
+class UserTagMenu extends StatefulWidget {
+  final Member member;
+  const UserTagMenu({
+    super.key,
+    required this.member,
+  });
+
+  @override
+  State<UserTagMenu> createState() => _UserTagMenuState();
+}
+
+class _UserTagMenuState extends State<UserTagMenu> {
+  bool _focus = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final Color backgroundColor = !_focus
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onPrimary;
+    final Color textColor = !_focus
+        ? Theme.of(context).colorScheme.onPrimary
+        : Theme.of(context).colorScheme.primary;
+
+    return MouseRegion(
+      onEnter: (_) {
+        setState(() {
+          _focus = true;
+        });
+      },
+      onExit: (_) {
+        setState(() {
+          _focus = false;
+        });
+      },
+      child: PopupMenuButton(
+        offset: const Offset(0, 70),
+        tooltip: "Menú de usuario",
+        itemBuilder: (context) {
+          return [
+            PopupMenuItem(
+              child: ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Cerrar sesión'),
+                onTap: () {
+                  BlocProvider.of<AuthenticationBloc>(context)
+                      .add(AuthenticationLogoutRequested());
+                },
+              ),
+            ),
+          ];
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: textColor,
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.person,
+                    size: 30,
+                    color: backgroundColor,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(widget.member.email,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: textColor)),
+                  Text(
+                    "${widget.member.firstName} ${widget.member.lastName}",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: textColor),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Icon(Icons.arrow_drop_down_circle_sharp, color: textColor),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

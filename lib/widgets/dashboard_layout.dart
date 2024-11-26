@@ -64,7 +64,7 @@ class DashboardHeader extends StatelessWidget {
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),
-          )
+          ),
         ],
       ),
     );
