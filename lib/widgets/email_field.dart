@@ -46,7 +46,7 @@ class EmailField extends StatelessWidget {
         return null;
       },
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9._]')),
       ],
     );
   }
