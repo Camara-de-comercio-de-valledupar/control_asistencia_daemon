@@ -11,9 +11,6 @@ class StatisticsScreen extends StatelessWidget {
       create: (context) => StatisticsCubit(),
       child: BlocListener<StatisticsCubit, StatisticsState>(
         listener: (context, state) {
-          // if (state is StatisticsDashboardOpened) {
-          //   BlocProvider.of<StatisticsCubit>(context).showDashboard();
-          // }
           if (state is StatisticsRequestDownloadReport) {
             BlocProvider.of<StatisticsCubit>(context).downloadReport();
           }
@@ -34,7 +31,7 @@ class StatisticsView extends StatelessWidget {
     return BlocBuilder<StatisticsCubit, StatisticsState>(
       builder: (context, state) {
         if (state is StatisticsLoading) {
-          return Center(
+          return const Center(
             child: LoadingIndicator(),
           );
         }
