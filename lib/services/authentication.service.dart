@@ -31,4 +31,13 @@ class AuthenticationService {
   Future<void> signOut() async {
     await _client.post("/auth/logout", {});
   }
+
+  Future<void> resetPassword({
+    required int userId,
+    required String password,
+  }) async {
+    await _client.post("/auth/$userId/reset-password", {
+      "password": password,
+    });
+  }
 }

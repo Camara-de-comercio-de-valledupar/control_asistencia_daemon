@@ -18,6 +18,11 @@ class UserManagementBloc
     on<UserManagementDeleteUserConfirmed>(_onUserManagementDeleteUserConfirmed);
     on<UserManagementDeleteUserCancelled>(_onUserManagementDeleteUserCancelled);
     on<UserManagementUpdateUserRequested>(_onUserManagementUpdateUserRequested);
+    on<UserManagementResetPasswordRequested>(
+        _onUserManagementResetPasswordRequested);
+    on<UserManagementSendResetPassword>(_onUserManagementSendResetPassword);
+    on<UserManagementToggleUserStatusRequested>(
+        _onUserManagementToggleUserStatusRequested);
   }
 
   void _init() async {
@@ -107,5 +112,30 @@ class UserManagementBloc
     emit(UserManagementShowUsersView(
       event.users,
     ));
+  }
+
+  void _onUserManagementResetPasswordRequested(
+      UserManagementResetPasswordRequested event,
+      Emitter<UserManagementState> emit) async {
+    emit(UserManagementShowResetPasswordView(event.user));
+  }
+
+  void _onUserManagementSendResetPassword(UserManagementSendResetPassword event,
+      Emitter<UserManagementState> emit) async {
+    await AuthenticationService.getInstance().resetPassword(
+      userId: event.user.id,
+      password: event.password,
+    );
+    emit(UserManagementPasswordChanged(event.user));
+    _init();
+  }
+
+  void _onUserManagementToggleUserStatusRequested(
+      UserManagementToggleUserStatusRequested event,
+      Emitter<UserManagementState> emit) async {
+    final user = event.user.copyWith(isActive: !event.user.isActive);
+    await UserService.getInstance().updateUser(user);
+    emit(UserManagementUserUpdated(user));
+    _init();
   }
 }

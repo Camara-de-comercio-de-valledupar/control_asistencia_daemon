@@ -130,3 +130,28 @@ class UserManagementDeleteUserCancelled extends UserManagementEvent {
   @override
   List<Object> get props => [];
 }
+
+class UserManagementResetPasswordRequested extends UserManagementEvent {
+  final User user;
+  const UserManagementResetPasswordRequested(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class UserManagementSendResetPassword extends UserManagementEvent {
+  final User user;
+  final String password;
+  const UserManagementSendResetPassword(this.user, this.password);
+
+  @override
+  List<Object> get props => [user, password];
+}
+
+class UserManagementToggleUserStatusRequested extends UserManagementEvent {
+  final User user;
+  const UserManagementToggleUserStatusRequested(this.user);
+
+  @override
+  List<Object> get props => [user];
+}

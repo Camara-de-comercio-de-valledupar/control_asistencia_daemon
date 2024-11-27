@@ -110,6 +110,8 @@ const errorMsg = {
   "user_has_not_role_user": "El usuario no tiene el rol de usuario",
   "user_has_reached_the_limit_of_assistances":
       "El usuario ha alcanzado el límite de asistencias",
+  "database_transaction_error":
+      "Ocurrió un error en el proceso, intente de nuevo",
   "500": "Error interno del servidor",
   "403": "No tienes permiso para realizar esta acción",
 };
@@ -118,11 +120,20 @@ class PushAlertInterceptor extends Interceptor {
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response?.statusCode == 500) {
-      BlocProvider.of<PushAlertBloc>(scaffoldKey.currentContext!)
-          .add(PushAlertBasicError(
-        title: "Ups! algo salió mal",
-        body: errorMsg["500"]!,
-      ));
+      if (err.response?.data != null &&
+          err.response!.data is Map<String, dynamic>) {
+        BlocProvider.of<PushAlertBloc>(pushAlertKey.currentContext!)
+            .add(PushAlertBasicError(
+          title: "Ups! algo salió mal",
+          body: err.response!.data["message"],
+        ));
+      } else {
+        BlocProvider.of<PushAlertBloc>(scaffoldKey.currentContext!)
+            .add(PushAlertBasicError(
+          title: "Ups! algo salió mal",
+          body: errorMsg["500"]!,
+        ));
+      }
     }
 
     if (err.response?.data != null) {

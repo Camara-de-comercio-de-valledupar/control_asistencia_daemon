@@ -32,7 +32,8 @@ class _PasswordFieldState extends State<PasswordField> {
           color: widget.style?.color ??
               Theme.of(context).inputDecorationTheme.hintStyle?.color,
         );
-    final decoration = InputDecoration(
+    InputDecoration decoration = widget.decoration ?? const InputDecoration();
+    decoration = decoration.copyWith(
       prefixIcon: const Icon(Icons.lock),
       suffixIcon: _passwordVisible
           ? IconButton(
@@ -51,7 +52,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 });
               },
             ),
-      hintText: 'Ingrese su contraseña',
+      hintText: widget.decoration?.hintText ?? 'Ingrese su contraseña',
     );
     return TextFormField(
       style: textStyle,

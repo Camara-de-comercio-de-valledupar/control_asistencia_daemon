@@ -12,29 +12,53 @@ class UserManagementScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserManagementBloc(),
-      child: BlocBuilder<UserManagementBloc, UserManagementState>(
-        builder: (context, state) {
-          if (state is UserManagementShowUsersView) {
-            return UsersView(
-              users: state.users,
-              permissions: permissions,
-              roles: roles,
+      child: BlocListener<UserManagementBloc, UserManagementState>(
+        listener: (context, state) {
+          if (state is UserManagementPasswordChanged) {
+            BlocProvider.of<PushAlertBloc>(context).add(
+              PushAlertBasicSuccess(
+                title: "Contraseña restablecida",
+                body:
+                    "La contraseña de ${state.user.fullName} ha sido restablecida",
+              ),
             );
           }
-          if (state is UserManagementShowCreateUserView) {
-            return const CreateUserView();
+          if (state is UserManagementUserUpdated) {
+            BlocProvider.of<PushAlertBloc>(context).add(
+              PushAlertBasicSuccess(
+                title: "Usuario actualizado",
+                body: "El usuario ${state.user.fullName} ha sido actualizado",
+              ),
+            );
           }
-
-          if (state is UserManagementShowUpdateUserView) {
-            return UpdateUserView(user: state.user);
-          }
-
-          if (state is UserManagementShowDeleteUserView) {
-            return DeleteUserView(user: state.user);
-          }
-
-          return const Center(child: LoadingIndicator());
         },
+        child: BlocBuilder<UserManagementBloc, UserManagementState>(
+          builder: (context, state) {
+            if (state is UserManagementShowUsersView) {
+              return UsersView(
+                users: state.users,
+                permissions: permissions,
+                roles: roles,
+              );
+            }
+            if (state is UserManagementShowCreateUserView) {
+              return const CreateUserView();
+            }
+
+            if (state is UserManagementShowUpdateUserView) {
+              return UpdateUserView(user: state.user);
+            }
+
+            if (state is UserManagementShowDeleteUserView) {
+              return DeleteUserView(user: state.user);
+            }
+            if (state is UserManagementShowResetPasswordView) {
+              return ResetPasswordView(user: state.user);
+            }
+
+            return const Center(child: LoadingIndicator());
+          },
+        ),
       ),
     );
   }
@@ -179,6 +203,28 @@ class _UsersViewState extends State<UsersView> {
               onPressed: () {
                 BlocProvider.of<UserManagementBloc>(context)
                     .add(UserManagementDeleteUserRequested(user));
+              },
+            ),
+            const SizedBox(width: 10),
+            _buildAction(
+              context,
+              icon: Icons.lock,
+              color: Colors.green,
+              textColor: Colors.white,
+              onPressed: () {
+                BlocProvider.of<UserManagementBloc>(context)
+                    .add(UserManagementResetPasswordRequested(user));
+              },
+            ),
+            const SizedBox(width: 10),
+            _buildAction(
+              context,
+              icon: user.isActive ? Icons.person : Icons.person_outline,
+              color: user.isActive ? Colors.green : Colors.red,
+              textColor: Colors.white,
+              onPressed: () {
+                BlocProvider.of<UserManagementBloc>(context)
+                    .add(UserManagementToggleUserStatusRequested(user));
               },
             ),
           ],

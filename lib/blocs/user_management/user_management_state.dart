@@ -34,3 +34,27 @@ class UserManagementShowUsersView extends UserManagementState {
   @override
   List<Object> get props => [users];
 }
+
+class UserManagementShowResetPasswordView extends UserManagementState {
+  final User user;
+  const UserManagementShowResetPasswordView(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class UserManagementPasswordChanged extends UserManagementState {
+  final User user;
+  const UserManagementPasswordChanged(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
+
+class UserManagementUserUpdated extends UserManagementState {
+  final User user;
+  const UserManagementUserUpdated(this.user);
+
+  @override
+  List<Object> get props => [user];
+}
