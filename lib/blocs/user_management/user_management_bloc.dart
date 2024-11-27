@@ -37,7 +37,7 @@ class UserManagementBloc
       id: event.id,
       firstName: event.firstName,
       lastName: event.lastName,
-      email: "${event.email}@ccvalldupar.org.co",
+      email: "${event.email}@ccvalledupar.org.co",
       username: event.username,
       isActive: event.isActive,
       roles: event.roles.split(",").map((e) => roleFromSpanishName(e)).toList(),
