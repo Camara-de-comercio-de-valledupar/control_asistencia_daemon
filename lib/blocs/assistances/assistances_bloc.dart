@@ -32,7 +32,10 @@ class AssistancesBloc extends Bloc<AssistancesEvent, AssistancesState> {
       Emitter<AssistancesState> emit) async {
     emit(AssistancesLoading());
     final assistances = await AssistanceService.getInstance()
-        .getAssistanceReports()
+        .getAssistanceReports(
+      startDate: event.startDate?.toString(),
+      endDate: event.endDate?.toString(),
+    )
         .onError((error, stackTrace) {
       emit(AssistancesError(error.toString()));
       return [];

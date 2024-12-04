@@ -39,8 +39,16 @@ class AssistanceService {
     return response.map((e) => Assistance.fromJson(e)).toList();
   }
 
-  Future<List<AssistanceReport>> getAssistanceReports() async {
-    final response = await _client.get<List>("/reports/json");
+  Future<List<AssistanceReport>> getAssistanceReports({
+    String? startDate,
+    String? endDate,
+  }) async {
+    final response = await _client.get<List>("/reports/json", {
+      if (startDate != null && endDate != null) ...{
+        "start_date": startDate,
+        "end_date": endDate,
+      }
+    });
     return response.map((e) => AssistanceReport.fromJson(e)).toList();
   }
 

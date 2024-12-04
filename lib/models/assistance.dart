@@ -126,24 +126,16 @@ class AssistanceReport {
         date: DateTime.parse(json["date"]),
         timeOfEntryMorning: json["time_of_entry_morning"] == null
             ? null
-            : DateTime.parse(json["time_of_entry_morning"]).subtract(
-                const Duration(hours: 5),
-              ),
+            : DateTime.parse(json["time_of_entry_morning"]),
         timeOfExitMorning: json["time_of_exit_morning"] == null
             ? null
-            : DateTime.parse(json["time_of_exit_morning"]).subtract(
-                const Duration(hours: 5),
-              ),
+            : DateTime.parse(json["time_of_exit_morning"]),
         timeOfEntryAfternoon: json["time_of_entry_afternoon"] == null
             ? null
-            : DateTime.parse(json["time_of_entry_afternoon"]).subtract(
-                const Duration(hours: 5),
-              ),
+            : DateTime.parse(json["time_of_entry_afternoon"]),
         timeOfExitAfternoon: json["time_of_exit_afternoon"] == null
             ? null
-            : DateTime.parse(json["time_of_exit_afternoon"]).subtract(
-                const Duration(hours: 5),
-              ),
+            : DateTime.parse(json["time_of_exit_afternoon"]),
         // 20:00:00
         timeInOfficeMorning: json["time_in_office_morning"] == null
             ? null

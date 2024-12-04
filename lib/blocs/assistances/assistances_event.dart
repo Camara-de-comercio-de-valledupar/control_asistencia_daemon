@@ -8,10 +8,18 @@ sealed class AssistancesEvent extends Equatable {
 }
 
 class GetAssistancesFetchRequested extends AssistancesEvent {
-  const GetAssistancesFetchRequested();
+  final DateTime? startDate;
+  final DateTime? endDate;
+  const GetAssistancesFetchRequested({
+    this.startDate,
+    this.endDate,
+  });
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+        startDate ?? DateTime.now(),
+        endDate ?? DateTime.now(),
+      ];
 }
 
 class AssistanceUsersFetched extends AssistancesEvent {

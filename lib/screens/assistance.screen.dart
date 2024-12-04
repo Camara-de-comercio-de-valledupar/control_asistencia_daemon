@@ -150,6 +150,12 @@ class _AssistanceScreenState extends State<AssistanceScreen> {
                 setState(() {
                   _selectedDateRange = DateTimeRange(start: start, end: end);
                 });
+                BlocProvider.of<AssistancesBloc>(context).add(
+                  GetAssistancesFetchRequested(
+                    startDate: start,
+                    endDate: end,
+                  ),
+                );
               },
             ),
           ),
