@@ -29,7 +29,7 @@ final class AuthenticationPreSuccess extends AuthenticationState {
 }
 
 final class AuthenticationSuccess extends AuthenticationState {
-  final Member member;
+  final MemberAppCCvalledupar member;
 
   const AuthenticationSuccess(this.member);
 

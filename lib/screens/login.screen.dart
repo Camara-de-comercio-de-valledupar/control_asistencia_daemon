@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      EmailField(
+                      DNIField(
                         controller: _emailCtrl,
                       ),
                       PasswordField(
@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (_formKey.currentState!.validate()) {
                             BlocProvider.of<AuthenticationBloc>(context).add(
                               AuthenticationLoginRequested(
-                                _emailCtrl.text,
+                                _emailCtrl.text.replaceAll(".", ""),
                                 _passwordCtrl.text,
                                 _rememberMe.value,
                               ),

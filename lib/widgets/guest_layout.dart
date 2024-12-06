@@ -44,7 +44,7 @@ class GuestLayout extends StatelessWidget {
 }
 
 class UserTagMenu extends StatefulWidget {
-  final Member member;
+  final MemberAppCCvalledupar member;
   const UserTagMenu({
     super.key,
     required this.member,
@@ -123,18 +123,25 @@ class _UserTagMenuState extends State<UserTagMenu> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.member.email,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium
-                          ?.copyWith(color: textColor)),
+                  // Text(widget.member.email,
+                  //     style: Theme.of(context)
+                  //         .textTheme
+                  //         .bodyMedium
+                  //         ?.copyWith(color: textColor)),
                   Text(
                     "${widget.member.firstName} ${widget.member.lastName}",
                     style: Theme.of(context)
                         .textTheme
-                        .bodySmall
+                        .bodyMedium
                         ?.copyWith(color: textColor),
                   ),
+                  Text(
+                    widget.member.jonRole,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: textColor),
+                  )
                 ],
               ),
               const SizedBox(width: 10),

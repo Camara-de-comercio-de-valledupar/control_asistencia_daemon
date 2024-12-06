@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:control_asistencia_daemon/lib.dart';
 
@@ -64,4 +66,97 @@ class Member extends Equatable {
   @override
   List<Object?> get props =>
       [id, firstName, lastName, username, email, roles, permissions];
+}
+
+MemberAppCCvalledupar memberAppCCvalleduparFromJson(String json) {
+  return MemberAppCCvalledupar.fromJson(jsonDecode(json));
+}
+
+String memberAppCCvalleduparToJson(MemberAppCCvalledupar data) {
+  return json.encode(data.toJson());
+}
+
+class MemberAppCCvalledupar extends Equatable {
+  final int id;
+  final String dni;
+  final String firstName;
+  final String lastName;
+  final String? photo;
+  final String jonRole;
+  final String email;
+  final String role;
+  final String area;
+
+  const MemberAppCCvalledupar({
+    required this.id,
+    required this.dni,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.photo,
+    required this.jonRole,
+    required this.role,
+    required this.area,
+  });
+
+  MemberAppCCvalledupar copyWith({
+    int? id,
+    String? dni,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? photo,
+    String? jonRole,
+    String? role,
+    String? area,
+  }) =>
+      MemberAppCCvalledupar(
+        id: id ?? this.id,
+        dni: dni ?? this.dni,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        email: email ?? this.email,
+        photo: photo ?? this.photo,
+        jonRole: jonRole ?? this.jonRole,
+        role: role ?? this.role,
+        area: area ?? this.area,
+      );
+
+  factory MemberAppCCvalledupar.fromJson(Map<String, dynamic> json) =>
+      MemberAppCCvalledupar(
+        id: json["id"],
+        dni: json["noDocumento"],
+        firstName: json["nombres"],
+        lastName: json["apellidos"],
+        email: json["email"],
+        photo: json["foto"],
+        jonRole: json["cargo"],
+        role: json["role"],
+        area: json["area_laboral"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "noDocumento": dni,
+        "nombres": firstName,
+        "apellidos": lastName,
+        "email": email,
+        "foto": photo,
+        "cargo": jonRole,
+        "role": role,
+        "area_laboral": area,
+      };
+
+  @override
+  List<Object?> get props => [
+        id,
+        dni,
+        firstName,
+        lastName,
+        email,
+        photo,
+        jonRole,
+        role,
+        area,
+      ];
 }

@@ -9,8 +9,8 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final AuthenticationService _authenticationService =
-      AuthenticationService.getInstance();
+  final AuthenticationAppCCValleduparService _authenticationService =
+      AuthenticationAppCCValleduparService.getInstance();
 
   final cacheService = CacheService.getInstance();
   String token = "";
@@ -33,9 +33,13 @@ class AuthenticationBloc
       Emitter<AuthenticationState> emit) async {
     try {
       emit(AuthenticationInProgress());
-      await cacheService.setString('token', event.token);
-      final member = await _authenticationService.loggedInMember;
-      emit(AuthenticationSuccess(member));
+      final memberString = cacheService.getString("member");
+      if (memberString != null) {
+        final member = memberAppCCvalleduparFromJson(memberString);
+        emit(AuthenticationSuccess(member));
+      } else {
+        emit(const AuthenticationInitial());
+      }
     } catch (e) {
       emit(const AuthenticationInitial());
     }
@@ -43,7 +47,7 @@ class AuthenticationBloc
 
   FutureOr<void> _logout(AuthenticationLogoutRequested event,
       Emitter<AuthenticationState> emit) async {
-    await _authenticationService.signOut();
+    cacheService.remove("member");
     emit(const AuthenticationInitial());
   }
 
@@ -51,46 +55,16 @@ class AuthenticationBloc
     try {
       emit(AuthenticationInProgress());
       await Future.delayed(const Duration(seconds: 2));
-      String email = "${event.email}@ccvalledupar.org.co";
-      final token = await _authenticationService.signInWithEmailAndPassword(
-          email, event.password);
-      await _rememberCredentials(
-          rememberMe: event.rememberMe,
-          email: event.email,
-          password: event.password);
-      emit(AuthenticationPreSuccess(token));
+      final member = await _authenticationService.signInWithEmailAndPassword(
+          event.email, event.password);
+      await cacheService.setString(
+          "member", memberAppCCvalleduparToJson(member));
+      emit(AuthenticationSuccess(member));
     } catch (e) {
+      if (kDebugMode) {
+        log("AuthenticationBloc -> error: $e");
+      }
       emit(const AuthenticationInitial());
-    }
-  }
-
-  FutureOr<void> _rememberCredentials({
-    required bool rememberMe,
-    required String email,
-    required String password,
-  }) async {
-    if (rememberMe) {
-      cacheService.setBool('rememberMe', rememberMe);
-      cacheService.setString('email', email);
-      cacheService.setString('password', password);
-    }
-  }
-
-  FutureOr<void> _forgetCredentials() async {
-    cacheService.remove('rememberMe');
-    cacheService.remove('email');
-    cacheService.remove('password');
-  }
-
-  FutureOr<void> _getRememberedCredentials(
-      AuthenticationStarted event, Emitter<AuthenticationState> emit) async {
-    final rememberMe = cacheService.getBool('rememberMe') ?? false;
-    if (rememberMe) {
-      final email = cacheService.getString('email') ?? '';
-      final password = cacheService.getString('password') ?? '';
-      final rememberMe = cacheService.getBool('rememberMe') ?? false;
-      emit(AuthenticationInitial(
-          email: email, password: password, rememberMe: rememberMe));
     }
   }
 
@@ -99,13 +73,23 @@ class AuthenticationBloc
     try {
       emit(AuthenticationInProgress());
       await Future.delayed(const Duration(seconds: 2));
-      await _getRememberedCredentials(event, emit);
-      final member = await _authenticationService.loggedInMember;
+      final memberString = cacheService.getString("member");
+      if (kDebugMode) {
+        print("memberString: $memberString");
+      }
+      if (memberString == null) {
+        emit(const AuthenticationInitial());
+      }
+      final member = memberAppCCvalleduparFromJson(memberString!);
+
       if (kDebugMode) {
         log("AuthenticationBloc -> member: $member");
       }
       emit(AuthenticationSuccess(member));
     } catch (e) {
+      if (kDebugMode) {
+        log("AuthenticationBloc -> error: $e");
+      }
       emit(const AuthenticationInitial());
     }
   }

@@ -151,6 +151,8 @@ class PushAlertInterceptor extends Interceptor {
 }
 
 const baseUrl = "https://asistencia.ccvalledupar.org.co/api";
+const appccvalleduparBaseUrl =
+    "https://appccvalledupar.co/timeit/laravel/public/api/";
 
 final Dio _dio = Dio(BaseOptions(baseUrl: baseUrl))
   ..interceptors.add(LogInterceptor(
@@ -161,6 +163,16 @@ final Dio _dio = Dio(BaseOptions(baseUrl: baseUrl))
   ))
   ..interceptors.add(TokenInterceptor())
   ..interceptors.add(PushAlertInterceptor());
+
+final Dio _appccvalleduparDio = Dio(BaseOptions(
+  baseUrl: appccvalleduparBaseUrl,
+))
+  ..interceptors.add(LogInterceptor(
+    responseBody: true,
+    requestBody: true,
+    requestHeader: true,
+    responseHeader: true,
+  ));
 
 class HttpClient {
   static HttpClient? _instance;
@@ -194,6 +206,43 @@ class HttpClient {
 
   Future<T> patch<T>(String url, Map<String, dynamic> body) async {
     final response = await _dio.patch(url, data: body);
+    return response.data;
+  }
+}
+
+class HttpClientAppCCvalledupar {
+  static HttpClientAppCCvalledupar? _instance;
+
+  HttpClientAppCCvalledupar._();
+
+  static HttpClientAppCCvalledupar getInstance() {
+    _instance ??= HttpClientAppCCvalledupar._();
+    return _instance!;
+  }
+
+  Future<T> post<T>(String url, Object? body) async {
+    final response = await _appccvalleduparDio.post(url, data: body);
+    return response.data ?? {};
+  }
+
+  Future<T> get<T>(String url, [Map<String, dynamic>? params]) async {
+    final response =
+        await _appccvalleduparDio.get(url, queryParameters: params);
+    return response.data;
+  }
+
+  Future<T> put<T>(String url, Map<String, dynamic> body) async {
+    final response = await _appccvalleduparDio.put(url, data: body);
+    return response.data;
+  }
+
+  Future<T> delete<T>(String url) async {
+    final response = await _appccvalleduparDio.delete(url);
+    return response.data;
+  }
+
+  Future<T> patch<T>(String url, Map<String, dynamic> body) async {
+    final response = await _appccvalleduparDio.patch(url, data: body);
     return response.data;
   }
 }

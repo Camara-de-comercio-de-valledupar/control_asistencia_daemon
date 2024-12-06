@@ -5,6 +5,7 @@ export 'custom_card.dart';
 export 'custom_card_button.dart';
 export 'dashboard_layout.dart';
 export 'date_range_picker.dart';
+export 'dni_field.dart';
 export 'email_field.dart';
 export 'filter_user_dialog.dart';
 export 'guest_layout.dart';

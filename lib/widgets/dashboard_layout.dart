@@ -1,4 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,7 +58,7 @@ class DashboardHeader extends StatelessWidget {
               },
             ),
           const SizedBox(width: 16),
-          const ClockTimer(),
+          const VersionTag(),
           const Spacer(),
           Text(
             title,
@@ -68,5 +69,31 @@ class DashboardHeader extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class VersionTag extends StatelessWidget {
+  const VersionTag({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: Dio().get(
+            "https://api.github.com/repos/jrdeavila/control_asistencia_daemon/releases/latest.json"),
+        builder: (context, snapshot) {
+          return Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.onPrimary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              "versión ${snapshot.data?.data['tag_name'] ?? "0.0.0"}",
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+          );
+        });
   }
 }
