@@ -1,5 +1,4 @@
 import 'package:control_asistencia_daemon/lib.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,23 +76,18 @@ class VersionTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Dio().get(
-            "https://api.github.com/repos/jrdeavila/control_asistencia_daemon/releases/latest.json"),
-        builder: (context, snapshot) {
-          return Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.onPrimary,
-              borderRadius: BorderRadius.circular(10),
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onPrimary,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Text(
+        "v${AppConfig.version}",
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
             ),
-            child: Text(
-              "versión ${snapshot.data?.data['tag_name'] ?? "0.0.0"}",
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-          );
-        });
+      ),
+    );
   }
 }

@@ -22,16 +22,11 @@ class GuestLayout extends StatelessWidget {
                 "assets/logos/ccv_light.png",
               ),
             ),
-            title: const Text('Control de Asistencia CCV'),
+            title: const Text('FingerPrint Funcionario'),
             actions: [
               if (state is AuthenticationSuccess)
                 UserTagMenu(
                   member: state.member,
-                ),
-              if (state is! AuthenticationSuccess)
-                Image.asset(
-                  "assets/logos/gov.png",
-                  width: 100,
                 ),
               const SizedBox(width: 20),
             ],

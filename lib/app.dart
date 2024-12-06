@@ -7,7 +7,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Control de Asistencia CCV',
+      title: 'FingerPrint Funcionario',
       home: const WindowManagerLayer(
         child: PushAlertLayer(child: SecurityLayer()),
       ),

@@ -22,7 +22,13 @@ final class MyAssistancePictureTaken extends MyAssistanceState {
 
 final class MyAssistanceSendingRequest extends MyAssistanceState {}
 
-final class MyAssistanceRequestSent extends MyAssistanceState {}
+final class MyAssistanceRequestSent extends MyAssistanceState {
+  final String message;
+
+  const MyAssistanceRequestSent({
+    required this.message,
+  });
+}
 
 final class MyAssistanceRequestFailed extends MyAssistanceState {}
 

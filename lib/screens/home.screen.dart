@@ -33,11 +33,19 @@ class HomeScreen extends StatelessWidget {
                   ));
                 }
                 if (state is MyAssistanceRequestSent) {
-                  BlocProvider.of<PushAlertBloc>(context)
-                      .add(const PushAlertBasicSuccess(
-                    title: "Gracias! Has marcado tu asistencia",
-                    body: "Ahora puedes continuar con tus labores",
-                  ));
+                  if (state.message.contains("Ya marco su:")) {
+                    BlocProvider.of<PushAlertBloc>(context)
+                        .add(PushAlertBasicError(
+                      title: state.message,
+                      body: "No puedes marcar asistencia más de una vez",
+                    ));
+                  } else {
+                    BlocProvider.of<PushAlertBloc>(context)
+                        .add(PushAlertBasicSuccess(
+                      title: state.message,
+                      body: "Tu asistencia ha sido registrada",
+                    ));
+                  }
                   BlocProvider.of<DashboardBloc>(context)
                       .add(DashboardShowInitialViewRequested());
                 }

@@ -8,3 +8,4 @@ export 'theme/theme.dart';
 export 'widgets/widgets.dart';
 export 'utils/utils.dart';
 export 'native/native.dart';
+export 'config/config.dart';

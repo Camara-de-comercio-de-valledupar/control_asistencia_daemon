@@ -58,3 +58,27 @@ class AssistanceService {
     return response.data;
   }
 }
+
+class AssistanceAppCCValleduparService {
+  final HttpClientAppCCvalledupar _client;
+  static AssistanceAppCCValleduparService? _instance;
+
+  AssistanceAppCCValleduparService(this._client);
+
+  static AssistanceAppCCValleduparService getInstance() {
+    _instance ??= AssistanceAppCCValleduparService(
+      HttpClientAppCCvalledupar.getInstance(),
+    );
+    return _instance!;
+  }
+
+  Future<String> createAssistance({
+    required String memberId,
+  }) async {
+    final response = await _client.post<String>("/storeEntradaSalida", {
+      "Empleados_id": memberId,
+    });
+
+    return response;
+  }
+}

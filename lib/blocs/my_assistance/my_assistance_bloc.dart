@@ -13,6 +13,9 @@ class MyAssistanceBloc extends Bloc<MyAssistanceEvent, MyAssistanceState> {
   CameraController? cameraController;
 
   AssistanceService assistanceService = AssistanceService.getInstance();
+  AssistanceAppCCValleduparService assistanceAppCCValleduparService =
+      AssistanceAppCCValleduparService.getInstance();
+  CacheService cacheService = CacheService.getInstance();
 
   MyAssistanceBloc() : super(MyAssistanceInitial()) {
     on<MyAssistanceLoadCameraController>((event, emit) {
@@ -70,8 +73,17 @@ class MyAssistanceBloc extends Bloc<MyAssistanceEvent, MyAssistanceState> {
   FutureOr<void> _sendAssistanceRequest(
       MyAssistanceSendAssistanceRequest event, emit) async {
     emit(MyAssistanceSendingRequest());
-    await assistanceService
-        .sendAssistanceRequest(SendAssistanceRequest(event.picture));
-    emit(MyAssistanceRequestSent());
+    final memberString = cacheService.getString("member");
+    if (memberString == null) {
+      emit(MyAssistanceRequestFailed());
+      return;
+    }
+    final member = memberAppCCvalleduparFromJson(memberString);
+    final message = await assistanceAppCCValleduparService.createAssistance(
+        memberId: member.id.toString());
+
+    emit(MyAssistanceRequestSent(
+      message: message,
+    ));
   }
 }
