@@ -147,11 +147,6 @@ class _UserTagMenuState extends State<UserTagMenu> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text(widget.member.email,
-                    //     style: Theme.of(context)
-                    //         .textTheme
-                    //         .bodyMedium
-                    //         ?.copyWith(color: textColor)),
                     Text(
                       "${widget.member.firstName} ${widget.member.lastName}",
                       style: Theme.of(context)
