@@ -7,10 +7,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FingerPrint Funcionario',
-      home: const WindowManagerLayer(
-        child: PushAlertLayer(child: SecurityLayer()),
-      ),
+      title: 'Huella Funcionario',
+      home: const PushAlertLayer(child: SecurityLayer()),
       theme: primaryTheme,
       debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: scaffoldKey,

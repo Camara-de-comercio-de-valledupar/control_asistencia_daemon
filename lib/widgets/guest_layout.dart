@@ -22,7 +22,7 @@ class GuestLayout extends StatelessWidget {
                 "assets/logos/ccv_light.png",
               ),
             ),
-            title: const Text('FingerPrint Funcionario'),
+            title: const Text('Huella Funcionario'),
             actions: [
               if (state is AuthenticationSuccess)
                 UserTagMenu(

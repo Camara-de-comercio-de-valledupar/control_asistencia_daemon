@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (Platform.isWindows) {
-    initializeTimezone();
-    await CacheService.init();
-    AppWindowManager.getInstance().init();
-  }
+  initializeTimezone();
+  await CacheService.init();
   runApp(const App());
 }
 

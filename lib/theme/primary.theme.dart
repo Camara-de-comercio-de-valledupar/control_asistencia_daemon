@@ -17,6 +17,7 @@ var primaryTheme = ThemeData(
     titleTextStyle: TextStyle(
       color: Color(0xFFF2F2F2),
       fontWeight: FontWeight.bold,
+      fontSize: 22,
     ),
     iconTheme: IconThemeData(color: Color(0xFFF2F2F2)),
   ),
