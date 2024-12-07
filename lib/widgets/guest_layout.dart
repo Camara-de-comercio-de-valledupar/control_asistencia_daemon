@@ -14,15 +14,42 @@ class GuestLayout extends StatelessWidget {
           extendBody: true,
           appBar: AppBar(
             toolbarHeight: kToolbarHeight + 20,
-            leadingWidth: 200,
+            leadingWidth: 300,
             centerTitle: true,
             leading: Padding(
               padding: const EdgeInsets.only(left: 20),
-              child: Image.asset(
-                "assets/logos/ccv_light.png",
+              child: Row(
+                children: [
+                  Image.asset(
+                    "assets/logos/logo.png",
+                    width: 50,
+                    height: 50,
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Huella Funcionario',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
+                              ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary)),
+                      const SizedBox(height: 5),
+                      Text('Control de asistencia',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary)),
+                    ],
+                  ),
+                ],
               ),
             ),
-            title: const Text('Huella Funcionario'),
             actions: [
               if (state is AuthenticationSuccess)
                 UserTagMenu(
@@ -54,6 +81,7 @@ class _UserTagMenuState extends State<UserTagMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isMobile = MediaQuery.of(context).size.width < 600;
     final Color backgroundColor = !_focus
         ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.onPrimary;
@@ -114,31 +142,32 @@ class _UserTagMenuState extends State<UserTagMenu> {
                 ),
               ),
               const SizedBox(width: 10),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Text(widget.member.email,
-                  //     style: Theme.of(context)
-                  //         .textTheme
-                  //         .bodyMedium
-                  //         ?.copyWith(color: textColor)),
-                  Text(
-                    "${widget.member.firstName} ${widget.member.lastName}",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: textColor),
-                  ),
-                  Text(
-                    widget.member.jonRole,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: textColor),
-                  )
-                ],
-              ),
+              if (!isMobile)
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(widget.member.email,
+                    //     style: Theme.of(context)
+                    //         .textTheme
+                    //         .bodyMedium
+                    //         ?.copyWith(color: textColor)),
+                    Text(
+                      "${widget.member.firstName} ${widget.member.lastName}",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: textColor),
+                    ),
+                    Text(
+                      widget.member.jonRole,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: textColor),
+                    )
+                  ],
+                ),
               const SizedBox(width: 10),
               Icon(Icons.arrow_drop_down_circle_sharp, color: textColor),
             ],

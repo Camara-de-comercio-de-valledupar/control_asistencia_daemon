@@ -150,6 +150,45 @@ class PushAlertInterceptor extends Interceptor {
   }
 }
 
+class PushAlertAppCCvalleduparInterceptor extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    if (response.data is Map<String, dynamic> &&
+        response.data.containsKey("message") &&
+        response.data["data"] is List &&
+        response.data["data"].isEmpty) {
+      BlocProvider.of<PushAlertBloc>(pushAlertKey.currentContext!)
+          .add(PushAlertBasicError(
+        title: "Ups! algo salió mal",
+        body: response.data["message"],
+      ));
+    }
+    super.onResponse(response, handler);
+  }
+
+  @override
+  void onError(DioError err, ErrorInterceptorHandler handler) {
+    if (err.response?.statusCode == 500) {
+      if (err.response?.data != null &&
+          err.response!.data is Map<String, dynamic>) {
+        BlocProvider.of<PushAlertBloc>(pushAlertKey.currentContext!)
+            .add(PushAlertBasicError(
+          title: "Ups! algo salió mal",
+          body: err.response!.data["message"],
+        ));
+      } else {
+        BlocProvider.of<PushAlertBloc>(scaffoldKey.currentContext!)
+            .add(PushAlertBasicError(
+          title: "Ups! algo salió mal",
+          body: errorMsg["500"]!,
+        ));
+      }
+    }
+
+    super.onError(err, handler);
+  }
+}
+
 const baseUrl = "https://asistencia.ccvalledupar.org.co/api";
 const appccvalleduparBaseUrl =
     "https://appccvalledupar.co/timeit/laravel/public/api/";
@@ -172,7 +211,8 @@ final Dio _appccvalleduparDio = Dio(BaseOptions(
     requestBody: true,
     requestHeader: true,
     responseHeader: true,
-  ));
+  ))
+  ..interceptors.add(PushAlertAppCCvalleduparInterceptor());
 
 class HttpClient {
   static HttpClient? _instance;

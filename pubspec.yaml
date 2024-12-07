@@ -73,6 +73,7 @@ flutter:
     - assets/logos/ccv.png
     - assets/logos/gov.png
     - assets/logos/co.png
+    - assets/logos/logo.png
 
   fonts:
     - family: Geomanist

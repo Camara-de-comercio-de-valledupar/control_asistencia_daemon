@@ -18,7 +18,11 @@ class DashboardScreen extends StatelessWidget {
           const SizedBox(
             height: 20.0,
           ),
-          _buildTouchButton(context),
+          Expanded(
+            child: Center(
+              child: _buildTouchButton(context),
+            ),
+          ),
         ],
       ),
     );
