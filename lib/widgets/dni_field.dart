@@ -47,7 +47,9 @@ class _DNIFieldState extends State<DNIField> {
                     _userHasUsername = !_userHasUsername;
                   });
                 },
-                child: const Text("¿Tienes usuario?")),
+                child: _userHasUsername
+                    ? const Text("¿Usas tu Cédula?")
+                    : const Text("¿Usas un usuario?")),
             hintText: _userHasUsername
                 ? 'Ingrese su Usuario'
                 : 'Ingrese su Cédula de Identidad',
