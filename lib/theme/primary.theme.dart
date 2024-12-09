@@ -12,7 +12,7 @@ var primaryTheme = ThemeData(
   ),
   scaffoldBackgroundColor: const Color(0xFFFFFFFF),
   appBarTheme: const AppBarTheme(
-    backgroundColor: Colors.blue,
+    backgroundColor: Color(0xFF6EC1E4),
     elevation: 0,
     titleTextStyle: TextStyle(
       color: Color(0xFFF2F2F2),
@@ -24,6 +24,17 @@ var primaryTheme = ThemeData(
   buttonTheme: const ButtonThemeData(
     buttonColor: Color(0xFF6EC1E4),
     textTheme: ButtonTextTheme.primary,
+  ),
+  colorScheme: const ColorScheme(
+    brightness: Brightness.light,
+    primary: Color(0xFF6EC1E4),
+    onPrimary: Color(0xFFF2F2F2),
+    secondary: Color(0xFF6EC1E4),
+    onSecondary: Color(0xFFF2F2F2),
+    error: Color(0xFFD32F2F),
+    onError: Color(0xFFF2F2F2),
+    onSurface: Color(0xFFF2F2F2),
+    surface: Color(0xFF6EC1E4),
   ),
   // Change input text color
   dropdownMenuTheme: DropdownMenuThemeData(
@@ -93,20 +104,17 @@ var primaryTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xFF7A7A7A)),
+      foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF7A7A7A)),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xFF6EC1E4)),
+      backgroundColor: WidgetStateProperty.all<Color>(const Color(0xFF6EC1E4)),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
-      foregroundColor:
-          MaterialStateProperty.all<Color>(const Color(0xFF6EC1E4)),
+      foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF6EC1E4)),
     ),
   ),
 );

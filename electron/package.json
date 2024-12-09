@@ -1,0 +1,17 @@
+{
+  "name": "huella_funcionario",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dns": "^0.2.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "path": "^0.12.7"
+  }
+}
