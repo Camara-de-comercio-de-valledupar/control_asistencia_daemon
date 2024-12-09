@@ -37,6 +37,15 @@ class _LoginScreenState extends State<LoginScreen> {
               style: Theme.of(context).textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 20),
+            Text(
+              "¡Recuerda usar tus credenciales de aplicativo funcionario para poder acceder!",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
+            ),
             SizedBox(
               height: spacerY,
             ),
@@ -59,25 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordCtrl,
                         ),
                         const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {
-                                BlocProvider.of<AuthenticationBloc>(context).add(
-                                    AuthenticationForgotPasswordRequested());
-                              },
-                              child: Text(
-                                "Olvidé mi contraseña",
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         const SizedBox(height: 20),
                         LoginButton(
                           onPressed: () {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DNIField extends StatelessWidget {
+class DNIField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final InputDecoration? decoration;
@@ -20,33 +20,56 @@ class DNIField extends StatelessWidget {
       this.strutStyle});
 
   @override
+  State<DNIField> createState() => _DNIFieldState();
+}
+
+class _DNIFieldState extends State<DNIField> {
+  bool _userHasUsername = false;
+
+  @override
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.bodyLarge?.copyWith(
-          color: style?.color ??
+          color: widget.style?.color ??
               Theme.of(context).inputDecorationTheme.hintStyle?.color,
         );
     return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      decoration: decoration ??
-          const InputDecoration(
-            prefixIcon: Icon(Icons.person),
-            hintText: 'Ingrese su Cédula de Identidad',
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      decoration: widget.decoration ??
+          InputDecoration(
+            prefixIcon: Icon(
+              _userHasUsername ? Icons.person : Icons.credit_card,
+            ),
+            suffix: TextButton(
+                onPressed: () {
+                  widget.controller?.clear();
+                  setState(() {
+                    _userHasUsername = !_userHasUsername;
+                  });
+                },
+                child: const Text("¿Tienes usuario?")),
+            hintText: _userHasUsername
+                ? 'Ingrese su Usuario'
+                : 'Ingrese su Cédula de Identidad',
           ),
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
       style: textStyle,
-      strutStyle: strutStyle,
+      strutStyle: widget.strutStyle,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Por favor ingrese su DNI';
+          return _userHasUsername
+              ? 'Por favor ingrese su usuario'
+              : 'Por favor ingrese su cédula de identidad';
         }
         return null;
       },
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-        DNIInputFormatter(),
-      ],
+      inputFormatters: _userHasUsername
+          ? []
+          : [
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              DNIInputFormatter(),
+            ],
     );
   }
 }

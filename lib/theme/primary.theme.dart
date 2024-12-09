@@ -104,7 +104,7 @@ var primaryTheme = ThemeData(
   ),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
-      foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF7A7A7A)),
+      foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF6EC1E4)),
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(

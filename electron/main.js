@@ -5,7 +5,7 @@ let mainWindow;
 
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    title: "Huella Funcionario",
+    title: 'Huella Funcionario',
 
     width: 475,
     height: 812,
@@ -16,7 +16,6 @@ app.on('ready', () => {
     },
     icon: path.join(__dirname, 'assets', 'icon.ico'),
   });
-
 
 
 
