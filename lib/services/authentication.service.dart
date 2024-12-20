@@ -2,20 +2,20 @@ import 'dart:async';
 
 import 'package:control_asistencia_daemon/lib.dart';
 
-class AuthenticationAppCCValleduparService {
-  final HttpClientAppCCvalledupar _client;
-  static AuthenticationAppCCValleduparService? _instance;
+class AuthenticationService {
+  final HttpClient _client;
+  static AuthenticationService? _instance;
 
-  AuthenticationAppCCValleduparService(this._client);
+  AuthenticationService(this._client);
 
-  static AuthenticationAppCCValleduparService getInstance() {
-    _instance ??= AuthenticationAppCCValleduparService(
-      HttpClientAppCCvalledupar.getInstance(),
+  static AuthenticationService getInstance() {
+    _instance ??= AuthenticationService(
+      HttpClient.getInstance(),
     );
     return _instance!;
   }
 
-  Future<MemberAppCCvalledupar> signInWithEmailAndPassword(
+  Future<Member> signInWithEmailAndPassword(
       String email, String password) async {
     final response = await _client.post(
       "/autenticar",
@@ -41,6 +41,6 @@ class AuthenticationAppCCValleduparService {
       "foto": photo,
     };
 
-    return MemberAppCCvalledupar.fromJson(data);
+    return Member.fromJson(data);
   }
 }

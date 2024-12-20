@@ -6,6 +6,10 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LoadingIndicator();
+    return const Scaffold(
+      body: Center(
+        child: LoadingIndicator(),
+      ),
+    );
   }
 }

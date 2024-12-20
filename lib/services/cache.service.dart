@@ -1,7 +1,6 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CacheService {
-  static SharedPreferences? _preferences;
   static CacheService? _instance;
 
   CacheService._();
@@ -12,30 +11,30 @@ class CacheService {
   }
 
   static Future<void> init() async {
-    _preferences = await SharedPreferences.getInstance();
+    await GetStorage.init();
   }
 
   Future<void> setString(String key, String value) async {
-    await _preferences!.setString(key, value);
+    await GetStorage().write(key, value);
   }
 
   String? getString(String key) {
-    return _preferences!.getString(key);
+    return GetStorage().read(key);
   }
 
   Future<void> setBool(String key, bool value) async {
-    await _preferences!.setBool(key, value);
+    await GetStorage().write(key, value);
   }
 
   bool? getBool(String key) {
-    return _preferences!.getBool(key);
+    return GetStorage().read(key);
   }
 
   Future<void> remove(String key) async {
-    await _preferences!.remove(key);
+    await GetStorage().remove(key);
   }
 
   Future<void> clear() async {
-    await _preferences!.clear();
+    await GetStorage().erase();
   }
 }

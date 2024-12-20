@@ -1,6 +1,6 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,23 +12,14 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailCtrl = TextEditingController();
   final _passwordCtrl = TextEditingController();
-  final _rememberMe = ValueNotifier<bool>(false);
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final spacerY = MediaQuery.of(context).size.height * 0.1;
 
-    return Padding(
-      padding: const EdgeInsets.all(40.0),
-      child: BlocListener<AuthenticationBloc, AuthenticationState>(
-        listener: (context, state) {
-          if (state is AuthenticationInitial) {
-            _emailCtrl.text = state.email;
-            _passwordCtrl.text = state.password;
-            _rememberMe.value = state.rememberMe;
-            setState(() {});
-          }
-        },
+    return GuestLayout(
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -72,12 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         LoginButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              BlocProvider.of<AuthenticationBloc>(context).add(
-                                AuthenticationLoginRequested(
-                                  _emailCtrl.text.replaceAll(".", ""),
-                                  _passwordCtrl.text,
-                                  _rememberMe.value,
-                                ),
+                              Get.find<AuthController>().login(
+                                _emailCtrl.text.replaceAll(".", ""),
+                                _passwordCtrl.text,
                               );
                             }
                           },

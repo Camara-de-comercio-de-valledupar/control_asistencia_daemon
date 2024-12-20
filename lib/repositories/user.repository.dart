@@ -5,11 +5,11 @@ class UserRepository {
 
   UserRepository._internal();
 
-  Future<MemberAppCCvalledupar?> getMember(String id) async {
+  Future<Member?> getMember(String id) async {
     return null;
   }
 
-  Future<List<MemberAppCCvalledupar>> getMembers() async {
+  Future<List<Member>> getMembers() async {
     return [];
   }
 }

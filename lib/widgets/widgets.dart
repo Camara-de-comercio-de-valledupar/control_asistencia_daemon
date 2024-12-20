@@ -10,7 +10,6 @@ export 'email_field.dart';
 export 'filter_user_dialog.dart';
 export 'guest_layout.dart';
 export 'late_arrival_chart_widget.dart';
-export 'layers/layers.dart';
 export 'line_chart_widget.dart';
 export 'loading_indicator.dart';
 export 'login_button.dart';

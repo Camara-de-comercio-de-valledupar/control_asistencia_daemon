@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 Future<String> generatePassword() async {
   final random = Random.secure();
@@ -22,8 +22,7 @@ Future<String> generatePassword() async {
   // Copy the password to the clipboard
 
   await Clipboard.setData(ClipboardData(text: password));
-  BlocProvider.of<PushAlertBloc>(pushAlertKey.currentContext!)
-      .add(const PushAlertBasicSuccess(
+  Get.find<PushAlertController>().add(PushAlertSuccess(
     title: "Contraseña generada",
     body: "La contraseña ha sido copiada al portapapeles",
   ));

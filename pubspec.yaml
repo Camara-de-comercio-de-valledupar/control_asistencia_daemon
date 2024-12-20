@@ -31,14 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.7.0
-  bloc: ^8.1.4
-  flutter_bloc: ^8.1.6
   equatable: ^2.0.5
-  get_it: ^8.0.0
-  injectable: ^2.5.0
-  shared_preferences: ^2.3.2
+  get_storage: ^2.1.1
   cupertino_icons: ^1.0.8
-  window_manager: ^0.4.2
   json_annotation: ^4.9.0
   form_validation: ^3.1.1+8
   camera_windows: ^0.2.5
@@ -47,6 +42,7 @@ dependencies:
   timezone: ^0.9.4
   url_launcher: ^6.3.1
   syncfusion_flutter_charts: ^27.2.3
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

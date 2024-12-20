@@ -1,17 +1,37 @@
+import 'package:control_asistencia_daemon/controllers/assistance.controller.dart';
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Huella Funcionario',
-      home: const PushAlertLayer(child: SecurityLayer()),
       theme: primaryTheme,
+      getPages: [
+        GetPage(name: "/login", page: () => const LoginScreen()),
+        GetPage(
+            name: "/dashboard",
+            page: () => const DashboardScreen(),
+            binding: BindingsBuilder(() {
+              var currentMember = Get.find<AuthController>().currentMember;
+              if (currentMember != null) {
+                Get.put(AssistanceController(member: currentMember));
+              }
+            })),
+        GetPage(name: "/", page: () => const LoadingScreen()),
+        GetPage(name: "/offline", page: () => const OfflineScreen()),
+      ],
+      initialRoute: "/",
       debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: scaffoldKey,
+      initialBinding: BindingsBuilder(() {
+        Get.lazyPut(() => PushAlertController());
+        Get.put(AuthController());
+        Get.put(ConnectionController());
+      }),
     );
   }
 }
