@@ -1,4 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -134,10 +135,18 @@ class _UserTagMenuState extends State<UserTagMenu> {
                   color: textColor,
                 ),
                 child: Center(
-                  child: Icon(
-                    Icons.person,
-                    size: 30,
-                    color: backgroundColor,
+                  child: CircleAvatar(
+                    radius: 15,
+                    backgroundImage: NetworkImage(widget.member.photo ?? ""),
+                    onBackgroundImageError: (exception, stackTrace) {
+                      if (kDebugMode) {
+                        print(stackTrace);
+                      }
+                    },
+                    child: widget.member.photo == null
+                        ? Icon(Icons.person,
+                            color: Theme.of(context).colorScheme.onPrimary)
+                        : null,
                   ),
                 ),
               ),

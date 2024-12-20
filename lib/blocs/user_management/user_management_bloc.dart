@@ -122,10 +122,6 @@ class UserManagementBloc
 
   void _onUserManagementSendResetPassword(UserManagementSendResetPassword event,
       Emitter<UserManagementState> emit) async {
-    await AuthenticationService.getInstance().resetPassword(
-      userId: event.user.id,
-      password: event.password,
-    );
     emit(UserManagementPasswordChanged(event.user));
     _init();
   }

@@ -2,46 +2,6 @@ import 'dart:async';
 
 import 'package:control_asistencia_daemon/lib.dart';
 
-class AuthenticationService {
-  final HttpClient _client;
-  static AuthenticationService? _instance;
-
-  AuthenticationService(this._client);
-
-  static AuthenticationService getInstance() {
-    _instance ??= AuthenticationService(HttpClient.getInstance());
-    return _instance!;
-  }
-
-  Future<String> signInWithEmailAndPassword(
-      String email, String password) async {
-    final response = await _client.post(
-      "/auth/login",
-      {"email": email, "password": password},
-    );
-    return response["access_token"];
-  }
-
-  FutureOr<Member> get loggedInMember {
-    return _client.get("/auth/me").then((response) {
-      return Member.fromJson(response);
-    });
-  }
-
-  Future<void> signOut() async {
-    await _client.post("/auth/logout", {});
-  }
-
-  Future<void> resetPassword({
-    required int userId,
-    required String password,
-  }) async {
-    await _client.post("/auth/$userId/reset-password", {
-      "password": password,
-    });
-  }
-}
-
 class AuthenticationAppCCValleduparService {
   final HttpClientAppCCvalledupar _client;
   static AuthenticationAppCCValleduparService? _instance;
@@ -65,6 +25,22 @@ class AuthenticationAppCCValleduparService {
       },
     );
 
-    return MemberAppCCvalledupar.fromJson(response["data"]);
+    final infoResp =
+        await _client.get("/hojasdevidas/${response["data"]["id"]}");
+
+    String? photo =
+        infoResp[0].containsKey("foto") ? infoResp[0]["foto"] : null;
+
+    if (photo != null) {
+      photo =
+          "https://appccvalledupar.co/timeittemporal/img/fotoshojadevida/$photo";
+    }
+
+    Map<String, dynamic> data = {
+      ...response["data"],
+      "foto": photo,
+    };
+
+    return MemberAppCCvalledupar.fromJson(data);
   }
 }
