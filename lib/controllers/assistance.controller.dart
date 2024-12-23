@@ -29,6 +29,7 @@ class AssistanceController extends GetxController {
         .catchError(
       (error, stackTrace) {
         _loading.value = false;
+        throw error;
       },
     );
 

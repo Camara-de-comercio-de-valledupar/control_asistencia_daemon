@@ -107,7 +107,7 @@ class AuthController extends GetxController {
         .catchError((error) {
       _loading.value = false;
       Get.offAllNamed("/login");
-      return null;
+      throw error;
     });
     await cacheService.setString("currentMember", memberToJson(member));
     _currentMember.value = member;
