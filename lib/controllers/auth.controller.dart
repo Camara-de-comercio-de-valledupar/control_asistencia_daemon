@@ -42,10 +42,12 @@ class AuthController extends GetxController {
   void _getPermissions(Member? member) async {
     if (member != null) {
       var permissions = await authenticationService.getPermissions(member.id);
-      permissions = permissions.where((element) =>
-          // element.deletedAt == null &&
-          // element.menus.isNotEmpty &&
-          element.nombreCabecera.isNotEmpty).toList();
+      permissions = permissions
+          .where((element) =>
+              element.deletedAt == null &&
+              element.menus.isNotEmpty &&
+              element.nombreCabecera.isNotEmpty)
+          .toList();
       permissions.sort((a, b) => a.nombreCabecera.compareTo(b.nombreCabecera));
       _permissions.value = permissions;
       _filteredPermissions.value = permissions;
