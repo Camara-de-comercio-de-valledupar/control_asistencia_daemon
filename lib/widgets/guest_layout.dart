@@ -10,6 +10,7 @@ class GuestLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentMember = Get.find<AuthController>().currentMember;
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -60,7 +61,7 @@ class GuestLayout extends StatelessWidget {
   }
 }
 
-class UserTagMenu extends StatefulWidget {
+class UserTagMenu extends StatelessWidget {
   final Member member;
   const UserTagMenu({
     super.key,
@@ -68,21 +69,10 @@ class UserTagMenu extends StatefulWidget {
   });
 
   @override
-  State<UserTagMenu> createState() => _UserTagMenuState();
-}
-
-class _UserTagMenuState extends State<UserTagMenu> {
-  bool _focus = false;
-
-  @override
   Widget build(BuildContext context) {
     final bool isMobile = MediaQuery.of(context).size.width < 600;
-    final Color backgroundColor = !_focus
-        ? Theme.of(context).colorScheme.primary
-        : Theme.of(context).colorScheme.onPrimary;
-    final Color textColor = !_focus
-        ? Theme.of(context).colorScheme.onPrimary
-        : Theme.of(context).colorScheme.primary;
+    final Color backgroundColor = Theme.of(context).colorScheme.primary;
+    final Color textColor = Theme.of(context).colorScheme.onPrimary;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -95,19 +85,31 @@ class _UserTagMenuState extends State<UserTagMenu> {
               color: textColor,
             ),
             child: Center(
-              child: CircleAvatar(
-                radius: 25,
-                backgroundImage: NetworkImage(widget.member.photo ?? ""),
-                onBackgroundImageError: (exception, stackTrace) {
-                  if (kDebugMode) {
-                    print(stackTrace);
-                  }
-                },
-                child: widget.member.photo == null
-                    ? Icon(Icons.person,
-                        color: Theme.of(context).colorScheme.onPrimary)
-                    : null,
-              ),
+              child: FutureBuilder<Uint8List?>(
+                  future: networkToUint8List(member.photo),
+                  builder: (context, snapshot) {
+                    return CircleAvatar(
+                      radius: 25,
+                      backgroundImage:
+                          snapshot.hasData ? MemoryImage(snapshot.data!) : null,
+                      child: Builder(builder: (context) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: LoadingIndicator(
+                              count: 1,
+                              label: null,
+                              size: 30,
+                            ),
+                          );
+                        }
+                        if (snapshot.hasData) {
+                          return const SizedBox();
+                        }
+                        return Icon(Icons.person, color: backgroundColor);
+                      }),
+                    );
+                  }),
             ),
           ),
           const SizedBox(width: 10),
@@ -117,14 +119,14 @@ class _UserTagMenuState extends State<UserTagMenu> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${widget.member.firstName} ${widget.member.lastName}",
+                  "${member.firstName} ${member.lastName}",
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall
                       ?.copyWith(color: textColor),
                 ),
                 Text(
-                  widget.member.jonRole,
+                  member.jonRole,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium

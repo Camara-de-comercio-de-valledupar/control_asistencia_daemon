@@ -52,14 +52,21 @@ class PushAlertController extends GetxController {
     Get.snackbar(
       alert.title,
       alert.body,
-      snackPosition: SnackPosition.TOP,
-      backgroundColor: Colors.transparent,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.white,
       colorText: Colors.black,
       icon: Icon(
         alertIconByType[alert.type] ?? Icons.info,
         color: snackbarColor[alert.type],
       ),
-      margin: const EdgeInsets.all(10),
+      boxShadows: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 5,
+          spreadRadius: 2,
+        )
+      ],
+      margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(10),
       borderRadius: 5,
       duration: const Duration(seconds: 5),

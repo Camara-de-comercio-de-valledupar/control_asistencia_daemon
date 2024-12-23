@@ -1,4 +1,3 @@
-import 'package:control_asistencia_daemon/controllers/assistance.controller.dart';
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,6 +27,7 @@ class App extends StatelessWidget {
       initialRoute: "/",
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
+        configureDio();
         Get.lazyPut(() => PushAlertController());
         Get.put(AuthController());
         Get.put(ConnectionController());

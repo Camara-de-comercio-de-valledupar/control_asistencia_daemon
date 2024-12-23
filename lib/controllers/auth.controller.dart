@@ -80,11 +80,12 @@ class AuthController extends GetxController {
 
   void login(String email, String password) async {
     _loading.value = true;
-    var member = await authenticationService
+    Member? member = await authenticationService
         .signInWithEmailAndPassword(email, password)
         .catchError((error) {
       _loading.value = false;
-      throw error;
+      Get.offAllNamed("/login");
+      return null;
     });
     await cacheService.setString("currentMember", memberToJson(member));
     _currentMember.value = member;

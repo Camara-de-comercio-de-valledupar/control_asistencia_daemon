@@ -24,12 +24,91 @@ class AssistanceController extends GetxController {
 
   void markAssistance() async {
     _loading.value = true;
-    await assistanceService.createAssistance(memberId: member.id).catchError(
+    final message = await assistanceService
+        .createAssistance(memberId: member.id)
+        .catchError(
       (error, stackTrace) {
         _loading.value = false;
-        throw error;
       },
     );
+
+    final content = messageByResponse(message);
+
+    if (content["type"] == "warning") {
+      Get.find<PushAlertController>().add(PushAlertError(
+        title: content["title"]!,
+        body: content["body"]!,
+      ));
+    } else {
+      Get.find<PushAlertController>().add(PushAlertSuccess(
+        title: content["title"]!,
+        body: content["body"]!,
+      ));
+    }
     _loading.value = false;
+  }
+}
+
+Map<String, String> messageByResponse(String response) {
+  if (response.contains("Entrada")) {
+    if (response.contains("Ya marco")) {
+      if (response.contains("Mañana")) {
+        return {
+          "title": "Espera un momento",
+          "body": "Ya marcaste tu entrada de la mañana",
+          "type": "warning",
+        };
+      } else {
+        return {
+          "title": "Espera un momento",
+          "body": "Ya marcaste tu entrada  de la tarde",
+          "type": "warning",
+        };
+      }
+    } else {
+      if (response.contains("Mañana")) {
+        return {
+          "title": "¡Listo!",
+          "body": "Entrada de la mañana marcada",
+          "type": "success",
+        };
+      } else {
+        return {
+          "title": "¡Listo!",
+          "body": "Entrada de la tarde marcada",
+          "type": "success",
+        };
+      }
+    }
+  } else {
+    if (response.contains("Ya marco")) {
+      if (response.contains("Mañana")) {
+        return {
+          "title": "Espera un momento",
+          "body": "Ya marcaste tu salida de la mañana",
+          "type": "warning",
+        };
+      } else {
+        return {
+          "title": "Espera un momento",
+          "body": "Ya marcaste tu salida de la tarde",
+          "type": "warning",
+        };
+      }
+    } else {
+      if (response.contains("Mañana")) {
+        return {
+          "title": "¡Listo!",
+          "body": "Salida de la mañana marcada",
+          "type": "success",
+        };
+      } else {
+        return {
+          "title": "¡Listo!",
+          "body": "Salida de la tarde marcada",
+          "type": "success",
+        };
+      }
+    }
   }
 }

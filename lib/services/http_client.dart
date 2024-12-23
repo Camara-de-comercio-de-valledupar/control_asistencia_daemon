@@ -36,6 +36,10 @@ class PushAlertInterceptor extends Interceptor {
 
   @override
   void onError(DioError err, ErrorInterceptorHandler handler) {
+    if (err.type == DioExceptionType.connectionError ||
+        err.type == DioExceptionType.connectionTimeout) {
+      Get.offAllNamed("/offline");
+    }
     if (err.response?.statusCode == 500) {
       if (err.response?.data != null &&
           err.response!.data is Map<String, dynamic>) {
@@ -57,16 +61,20 @@ class PushAlertInterceptor extends Interceptor {
 
 const appUrl = "https://appccvalledupar.co/timeit/laravel/public/api/";
 
-final Dio _dio = Dio(BaseOptions(
-  baseUrl: appUrl,
-))
-  // ..interceptors.add(LogInterceptor(
-  //   responseBody: true,
-  //   requestBody: true,
-  //   requestHeader: true,
-  //   responseHeader: true,
-  // ))
-  ..interceptors.add(PushAlertInterceptor());
+late Dio dioInstance;
+
+void configureDio() {
+  dioInstance = Dio(BaseOptions(
+    baseUrl: appUrl,
+  ))
+    ..interceptors.add(LogInterceptor(
+      responseBody: true,
+      requestBody: true,
+      requestHeader: true,
+      responseHeader: true,
+    ))
+    ..interceptors.add(PushAlertInterceptor());
+}
 
 class HttpClient {
   static HttpClient? _instance;
@@ -79,27 +87,27 @@ class HttpClient {
   }
 
   Future<T> post<T>(String url, Object? body) async {
-    final response = await _dio.post(url, data: body);
+    final response = await dioInstance.post(url, data: body);
     return response.data ?? {};
   }
 
   Future<T> get<T>(String url, [Map<String, dynamic>? params]) async {
-    final response = await _dio.get(url, queryParameters: params);
+    final response = await dioInstance.get(url, queryParameters: params);
     return response.data;
   }
 
   Future<T> put<T>(String url, Map<String, dynamic> body) async {
-    final response = await _dio.put(url, data: body);
+    final response = await dioInstance.put(url, data: body);
     return response.data;
   }
 
   Future<T> delete<T>(String url) async {
-    final response = await _dio.delete(url);
+    final response = await dioInstance.delete(url);
     return response.data;
   }
 
   Future<T> patch<T>(String url, Map<String, dynamic> body) async {
-    final response = await _dio.patch(url, data: body);
+    final response = await dioInstance.patch(url, data: body);
     return response.data;
   }
 }

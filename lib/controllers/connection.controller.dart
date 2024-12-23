@@ -1,5 +1,6 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class ConnectionController extends GetxController {
@@ -14,19 +15,24 @@ class ConnectionController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    debounce(_isConnected, _onConnectionChange,
-        time: const Duration(seconds: 1));
+    ever(
+      _isConnected,
+      _onConnectionChange,
+    );
     _listenConnectionPeriodically();
   }
 
   // =================================================================
 
   void _onConnectionChange(bool value) {
+    if (kDebugMode) {
+      print("ConnectionController._onConnectionChange -> $value");
+    }
     if (!value) {
       Get.offAllNamed("/offline");
     } else {
       if (Get.currentRoute == "/offline") {
-        Get.offAllNamed(Get.previousRoute);
+        Get.offAllNamed("/dashboard");
       }
     }
   }
@@ -34,15 +40,15 @@ class ConnectionController extends GetxController {
   // =================================================================
 
   void _listenConnectionPeriodically() {
-    _listenConnection();
     Future.delayed(const Duration(seconds: 5), _listenConnectionPeriodically);
   }
 
   // =================================================================
 
-  void _listenConnection() {
-    Dio(BaseOptions(
-      connectTimeout: const Duration(seconds: 5),
+  void _listenConnection() async {
+    await Dio(BaseOptions(
+      maxRedirects: 1,
+      connectTimeout: const Duration(seconds: 2),
     )).get(appUrl).then((response) {
       _isConnected.value = true;
     }).catchError((e) {
@@ -59,7 +65,6 @@ class ConnectionController extends GetxController {
   // =================================================================
 
   void retry() {
-    Get.offAllNamed("/");
     _listenConnection();
   }
 }
