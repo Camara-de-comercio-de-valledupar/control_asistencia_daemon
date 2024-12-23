@@ -24,6 +24,10 @@ class ConnectionController extends GetxController {
   void _onConnectionChange(bool value) {
     if (!value) {
       Get.offAllNamed("/offline");
+    } else {
+      if (Get.currentRoute == "/offline") {
+        Get.offAllNamed(Get.previousRoute);
+      }
     }
   }
 
@@ -42,11 +46,20 @@ class ConnectionController extends GetxController {
     )).get(appUrl).then((response) {
       _isConnected.value = true;
     }).catchError((e) {
-      if (e is DioException && e.type == DioExceptionType.connectionTimeout) {
+      if (e is DioException &&
+          (e.type == DioExceptionType.connectionError ||
+              e.type == DioExceptionType.connectionTimeout)) {
         _isConnected.value = false;
       } else {
         _isConnected.value = true;
       }
     });
+  }
+
+  // =================================================================
+
+  void retry() {
+    Get.offAllNamed("/");
+    _listenConnection();
   }
 }
