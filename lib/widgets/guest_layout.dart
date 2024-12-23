@@ -55,7 +55,27 @@ class GuestLayout extends StatelessWidget {
                 ),
               ),
       ),
-      body: Center(child: child),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Center(child: child),
+          ),
+          Positioned(
+              bottom: 10,
+              right: 10,
+              child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  child: Center(
+                    child: Text("Versión ${AppConfig.version}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).colorScheme.onPrimary)),
+                  ))),
+        ],
+      ),
     );
   }
 }
