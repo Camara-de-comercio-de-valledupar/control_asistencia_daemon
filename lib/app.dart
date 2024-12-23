@@ -23,6 +23,7 @@ class App extends StatelessWidget {
             })),
         GetPage(name: "/", page: () => const LoadingScreen()),
         GetPage(name: "/offline", page: () => const OfflineScreen()),
+        GetPage(name: "/gestionsalones", page: () => const RoomScreen()),
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
@@ -30,7 +31,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         configureDio();
-        Get.lazyPut(() => PushAlertController());
+        Get.put(PushAlertController());
         Get.put(AuthController());
         Get.put(ConnectionController());
       }),

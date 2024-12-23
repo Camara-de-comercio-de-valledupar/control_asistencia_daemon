@@ -14,16 +14,13 @@ class AuthController extends GetxController {
   final Rx<Member?> _currentMember = Rx<Member?>(null);
   final RxBool _loading = RxBool(false);
   final RxList<Permission> _permissions = RxList<Permission>([]);
+  final RxList<Permission> _filteredPermissions = RxList<Permission>([]);
 
   // =================================================================
 
-  List<Permission> get permissions {
-    var permissions = _permissions.toList();
-    permissions.sort((a, b) => a.item.compareTo(b.item));
-    permissions =
-        permissions.where((element) => element.deletedAt == null).toList();
-    return permissions;
-  }
+  List<Permission> get permissions => _permissions.toList();
+
+  List<Permission> get filteredPermissions => _filteredPermissions.toList();
 
   // =================================================================
 
@@ -44,8 +41,14 @@ class AuthController extends GetxController {
 
   void _getPermissions(Member? member) async {
     if (member != null) {
-      _permissions.value =
-          await authenticationService.getPermissions(member.id);
+      var permissions = await authenticationService.getPermissions(member.id);
+      permissions = permissions.where((element) =>
+          // element.deletedAt == null &&
+          // element.menus.isNotEmpty &&
+          element.nombreCabecera.isNotEmpty).toList();
+      permissions.sort((a, b) => a.nombreCabecera.compareTo(b.nombreCabecera));
+      _permissions.value = permissions;
+      _filteredPermissions.value = permissions;
     }
   }
 
@@ -120,5 +123,20 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await cacheService.remove("currentMember");
     _currentMember.value = null;
+  }
+
+  // =================================================================
+
+  void filterPermissions(String filter) {
+    if (filter.isEmpty) {
+      _filteredPermissions.value = permissions;
+      return;
+    } else {
+      _filteredPermissions.value = permissions
+          .where((element) => element.nombreCabecera
+              .toLowerCase()
+              .contains(filter.toLowerCase()))
+          .toList();
+    }
   }
 }

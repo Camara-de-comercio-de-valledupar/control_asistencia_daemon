@@ -1,7 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 
 class TokenInterceptor extends Interceptor {
   @override
@@ -13,49 +11,6 @@ class TokenInterceptor extends Interceptor {
       options.headers["Authorization"] = "Bearer $token";
     }
     super.onRequest(options, handler);
-  }
-}
-
-class PushAlertInterceptor extends Interceptor {
-  @override
-  void onResponse(dynamic response, ResponseInterceptorHandler handler) {
-    if (response.data is Map<String, dynamic> &&
-        response.data.containsKey("message") &&
-        response.data["data"] is List &&
-        response.data["data"].isEmpty) {
-      if (kDebugMode) {
-        print("response.data: ${response.data}");
-      }
-      Get.find<PushAlertController>().add(PushAlertError(
-        title: "Ups! algo salió mal",
-        body: response.data["message"],
-      ));
-    }
-    super.onResponse(response, handler);
-  }
-
-  @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
-    if (err.type == DioExceptionType.connectionError ||
-        err.type == DioExceptionType.connectionTimeout) {
-      Get.offAllNamed("/offline");
-    }
-    if (err.response?.statusCode == 500) {
-      if (err.response?.data != null &&
-          err.response!.data is Map<String, dynamic>) {
-        Get.find<PushAlertController>().add(PushAlertError(
-          title: "Ups! algo salió mal",
-          body: err.response!.data["message"],
-        ));
-      } else {
-        Get.find<PushAlertController>().add(PushAlertError(
-          title: "Ups! algo salió mal",
-          body: "Tal vez el servidor no responde",
-        ));
-      }
-    }
-
-    super.onError(err, handler);
   }
 }
 
@@ -72,8 +27,7 @@ void configureDio() {
       requestBody: true,
       requestHeader: true,
       responseHeader: true,
-    ))
-    ..interceptors.add(PushAlertInterceptor());
+    ));
 }
 
 class HttpClient {

@@ -1,3 +1,4 @@
+import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -6,8 +7,9 @@ class NotFoundScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return DashboardLayout(
+      title: 'Página no encontrada',
+      child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -45,7 +45,8 @@ class AuthenticationService {
   }
 
   Future<List<Permission>> getPermissions(int memberId) async {
-    final response = await _client.get("/get_permisos_funcionario/$memberId");
+    final response =
+        await _client.get("/GetMenuFuncionario/empleados_id/$memberId");
     return permissionFromJson(response["datos"]);
   }
 }

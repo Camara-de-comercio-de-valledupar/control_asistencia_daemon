@@ -15,9 +15,8 @@ class GuestLayout extends StatelessWidget {
       extendBody: true,
       appBar: AppBar(
         toolbarHeight: kToolbarHeight + 40,
-        leadingWidth: double.infinity,
-        centerTitle: true,
-        leading: currentMember != null
+        leadingWidth: 100.0,
+        title: currentMember != null
             ? UserTagMenu(member: currentMember)
             : Padding(
                 padding: const EdgeInsets.only(left: 20),
