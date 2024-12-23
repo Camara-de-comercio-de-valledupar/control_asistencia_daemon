@@ -8,7 +8,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Huella Funcionario',
+      title: AppConfig.name,
       theme: primaryTheme,
       getPages: [
         GetPage(name: "/login", page: () => const LoginScreen()),
@@ -23,6 +23,8 @@ class App extends StatelessWidget {
             })),
         GetPage(name: "/", page: () => const LoadingScreen()),
         GetPage(name: "/offline", page: () => const OfflineScreen()),
+        // Cuando no se encuentra la ruta
+        GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
       initialRoute: "/",
       debugShowCheckedModeBanner: false,

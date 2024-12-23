@@ -58,6 +58,7 @@ class PushAlertController extends GetxController {
       icon: Icon(
         alertIconByType[alert.type] ?? Icons.info,
         color: snackbarColor[alert.type],
+        size: 30,
       ),
       boxShadows: [
         BoxShadow(

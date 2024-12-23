@@ -47,7 +47,7 @@ class Permission {
         id: json["id"],
         cabecerasId: json["cabeceras_id"],
         item: json["item"],
-        url: json["url"],
+        url: json["url"].replaceAll("#", ""),
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         deletedAt: json["deleted_at"],

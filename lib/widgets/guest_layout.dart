@@ -33,7 +33,7 @@ class GuestLayout extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Huella Funcionario',
+                        Text(AppConfig.name,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall
@@ -112,27 +112,26 @@ class UserTagMenu extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "${member.firstName} ${member.lastName}",
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall
-                    ?.copyWith(color: textColor),
-              ),
-              Text(
-                member.jonRole,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: textColor),
-              )
-            ],
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${member.firstName} ${member.lastName}",
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: textColor, overflow: TextOverflow.ellipsis),
+                ),
+                Text(
+                  member.jonRole,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium
+                      ?.copyWith(color: textColor),
+                )
+              ],
+            ),
           ),
-          const Spacer(),
           PopupMenuButton(
               child: Container(
                 padding: const EdgeInsets.all(5),
