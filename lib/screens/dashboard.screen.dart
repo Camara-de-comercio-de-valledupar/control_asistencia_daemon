@@ -41,8 +41,8 @@ class DashboardScreen extends StatelessWidget {
           width: 200,
           height: 200,
           decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.6),
-              borderRadius: BorderRadius.circular(20.0)),
+            color: Theme.of(context).colorScheme.primary,
+          ),
           child: isLoading
               ? LoadingIndicator(
                   size: 100,
@@ -62,7 +62,11 @@ class DashboardScreen extends StatelessWidget {
                       height: 20.0,
                     ),
                     Text("Marcar huella",
-                        style: Theme.of(context).textTheme.headlineSmall)
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall
+                            ?.copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary))
                   ],
                 ),
         ),

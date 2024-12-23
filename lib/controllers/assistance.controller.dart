@@ -54,13 +54,13 @@ Map<String, String> messageByResponse(String response) {
     if (response.contains("Ya marco")) {
       if (response.contains("Mañana")) {
         return {
-          "title": "Espera un momento",
+          "title": "Ups! Espera un momento",
           "body": "Ya marcaste tu entrada de la mañana",
           "type": "warning",
         };
       } else {
         return {
-          "title": "Espera un momento",
+          "title": "Ups! Espera un momento",
           "body": "Ya marcaste tu entrada  de la tarde",
           "type": "warning",
         };
@@ -84,13 +84,13 @@ Map<String, String> messageByResponse(String response) {
     if (response.contains("Ya marco")) {
       if (response.contains("Mañana")) {
         return {
-          "title": "Espera un momento",
+          "title": "Ups! Espera un momento",
           "body": "Ya marcaste tu salida de la mañana",
           "type": "warning",
         };
       } else {
         return {
-          "title": "Espera un momento",
+          "title": "Ups! Espera un momento",
           "body": "Ya marcaste tu salida de la tarde",
           "type": "warning",
         };

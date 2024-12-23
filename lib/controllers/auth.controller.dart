@@ -13,6 +13,17 @@ class AuthController extends GetxController {
 
   final Rx<Member?> _currentMember = Rx<Member?>(null);
   final RxBool _loading = RxBool(false);
+  final RxList<Permission> _permissions = RxList<Permission>([]);
+
+  // =================================================================
+
+  List<Permission> get permissions {
+    var permissions = _permissions.toList();
+    permissions.sort((a, b) => a.item.compareTo(b.item));
+    permissions =
+        permissions.where((element) => element.deletedAt == null).toList();
+    return permissions;
+  }
 
   // =================================================================
 
@@ -25,8 +36,19 @@ class AuthController extends GetxController {
       time: const Duration(seconds: 1),
     );
     ever(_loading, _goToLoading);
+    ever(_currentMember, _getPermissions);
     _fetchCurrentMember();
   }
+
+  // =================================================================
+
+  void _getPermissions(Member? member) async {
+    if (member != null) {
+      _permissions.value =
+          await authenticationService.getPermissions(member.id);
+    }
+  }
+
   // =================================================================
 
   void _goToLoading(bool loading) {

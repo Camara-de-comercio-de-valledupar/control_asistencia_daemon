@@ -70,9 +70,8 @@ class UserTagMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = MediaQuery.of(context).size.width < 600;
-    final Color backgroundColor = Theme.of(context).colorScheme.primary;
-    final Color textColor = Theme.of(context).colorScheme.onPrimary;
+    final Color backgroundColor = Theme.of(context).colorScheme.secondary;
+    final Color textColor = Theme.of(context).colorScheme.onSecondary;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -113,27 +112,26 @@ class UserTagMenu extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          if (!isMobile)
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${member.firstName} ${member.lastName}",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineSmall
-                      ?.copyWith(color: textColor),
-                ),
-                Text(
-                  member.jonRole,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: textColor),
-                )
-              ],
-            ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${member.firstName} ${member.lastName}",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(color: textColor),
+              ),
+              Text(
+                member.jonRole,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: textColor),
+              )
+            ],
+          ),
           const Spacer(),
           PopupMenuButton(
               child: Container(

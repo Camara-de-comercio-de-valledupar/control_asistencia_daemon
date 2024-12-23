@@ -68,7 +68,7 @@ class PushAlertController extends GetxController {
       ],
       margin: const EdgeInsets.all(20),
       padding: const EdgeInsets.all(10),
-      borderRadius: 5,
+      borderRadius: 0,
       duration: const Duration(seconds: 5),
       animationDuration: const Duration(milliseconds: 300),
       isDismissible: false,

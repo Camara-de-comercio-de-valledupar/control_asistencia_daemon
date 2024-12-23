@@ -43,6 +43,7 @@ dependencies:
   url_launcher: ^6.3.1
   syncfusion_flutter_charts: ^27.2.3
   get: ^4.6.6
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:

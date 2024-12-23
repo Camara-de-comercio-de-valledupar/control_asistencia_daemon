@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:control_asistencia_daemon/lib.dart';
 
 class User extends Equatable {
   final int id;
@@ -7,8 +6,6 @@ class User extends Equatable {
   final String lastName;
   final String username;
   final String email;
-  final List<Role> roles;
-  final List<Permission> permissions;
   final bool isActive;
 
   const User({
@@ -17,8 +14,6 @@ class User extends Equatable {
     required this.lastName,
     required this.username,
     required this.email,
-    required this.roles,
-    required this.permissions,
     required this.isActive,
   });
 
@@ -28,8 +23,6 @@ class User extends Equatable {
     String? lastName,
     String? username,
     String? email,
-    List<Role>? roles,
-    List<Permission>? permissions,
     bool? isActive,
   }) =>
       User(
@@ -38,8 +31,6 @@ class User extends Equatable {
         lastName: lastName ?? this.lastName,
         username: username ?? this.username,
         email: email ?? this.email,
-        roles: roles ?? this.roles,
-        permissions: permissions ?? this.permissions,
         isActive: isActive ?? this.isActive,
       );
 
@@ -49,9 +40,6 @@ class User extends Equatable {
         lastName: json["last_name"],
         username: json["username"],
         email: json["email"],
-        roles: List<Role>.from(json["roles"].map((x) => roleFromString(x))),
-        permissions: List<Permission>.from(
-            json["permissions"].map((x) => permissionFromString(x))),
         isActive: json["is_active"],
       );
 
@@ -61,9 +49,6 @@ class User extends Equatable {
         "last_name": lastName,
         "username": username,
         "email": email,
-        "roles": List<dynamic>.from(roles.map((x) => roleToString(x))),
-        "permissions":
-            List<dynamic>.from(permissions.map((x) => permissionToString(x))),
         "is_active": isActive,
       };
 
@@ -71,7 +56,7 @@ class User extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, firstName, lastName, username, email, roles, permissions, isActive];
+      [id, firstName, lastName, username, email, isActive];
 
   factory User.empty() => const User(
         id: 0,
@@ -79,8 +64,6 @@ class User extends Equatable {
         lastName: "",
         username: "",
         email: "",
-        roles: [],
-        permissions: [],
         isActive: false,
       );
 }
