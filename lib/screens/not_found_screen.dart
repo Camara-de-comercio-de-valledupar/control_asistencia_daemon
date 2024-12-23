@@ -13,12 +13,40 @@ class NotFoundScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(FontAwesomeIcons.circleExclamation,
-                size: 100, color: Theme.of(context).colorScheme.error),
+            Icon(FontAwesomeIcons.buildingLock,
+                size: 100, color: Theme.of(context).colorScheme.primary),
             const SizedBox(height: 20),
             Text(
-              "Página no encontrada",
-              style: Theme.of(context).textTheme.headlineMedium,
+              "Lo sentimos. Seguimos trabajando en esta sección",
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.black,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Contacta a soporte si necesitas ayuda",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge
+                  ?.copyWith(color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Correo: ",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge
+                        ?.copyWith(color: Colors.black)),
+                Text(
+                  "soporteaplicativofuncionarios@ccvalledupar.org.co",
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
+              ],
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -54,7 +55,7 @@ class DashboardScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
-                      Icons.fingerprint,
+                      FontAwesomeIcons.fingerprint,
                       size: 100.0,
                       color: Theme.of(context).colorScheme.onPrimary,
                     ),
