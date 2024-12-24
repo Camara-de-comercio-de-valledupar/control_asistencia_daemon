@@ -12,3 +12,4 @@ export 'loading_indicator.dart';
 export 'login_button.dart';
 export 'password_field.dart';
 export 'room_card.dart';
+export 'user_tag_menu.dart';
