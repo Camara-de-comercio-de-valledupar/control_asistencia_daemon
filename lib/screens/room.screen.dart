@@ -44,18 +44,6 @@ class RoomScreen extends StatelessWidget {
                       ),
                       textStyle: const TextStyle(fontSize: 20),
                     ),
-                    onPressed: () {},
-                    child: const Text("Crear salón"),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 20,
-                      ),
-                      textStyle: const TextStyle(fontSize: 20),
-                    ),
                     onPressed: () {
                       Get.find<RoomController>().refreshRooms();
                     },
