@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LateAssistancesReportScreen extends StatefulWidget {
   const LateAssistancesReportScreen({super.key});
@@ -9,19 +12,70 @@ class LateAssistancesReportScreen extends StatefulWidget {
       _LateAssistancesReportScreenState();
 }
 
+class LinkWithImage extends StatelessWidget {
+  final List<Map<String, String>> links = [
+    {
+      "url":
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+      "image":
+          "https://ccvalledupar.org.co/wp-content/uploads/2024/10/cropped-11zon_resized.png",
+    },
+    {
+      "url":
+          "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+    },
+    {
+      "url": "https://unpkg.com/xlsx@latest/dist/xlsx.full.min.js",
+    },
+    {"url": "https://unpkg.com/file-saverjs@latest/FileSaver.min.js"},
+    {
+      "url": "https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js",
+      "image": "https://virtualteca.appccvalledupar.co/images/logo.png"
+    },
+  ];
+
+  Future<void> _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'No se puede abrir el enlace: $url';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: links.map((link) {
+          return GestureDetector(
+            onTap: () => _launchUrl(link["url"]!),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.network(
+                  link["image"]!,
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
 class _LateAssistancesReportScreenState
     extends State<LateAssistancesReportScreen> {
   DateTime selectedDate = DateTime.now();
   List<Employee> employees = [
-    Employee(
-        id: '1',
-        firstName: 'Juan',
-        lastName: 'Pérez',
-        position: 'Desarrollador'),
-    Employee(
-        id: '2', firstName: 'Ana', lastName: 'Gómez', position: 'Diseñadora'),
-    Employee(
-        id: '3', firstName: 'Luis', lastName: 'Martínez', position: 'Gerente'),
+    Employee(id: '1', firstName: '', lastName: '', position: ''),
+    Employee(id: '2', firstName: '', lastName: '', position: ''),
+    Employee(id: '3', firstName: '', lastName: '', position: ''),
   ];
   List<Attendance> attendances = [];
   bool isEmployeeView = false;
@@ -39,20 +93,11 @@ class _LateAssistancesReportScreenState
     setState(() {
       attendances = [
         Attendance(
-            name: 'Juan Pérez',
-            position: 'Desarrollador',
-            morningShift: '08:00',
-            afternoonShift: '17:00'),
+            name: '', position: '', morningShift: '', afternoonShift: ''),
         Attendance(
-            name: 'Ana Gómez',
-            position: 'Diseñadora',
-            morningShift: '09:00',
-            afternoonShift: '18:00'),
+            name: '', position: '', morningShift: '', afternoonShift: ''),
         Attendance(
-            name: 'Luis Martínez',
-            position: 'Gerente',
-            morningShift: '08:30',
-            afternoonShift: '17:30'),
+            name: '', position: '', morningShift: '', afternoonShift: ''),
       ];
     });
   }
