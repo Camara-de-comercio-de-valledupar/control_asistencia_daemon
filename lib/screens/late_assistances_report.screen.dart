@@ -1,31 +1,16 @@
+import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 
-class LateAssistancesReportScreen extends StatelessWidget {
+class LateAssistancesReportScreen extends StatefulWidget {
   const LateAssistancesReportScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  State<LateAssistancesReportScreen> createState() =>
+      _LateAssistancesReportScreenState();
 }
 
-class LateAssistancesReportscreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Registro Entradas Tarde',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _LateAssistancesReportScreenState
+    extends State<LateAssistancesReportScreen> {
   DateTime selectedDate = DateTime.now();
   List<Employee> employees = [
     Employee(
@@ -74,11 +59,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Registro Entradas Tarde'),
-      ),
-      body: Column(
+    return DashboardLayout(
+      title: "Reporte de llegadas tarde",
+      child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -90,16 +73,16 @@ class _HomePageState extends State<HomePage> {
                     fetchAttendanceByDate(); // Simulamos la carga de datos al cambiar la vista
                   });
                 },
-                child: Text('Consultar por día'),
+                child: const Text('Consultar por día'),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
                     isEmployeeView = true;
                   });
                 },
-                child: Text('Consultar por funcionario'),
+                child: const Text('Consultar por funcionario'),
               ),
             ],
           ),
@@ -123,7 +106,7 @@ class _HomePageState extends State<HomePage> {
             ),
             ElevatedButton(
               onPressed: fetchAttendanceByDate,
-              child: Text('Buscar'),
+              child: const Text('Buscar'),
             ),
             Expanded(
               child: ListView.builder(
@@ -147,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           ] else ...[
             DropdownButton<String>(
               value: selectedEmployeeId,
-              hint: Text('Seleccione un empleado'),
+              hint: const Text('Seleccione un empleado'),
               items: employees.map((Employee employee) {
                 return DropdownMenuItem<String>(
                   value: employee.id,

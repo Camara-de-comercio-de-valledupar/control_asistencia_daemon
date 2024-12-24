@@ -24,6 +24,9 @@ class App extends StatelessWidget {
         GetPage(name: "/", page: () => const LoadingScreen()),
         GetPage(name: "/offline", page: () => const OfflineScreen()),
         GetPage(name: "/gestionsalones", page: () => const RoomScreen()),
+        GetPage(
+            name: "/llegadastarde",
+            page: () => const LateAssistancesReportScreen()),
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
