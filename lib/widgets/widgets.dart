@@ -1,4 +1,4 @@
-export 'camera_view.dart';
+export 'caching_image.dart';
 export 'clock_timer.dart';
 export 'custom_card.dart';
 export 'custom_card_button.dart';
@@ -11,3 +11,4 @@ export 'guest_layout.dart';
 export 'loading_indicator.dart';
 export 'login_button.dart';
 export 'password_field.dart';
+export 'room_card.dart';

@@ -1,6 +1,6 @@
 import 'package:control_asistencia_daemon/lib.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class GuestLayout extends StatelessWidget {
@@ -15,7 +15,32 @@ class GuestLayout extends StatelessWidget {
       extendBody: true,
       appBar: AppBar(
         toolbarHeight: kToolbarHeight + 40,
-        leadingWidth: 100.0,
+        leadingWidth: 100,
+        leading: Builder(
+          builder: (context) {
+            if (!(Get.routing.isBack ?? false)) {
+              return const SizedBox.shrink();
+            }
+            return GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: const SizedBox(
+                width: 100,
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(FontAwesomeIcons.chevronLeft),
+                      SizedBox(width: 5),
+                      Text("Atrás", style: TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
         title: currentMember != null
             ? UserTagMenu(member: currentMember)
             : Padding(
@@ -103,31 +128,24 @@ class UserTagMenu extends StatelessWidget {
               color: textColor,
             ),
             child: Center(
-              child: FutureBuilder<Uint8List?>(
-                  future: networkToUint8List(member.photo),
-                  builder: (context, snapshot) {
-                    return CircleAvatar(
-                      radius: 25,
-                      backgroundImage:
-                          snapshot.hasData ? MemoryImage(snapshot.data!) : null,
-                      child: Builder(builder: (context) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Center(
-                            child: LoadingIndicator(
-                              count: 1,
-                              label: null,
-                              size: 30,
-                            ),
-                          );
-                        }
-                        if (snapshot.hasData) {
-                          return const SizedBox();
-                        }
-                        return Icon(Icons.person, color: backgroundColor);
-                      }),
-                    );
-                  }),
+              child: CachingImage(
+                url: member.photo ?? "",
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                fit: BoxFit.cover,
+                errorWidget: Builder(builder: (context) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.solidUser,
+                        color: backgroundColor,
+                      ),
+                    ),
+                  );
+                }),
+              ),
             ),
           ),
           const SizedBox(width: 10),
