@@ -1,5 +1,6 @@
 export 'caching_image.dart';
 export 'clock_timer.dart';
+export 'create_room_dialog.dart';
 export 'custom_card.dart';
 export 'custom_card_button.dart';
 export 'dashboard_layout.dart';

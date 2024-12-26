@@ -64,4 +64,10 @@ class RoomController extends GetxController {
   void refreshRooms() {
     _fetchRooms();
   }
+
+  // =================================================================
+
+  void openCreateNewRoomDialog() {
+    Get.dialog(const CreateNewRoomDialog(), barrierDismissible: false);
+  }
 }
