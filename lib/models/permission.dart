@@ -2,8 +2,16 @@
 //
 //     final permission = permissionFromJson(jsonString);
 
+import 'dart:convert';
+
+List<Permission> permissionFromJsonString(String str) =>
+    List<Permission>.from(json.decode(str).map((x) => Permission.fromJson(x)));
+
 List<Permission> permissionFromJson(List<dynamic> json) =>
     List<Permission>.from(json.map((x) => Permission.fromJson(x)));
+
+String permissionToJson(List<Permission> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Permission {
   final int id;

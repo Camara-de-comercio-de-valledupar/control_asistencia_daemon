@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
@@ -46,6 +47,9 @@ class _CachingImageState extends State<CachingImage> {
         width: widget.width,
         fit: widget.fit,
         errorWidget: (context, url, error) {
+          if (kDebugMode) {
+            print(error);
+          }
           return widget.errorWidget;
         },
         placeholder: (context, url) => const Center(

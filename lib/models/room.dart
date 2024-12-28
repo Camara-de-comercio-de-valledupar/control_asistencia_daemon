@@ -1,11 +1,22 @@
+import 'dart:convert';
+
+List<Room> roomFromJsonString(String str) =>
+    List<Room>.from(json.decode(str).map((x) => Room.fromJson(x)));
+
 List<Room> roomFromJson(List<dynamic> json) =>
     List<Room>.from(json.map((x) => Room.fromJson(x)));
+
+List<dynamic> roomToJson(List<Room> data) =>
+    List<dynamic>.from(data.map((x) => x.toJson()));
+
+String roomToJsonString(List<Room> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Room {
   final int id;
   final String nombresalon;
   final String ubicacion;
-  final String imagen;
+  final String? imagen;
   final int valormediodia;
   final int valordia;
   final int capacidad;
@@ -67,8 +78,7 @@ class Room {
         id: json["id"],
         nombresalon: json["nombresalon"],
         ubicacion: json["ubicacion"],
-        imagen:
-            "https://appccvalledupar.co/timeit/img/fotosalones/${json["imagen"]}",
+        imagen: json["imagen"],
         valormediodia: json["valormediodia"],
         valordia: json["valordia"],
         capacidad: json["capacidad"],
@@ -82,6 +92,8 @@ class Room {
         imagenes:
             List<Imagen>.from(json["imagenes"].map((x) => Imagen.fromJson(x))),
       );
+
+  bool get isDisabled => estado == "Deshabilitado";
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -136,8 +148,7 @@ class Imagen {
 
   factory Imagen.fromJson(Map<String, dynamic> json) => Imagen(
         id: json["id"],
-        file:
-            "https://appccvalledupar.co/timeit/img/fotosalones/${json["file"]}",
+        file: json["file"],
         salonesImagenesId: json["salones_imagenes_id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),

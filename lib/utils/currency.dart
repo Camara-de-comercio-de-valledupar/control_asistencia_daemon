@@ -1,4 +1,11 @@
+import 'package:intl/intl.dart';
+
 String currencyFormat(int value) {
-  return value.toString().replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '\$ ${m[1]},');
+  return NumberFormat.simpleCurrency(
+    decimalDigits: 0,
+  ).format(value);
+}
+
+int currencyParse(String value) {
+  return NumberFormat.simpleCurrency().parse(value).toInt();
 }

@@ -9,13 +9,10 @@ class GuestLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: "guest_layout",
-      child: Scaffold(
-        extendBody: true,
-        appBar: _buildAppBar(context),
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      extendBody: true,
+      appBar: _buildAppBar(context),
+      body: _buildBody(context),
     );
   }
 

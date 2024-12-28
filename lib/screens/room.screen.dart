@@ -13,10 +13,17 @@ class RoomScreen extends StatelessWidget {
       child: Obx(() {
         final List<Room> rooms = Get.find<RoomController>().filteredRooms;
         final isLoading = Get.find<RoomController>().loading;
+        final isDesktop = MediaQuery.of(context).size.width > 1200;
+        final isTablet = MediaQuery.of(context).size.width > 700;
+
+        int gridColumnCount = isDesktop
+            ? 4
+            : isTablet
+                ? 2
+                : 1;
         if (isLoading) {
           return const Center(child: LoadingIndicator());
         }
-
         return Column(
           children: [
             Padding(
@@ -36,27 +43,28 @@ class RoomScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 20),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 18,
+                  if (isDesktop || isTablet)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 18,
+                        ),
+                        textStyle: const TextStyle(fontSize: 20),
                       ),
-                      textStyle: const TextStyle(fontSize: 20),
+                      onPressed: () {
+                        Get.find<RoomController>().openCreateNewRoomDialog();
+                      },
+                      child: const Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(FontAwesomeIcons.plus),
+                          SizedBox(width: 10),
+                          Text("Nuevo salón"),
+                        ],
+                      ),
                     ),
-                    onPressed: () {
-                      Get.find<RoomController>().openCreateNewRoomDialog();
-                    },
-                    child: const Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(FontAwesomeIcons.plus),
-                        SizedBox(width: 10),
-                        Text("Nuevo salón"),
-                      ],
-                    ),
-                  ),
                   const SizedBox(width: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -89,14 +97,20 @@ class RoomScreen extends StatelessWidget {
                   : GridView.builder(
                       padding: const EdgeInsets.all(20),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount:
-                            MediaQuery.of(context).size.width > 1200 ? 4 : 2,
+                        crossAxisCount: gridColumnCount,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                       ),
                       itemBuilder: (context, index) {
-                        return RoomCard(
-                          room: rooms[index],
+                        return GestureDetector(
+                          onTap: () {
+                            Get.find<RoomController>().openShowRoomDialog(
+                              rooms[index],
+                            );
+                          },
+                          child: RoomCard(
+                            room: rooms[index],
+                          ),
                         );
                       },
                       itemCount: rooms.length,

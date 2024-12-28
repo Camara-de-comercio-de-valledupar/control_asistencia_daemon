@@ -3,3 +3,4 @@ export 'assistance.controller.dart';
 export 'auth.controller.dart';
 export 'connection.controller.dart';
 export 'room.controller.dart';
+export 'create_room.controller.dart';

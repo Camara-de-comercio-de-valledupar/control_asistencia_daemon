@@ -108,10 +108,27 @@ var primaryTheme = ThemeData(
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.all<Color>(const Color(0xFF0070B3)),
+      style: ButtonStyle(
+    backgroundColor: WidgetStateProperty.all<Color>(
+      const Color(0xFF0070B3),
     ),
-  ),
+    elevation: WidgetStateProperty.all<double>(0.0),
+    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+      const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 20,
+      ),
+    ),
+    shape: WidgetStateProperty.all<OutlinedBorder>(
+      const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+    ),
+    foregroundColor: WidgetStateProperty.all<Color>(
+      const Color(0xFFF2F2F2),
+    ),
+  )),
+
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF0070B3)),

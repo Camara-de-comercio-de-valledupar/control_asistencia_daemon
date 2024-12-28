@@ -10,7 +10,8 @@ class RoomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     var backgroundColor = Theme.of(context).colorScheme.secondary;
     return LayoutBuilder(builder: (context, BoxConstraints constrains) {
-      var isScreenLarge = constrains.maxWidth > 236.0;
+      bool isScreenLarge = constrains.maxWidth > 236.0;
+
       var textStyleNormal = isScreenLarge
           ? Theme.of(context).textTheme.headlineSmall?.copyWith(
                 color: backgroundColor,
@@ -55,6 +56,7 @@ class RoomCard extends StatelessWidget {
                   color: backgroundColor,
                 ),
                 child: ListImageCarousel(
+                  disabled: room.isDisabled,
                   images: room.imagenes,
                   maxWidth: constrains.maxWidth,
                 ),
@@ -142,10 +144,12 @@ class ListImageCarousel extends StatefulWidget {
     super.key,
     required this.images,
     this.maxWidth = 300,
+    this.disabled = false,
   });
 
   final List<Imagen> images;
   final double maxWidth;
+  final bool disabled;
 
   @override
   State<ListImageCarousel> createState() => _ListImageCarouselState();
