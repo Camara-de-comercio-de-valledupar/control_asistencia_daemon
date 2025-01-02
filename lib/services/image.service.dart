@@ -1,3 +1,19 @@
+/// Servicio para manejar operaciones relacionadas con imágenes.
+///
+/// Esta clase sigue el patrón Singleton para asegurar que solo exista una
+/// instancia de `ImageService` en toda la aplicación.
+///
+/// Métodos:
+/// - `getInstance`: Obtiene la instancia única de `ImageService`.
+/// - `getImage`: Descarga una imagen desde una URL proporcionada.
+///
+/// Uso:
+/// ```dart
+/// final imageService = ImageService.getInstance();
+/// final imageBytes = await imageService.getImage('https://example.com/image.png');
+/// ```
+library;
+
 import 'dart:typed_data';
 
 import 'package:control_asistencia_daemon/lib.dart';
