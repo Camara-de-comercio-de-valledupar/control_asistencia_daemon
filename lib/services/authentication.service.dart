@@ -25,23 +25,7 @@ class AuthenticationService {
       },
     );
 
-    final infoResp =
-        await _client.get("/hojasdevidas/${response["data"]["id"]}");
-
-    String? photo =
-        infoResp[0].containsKey("foto") ? infoResp[0]["foto"] : null;
-
-    if (photo != null) {
-      photo =
-          "https://appccvalledupar.co/timeittemporal/img/fotoshojadevida/$photo";
-    }
-
-    Map<String, dynamic> data = {
-      ...response["data"],
-      "foto": photo,
-    };
-
-    return Member.fromJson(data);
+    return Member.fromJson(response["data"]);
   }
 
   Future<List<Permission>> getPermissions(int memberId) async {

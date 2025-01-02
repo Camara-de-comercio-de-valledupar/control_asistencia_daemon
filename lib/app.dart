@@ -1,6 +1,7 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -30,13 +31,25 @@ class App extends StatelessWidget {
             Get.put(RoomController());
           }),
         ),
+        GetPage(
+          name: "/llegadastarde",
+          page: () => const LateArrivalsScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(LateArrivalsController());
+          }),
+        ),
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
-      initialRoute: "/",
+      initialRoute: "/llegadastarde",
+      locale: FlutterLocalization.instance.currentLocale,
+      supportedLocales: FlutterLocalization.instance.supportedLocales,
+      localizationsDelegates:
+          FlutterLocalization.instance.localizationsDelegates,
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         configureDio();
+        Get.put(CurriculumController());
         Get.put(PushAlertController());
         Get.put(AuthController());
         Get.put(ConnectionController());

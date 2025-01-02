@@ -8,6 +8,7 @@ export 'custom_card.dart';
 export 'custom_card_button.dart';
 export 'custom_dialog.dart';
 export 'dashboard_layout.dart';
+export 'date_picker.dart';
 export 'date_range_picker.dart';
 export 'disable_room_alert_dialog.dart';
 export 'dni_field.dart';

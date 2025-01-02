@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  initializeTimezone();
+  await initializeTimezone();
   await CacheService.init();
   runApp(const App());
 }

@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 
 class CustomCardButton extends StatelessWidget {
   final Widget child;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final List<Color> colors;
   const CustomCardButton(
-      {super.key,
-      required this.child,
-      required this.onPressed,
-      this.colors = const []});
+      {super.key, required this.child, this.onPressed, this.colors = const []});
 
   @override
   Widget build(BuildContext context) {

@@ -26,24 +26,62 @@ class UserTagMenu extends StatelessWidget {
               color: textColor,
             ),
             child: Center(
-              child: CachingImage(
-                url: member.photo ?? "",
-                width: 60,
-                height: 60,
-                borderRadius: 30,
-                fit: BoxFit.cover,
-                errorWidget: Builder(builder: (context) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: Icon(
-                        FontAwesomeIcons.solidUser,
-                        color: backgroundColor,
+              child: Obx(() {
+                final isLoading = Get.find<CurriculumController>().loading;
+                final hasCurriculum =
+                    Get.find<CurriculumController>().hasCurriculum(member);
+                if (isLoading) {
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: backgroundColor,
+                    ),
+                    child: const Center(
+                      child: LoadingIndicator(
+                        count: 1,
+                        label: null,
+                        size: 20,
                       ),
                     ),
                   );
-                }),
-              ),
+                }
+                if (!hasCurriculum) {
+                  return Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: backgroundColor,
+                    ),
+                    child: Center(
+                      child: Icon(
+                        FontAwesomeIcons.solidUser,
+                        color: textColor,
+                      ),
+                    ),
+                  );
+                }
+                return CachingImage(
+                  url: Get.find<CurriculumController>().getMemberImage(member),
+                  width: 60,
+                  height: 60,
+                  borderRadius: 30,
+                  fit: BoxFit.cover,
+                  errorWidget: Builder(builder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: Icon(
+                          FontAwesomeIcons.solidUser,
+                          color: backgroundColor,
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              }),
             ),
           ),
           const SizedBox(width: 10),
@@ -83,10 +121,19 @@ class UserTagMenu extends StatelessWidget {
                 return [
                   PopupMenuItem(
                     child: ListTile(
-                      leading: const Icon(Icons.logout),
+                      leading: const Icon(FontAwesomeIcons.rightFromBracket),
                       title: const Text('Cerrar sesión'),
                       onTap: () {
                         Get.find<AuthController>().logout();
+                      },
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: ListTile(
+                      leading: const Icon(FontAwesomeIcons.arrowRotateRight),
+                      title: const Text('Refrescar datos'),
+                      onTap: () {
+                        Get.find<CurriculumController>().refreshCurriculums();
                       },
                     ),
                   ),
