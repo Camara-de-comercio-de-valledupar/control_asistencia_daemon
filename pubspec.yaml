@@ -1,5 +1,6 @@
 name: control_asistencia_daemon
-description: "Aplicación para el control de asistencia de los funcionarios de la Cámara de Comercio de Valledupar"
+description: "Aplicación para el control de asistencia de los funcionarios de la
+  Cámara de Comercio de Valledupar"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -28,35 +29,35 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
+  cached_network_image: ^3.4.1
+  cupertino_icons: ^1.0.8
   dio: ^5.7.0
   equatable: ^2.0.5
-  get_storage: ^2.1.1
-  cupertino_icons: ^1.0.8
-  json_annotation: ^4.9.0
+  flutter:
+    sdk: flutter
+  flutter_cache_manager: ^3.4.1
+  font_awesome_flutter: ^10.8.0
   form_validation: ^3.1.1+8
-  camera_windows: ^0.2.5
-  camera: ^0.11.0+2
+  get: ^4.6.6
+  get_storage: ^2.1.1
+  image_picker: ^1.1.2
   intl: ^0.19.0
+  json_annotation: ^4.9.0
+  syncfusion_flutter_charts: ^27.2.3
   timezone: ^0.9.4
   url_launcher: ^6.3.1
-  syncfusion_flutter_charts: ^27.2.3
-  get: ^4.6.6
-  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
+  build_runner: ^2.4.13
+
+  flutter_launcher_icons: ^0.9.2
+  flutter_lints: ^4.0.0
+  flutter_native_splash: ^1.2.1
   flutter_test:
     sdk: flutter
 
-  flutter_launcher_icons: ^0.9.2
-  flutter_native_splash: ^1.2.1
-  flutter_lints: ^4.0.0
-  build_runner: ^2.4.13
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
   # The following line ensures that the Material Icons font is

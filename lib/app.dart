@@ -23,11 +23,17 @@ class App extends StatelessWidget {
             })),
         GetPage(name: "/", page: () => const LoadingScreen()),
         GetPage(name: "/offline", page: () => const OfflineScreen()),
-        GetPage(name: "/gestionsalones", page: () => const RoomScreen()),
+        GetPage(
+          name: "/gestionsalones",
+          page: () => const RoomScreen(),
+          binding: BindingsBuilder(() {
+            Get.put(RoomController());
+          }),
+        ),
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
-      initialRoute: "/",
+      initialRoute: "/gestionsalones",
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         configureDio();

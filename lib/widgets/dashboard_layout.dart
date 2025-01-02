@@ -159,12 +159,20 @@ class MenuItem extends StatefulWidget {
 }
 
 class _MenuItemState extends State<MenuItem> {
-  bool _expanded = false;
+  late bool _expanded;
+
+  @override
+  void initState() {
+    super.initState();
+    _expanded = widget.permission.menus.any(
+        (element) => element.url == Get.currentRoute || element.url == "/");
+  }
 
   @override
   Widget build(BuildContext context) {
     final Color textColor = Theme.of(context).colorScheme.onPrimary;
-
+    final isSelected = widget.permission.menus.any(
+        (element) => element.url == Get.currentRoute || element.url == "/");
     final icons = {
       "fa fa-home": FontAwesomeIcons.house,
       "fa fa-users": FontAwesomeIcons.users,
@@ -186,48 +194,59 @@ class _MenuItemState extends State<MenuItem> {
       "25": FontAwesomeIcons.listUl,
       "26": FontAwesomeIcons.listUl,
     };
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          leading: Icon(
-            icons[widget.permission.icon] ?? FontAwesomeIcons.gears,
-            color: textColor,
-          ),
-          title: Text(widget.permission.nombreCabecera,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: textColor)),
-          trailing: _expanded
-              ? Icon(Icons.arrow_drop_up, color: textColor)
-              : Icon(Icons.arrow_drop_down, color: textColor),
-          onTap: () {
-            setState(() {
-              _expanded = !_expanded;
-            });
-          },
-        ),
-        if (_expanded)
-          Padding(
-            padding: const EdgeInsets.only(left: 20),
-            child: Column(
-              children: widget.permission.menus
-                  .map((menu) => ListTile(
-                        title: Text(menu.item,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.copyWith(color: textColor)),
-                        onTap: () {
-                          Get.toNamed(menu.url);
-                        },
-                      ))
-                  .toList(),
+    var tileColor = isSelected ? Theme.of(context).colorScheme.secondary : null;
+    return Material(
+      color: Colors.transparent,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ListTile(
+            tileColor: tileColor,
+            leading: Icon(
+              icons[widget.permission.icon] ?? FontAwesomeIcons.gears,
+              color: textColor,
             ),
+            title: Text(widget.permission.nombreCabecera,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium
+                    ?.copyWith(color: textColor)),
+            trailing: _expanded
+                ? Icon(Icons.arrow_drop_up, color: textColor)
+                : Icon(Icons.arrow_drop_down, color: textColor),
+            onTap: () {
+              setState(() {
+                _expanded = !_expanded;
+              });
+            },
           ),
-      ],
+          if (_expanded)
+            Container(
+              color: tileColor,
+              padding: const EdgeInsets.only(left: 20),
+              child: Column(
+                children: widget.permission.menus.map((menu) {
+                  bool isSelectedSubmenu = menu.url == Get.currentRoute;
+                  return ListTile(
+                      tileColor: tileColor,
+                      title: Text(menu.item,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(color: textColor)),
+                      onTap: () {
+                        Get.toNamed(menu.url);
+                      },
+                      trailing: isSelectedSubmenu
+                          ? Icon(FontAwesomeIcons.handPointLeft,
+                              color: textColor)
+                          : null);
+                }).toList(),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

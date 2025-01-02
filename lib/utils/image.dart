@@ -9,17 +9,10 @@ Future<Uint8List?> networkToUint8List(String? url) {
 
   dio
     ..options = BaseOptions(
-      connectTimeout: Duration(seconds: 5),
-      receiveTimeout: Duration(seconds: 5),
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 5),
     )
-    ..httpClientAdapter = HttpClientAdapter()
-    ..interceptors.add(LogInterceptor(
-      responseBody: true,
-      requestBody: true,
-      requestHeader: true,
-      responseHeader: true,
-      error: true,
-    ));
+    ..httpClientAdapter = HttpClientAdapter();
   return dio
       .get<Uint8List>(encodedUrl,
           options: Options(responseType: ResponseType.bytes))

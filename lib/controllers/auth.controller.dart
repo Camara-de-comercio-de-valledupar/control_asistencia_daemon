@@ -32,9 +32,31 @@ class AuthController extends GetxController {
       _listeCurrentMemberChanges,
       time: const Duration(seconds: 1),
     );
+    ever(_permissions, _savePermissionsOnCache,
+        condition: (_) => !_loading.value);
     ever(_loading, _goToLoading);
-    ever(_currentMember, _getPermissions);
+    ever(_currentMember, _fetchPermissionsOnCache);
     _fetchCurrentMember();
+  }
+
+  // =================================================================
+
+  void _savePermissionsOnCache(List<Permission> permissions) async {
+    final permissionsString = permissionToJson(permissions);
+    await cacheService.setString("cached_permissions", permissionsString);
+  }
+
+  // =================================================================
+
+  void _fetchPermissionsOnCache(Member? member) async {
+    final permissionsString = cacheService.getString("cached_permissions");
+    if (permissionsString != null) {
+      final permissions = permissionFromJsonString(permissionsString);
+      _permissions.assignAll(permissions);
+      _filteredPermissions.assignAll(permissions);
+    } else {
+      _getPermissions(member);
+    }
   }
 
   // =================================================================
@@ -81,7 +103,9 @@ class AuthController extends GetxController {
     if (member == null) {
       Get.offAllNamed("/login");
     } else {
-      Get.offAllNamed("/dashboard");
+      if (Get.currentRoute == "/") {
+        Get.offAllNamed("/dashboard");
+      }
     }
   }
 
