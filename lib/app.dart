@@ -33,7 +33,7 @@ class App extends StatelessWidget {
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
-      initialRoute: "/gestionsalones",
+      initialRoute: "/",
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         configureDio();
