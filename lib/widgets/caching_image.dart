@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,15 @@ class _CachingImageState extends State<CachingImage> {
       borderRadius: BorderRadius.circular(widget.borderRadius ?? 100.0),
       child: CachedNetworkImage(
         imageUrl: widget.url,
+
+        httpHeaders: const {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers":
+              "Origin, X-Requested-With, Content-Type, Accept, Authorization",
+          "Access-Control-Allow-Credentials": "true",
+          "Cache-Control": "public, max-age=31536000",
+        },
         cacheManager: _cache,
         height: widget.height,
         width: widget.width,
@@ -49,6 +59,7 @@ class _CachingImageState extends State<CachingImage> {
         errorWidget: (context, url, error) {
           if (kDebugMode) {
             print(error);
+            log("Error loading image: $error");
           }
           return widget.errorWidget;
         },
