@@ -30,20 +30,30 @@ class _ShowRoomDialogState extends State<ShowRoomDialog> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Icon(FontAwesomeIcons.pencil),
+            Icon(FontAwesomeIcons.solidImage),
             SizedBox(width: 10),
-            Text("Editar"),
+            Text("Editar imágenes"),
           ],
         ): () async {
-          final result =
-              await Get.find<RoomController>().openEditRoomDialog(_room);
-          if (result != null) {
-            setState(() {
-              _room = result;
-            });
-          }
+          Get.find<RoomController>().openEditRoomImagesDialog(_room);
         },
         if (_room.estado == "Habilitado") ...{
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(FontAwesomeIcons.pencil),
+              SizedBox(width: 10),
+              Text("Editar"),
+            ],
+          ): () async {
+            final result = await Get.find<RoomController>().disableRoom(_room);
+            if (result != null) {
+              setState(() {
+                _room = result;
+              });
+            }
+          },
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

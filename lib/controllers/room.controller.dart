@@ -198,4 +198,10 @@ class RoomController extends GetxController {
       );
     }
   }
+
+  // =================================================================
+
+  void openEditRoomImagesDialog(Room room) {
+    Get.dialog(EditRoomImagesDialog(room: room), barrierDismissible: false);
+  }
 }

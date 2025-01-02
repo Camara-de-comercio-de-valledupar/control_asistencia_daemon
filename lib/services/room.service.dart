@@ -1,4 +1,7 @@
+import 'dart:typed_data';
+
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:dio/dio.dart';
 
 class RoomService {
   final HttpClient _client;
@@ -81,5 +84,42 @@ class RoomService {
       throw Exception(response["mensaje"]);
     }
     return response["mensaje"];
+  }
+
+  Future<void> updateRoomImages(Room room, List<Uint8List> images) async {
+    final data = FormData();
+    data.fields.add(MapEntry("salones_imagenes_id", room.id.toString()));
+    data.files.addAll(
+      images.map(
+        (image) {
+          final index = (images.indexOf(image)) + 1;
+          return MapEntry(
+            "file$index",
+            MultipartFile.fromBytes(
+              image,
+              filename: "image$index.jpg",
+            ),
+          );
+        },
+      ).toList(),
+    );
+    final response = await _client.post("/salosdeevento/imagenes", data);
+
+    if (response["error"]) {
+      throw Exception(response["mensaje"]);
+    }
+  }
+
+  Future<void> removeAllRoomImages(Room room) async {
+    final response = await _client.post(
+      "/salosdeevento/imagenes/eliminar",
+      {
+        "salones_imagenes_id": room.id,
+      },
+    );
+
+    if (response["error"]) {
+      throw Exception(response["mensaje"]);
+    }
   }
 }

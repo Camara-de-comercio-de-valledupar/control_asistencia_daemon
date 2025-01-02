@@ -12,6 +12,7 @@ export 'date_range_picker.dart';
 export 'disable_room_alert_dialog.dart';
 export 'dni_field.dart';
 export 'edit_room_dialog.dart';
+export 'edit_room_images_dialog.dart';
 export 'email_field.dart';
 export 'filter_user_dialog.dart';
 export 'guest_layout.dart';
