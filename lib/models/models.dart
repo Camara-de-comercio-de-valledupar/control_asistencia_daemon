@@ -3,3 +3,4 @@ export 'late_arrival.dart';
 export 'member.dart';
 export 'permission.dart';
 export 'room.dart';
+export 'workpermit.dart';

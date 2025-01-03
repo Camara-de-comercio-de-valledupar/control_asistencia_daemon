@@ -1,6 +1,7 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localization/flutter_localization.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzi;
@@ -9,6 +10,13 @@ import 'package:intl/date_symbol_data_local.dart';
 String formatDateToHuman(DateTime date) {
   final formatter = DateFormat('dd/MM/yyyy HH:mm');
   return formatter.format(date);
+}
+
+// Formatea la fecha a un formato de legible en español
+// Ejemplo: 10 de octubre de 2022 -> 10/10/2022
+String formatDateToSpanishDate(DateTime date) {
+  final formatter = DateFormat('d \'de\' MMMM \'del\' y', 'es');
+  return formatter.format(date).capitalize!;
 }
 
 String formatDateToHumanDate(DateTime date) {
@@ -65,4 +73,10 @@ bool isLate(
   final limitDate = DateTime(date.year, date.month, date.day, hour, 0, 0);
 
   return date.isAfter(limitDate);
+}
+
+bool isWithinDateRange(DateTime date, DateTime start, DateTime end) {
+  return date.isAfter(start) && date.isBefore(end) ||
+      date.isAtSameMomentAs(start) ||
+      date.isAtSameMomentAs(end);
 }

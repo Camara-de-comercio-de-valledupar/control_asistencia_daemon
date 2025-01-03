@@ -131,6 +131,23 @@ var primaryTheme = ThemeData(
 
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+        const EdgeInsets.symmetric(
+          horizontal: 30,
+          vertical: 20,
+        ),
+      ),
+      shape: WidgetStateProperty.all<OutlinedBorder>(
+        const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+      ),
+      side: WidgetStateProperty.all<BorderSide>(
+        const BorderSide(
+          width: 2,
+          color: Color(0xFF0070B3),
+        ),
+      ),
       foregroundColor: WidgetStateProperty.all<Color>(const Color(0xFF0070B3)),
     ),
   ),

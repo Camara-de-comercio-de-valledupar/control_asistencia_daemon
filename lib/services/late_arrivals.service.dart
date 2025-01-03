@@ -28,4 +28,17 @@ class LateArrivalsService {
 
     return lateArrivalFromJson(jsonEncode(response["datos"]));
   }
+
+  Future<List<LateArrivalDetailItem>> getLateArrivalsByEmployee({
+    required int employeeId,
+    required DateTime begin,
+    required DateTime end,
+  }) async {
+    final beginDateString = begin.toIso8601String().substring(0, 10);
+    final endDateString = end.toIso8601String().substring(0, 10);
+    final response = await _client.get(
+        "/GetDetalleEntradasTarde/empleados_id/$employeeId/fechaInicio/$beginDateString/fechaFin/$endDateString");
+
+    return lateArrivalDetailItemFromJson(jsonEncode(response["datos"]));
+  }
 }

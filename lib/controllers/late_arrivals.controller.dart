@@ -1,4 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,16 +17,13 @@ class LateArrivalsController extends GetxController {
   // =======================================================
 
   final Rx<String?> _search = "".obs;
-  final RxBool _isRangeFilter = false.obs;
   final Rx<DateTime?> _date = DateTime.now().obs;
-  final Rx<DateTimeRange?> _dateRange =
-      DateTimeRange(start: DateTime.now(), end: DateTime.now()).obs;
+  final Rx<DateTimeRange?> _dateRange = Rx<DateTimeRange?>(null);
   final RxBool _loading = false.obs;
 
   // =======================================================
 
   String? get search => _search.value;
-  bool get isRangeFilter => _isRangeFilter.value;
   DateTime? get date => _date.value;
   DateTimeRange? get dateRange => _dateRange.value;
   List<LateArrival> get lateArrivals => _filteredLateArrivals;
@@ -37,23 +35,20 @@ class LateArrivalsController extends GetxController {
     _search.value = value;
   }
 
-  void setIsRangeFilter(bool value) {
-    _isRangeFilter.value = value;
-  }
-
   void setDate(DateTime value) {
     _date.value = value;
+    _dateRange.value = null;
   }
 
   void setDateRange(DateTimeRange value) {
     _dateRange.value = value;
+    _date.value = null;
   }
 
   // =======================================================
 
   void clearFilters() {
     _search.value = "";
-    _isRangeFilter.value = false;
     _date.value = DateTime.now();
     _dateRange.value =
         DateTimeRange(start: DateTime.now(), end: DateTime.now());
@@ -121,10 +116,9 @@ class LateArrivalsController extends GetxController {
       _lateArrivals
           .where(
             (lateArrival) =>
-                lateArrival.nombres
+                lateArrival.nombreCompleto
                     .toLowerCase()
                     .contains(search.toLowerCase()) ||
-                lateArrival.apellidos.contains(search.toLowerCase()) ||
                 lateArrival.noDocumento.contains(search.toLowerCase()) ||
                 lateArrival.nombreCargo.contains(search.toLowerCase()),
           )
@@ -136,5 +130,32 @@ class LateArrivalsController extends GetxController {
 
   void refreshLateArrivals() {
     _fetchLateArrivalsToday();
+  }
+
+  // =======================================================
+
+  void showLateArrivalDetails(LateArrival lateArrival) async {
+    if (kDebugMode) {
+      print("Filtros de búsqueda: ${_date.value} - ${_dateRange.value}");
+    }
+    final now = DateTime.now();
+    final begin = _dateRange.value?.start ??
+        _date.value ??
+        now.subtract(const Duration(days: 1));
+    final end = _dateRange.value?.end ?? _date.value ?? now;
+    if (kDebugMode) {
+      print("Filtros iniciales Begin: $begin - End: $end");
+    }
+    await showModalBottomSheet(
+        context: Get.context!,
+        constraints: BoxConstraints(
+          minHeight: Get.height * 0.5,
+        ),
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return LateArrivalDetails(
+              lateArrival: lateArrival, begin: begin, end: end);
+        });
+    Get.delete<LateArrivalDetailsController>();
   }
 }

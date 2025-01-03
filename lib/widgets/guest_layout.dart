@@ -1,6 +1,5 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class GuestLayout extends StatelessWidget {
@@ -44,34 +43,7 @@ class GuestLayout extends StatelessWidget {
     return AppBar(
         toolbarHeight: kToolbarHeight + 40,
         leadingWidth: 100,
-        leading: Builder(
-          builder: (context) {
-            if (!Navigator.of(context).canPop()) {
-              return const SizedBox.shrink();
-            }
-            return MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () {
-                  Get.back();
-                },
-                child: const SizedBox(
-                  width: 100,
-                  child: Center(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(FontAwesomeIcons.chevronLeft),
-                        SizedBox(width: 5),
-                        Text("Atrás", style: TextStyle(fontSize: 16)),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
+        leading: const CustomBackButton(),
         title: Obx(
           () {
             final currentMember = Get.find<AuthController>().currentMember;

@@ -100,21 +100,21 @@ class LateArrivalsScreen extends StatelessWidget {
 
   Widget _buildTable(BuildContext context) {
     return SingleChildScrollView(
-      child: Obx(() {
-        final lateArrivals = Get.find<LateArrivalsController>().lateArrivals;
-        final isLoading = Get.find<LateArrivalsController>().loading;
+      child: LayoutBuilder(builder: (context, constraints) {
+        double width = constraints.maxWidth;
+        bool isDesktop = width > 800;
+        bool isTablet = width > 600;
+        bool isMobile = width <= 600;
+        return Obx(() {
+          final lateArrivals = Get.find<LateArrivalsController>().lateArrivals;
+          final isLoading = Get.find<LateArrivalsController>().loading;
 
-        if (isLoading) {
-          return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
-              child: const Center(child: LoadingIndicator()));
-        }
+          if (isLoading) {
+            return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.5,
+                child: const Center(child: LoadingIndicator()));
+          }
 
-        return LayoutBuilder(builder: (context, constraints) {
-          double width = constraints.maxWidth;
-          bool isDesktop = width > 800;
-          bool isTablet = width > 600;
-          bool isMobile = width <= 600;
           return Table(
             columnWidths: {
               0: FlexColumnWidth(
@@ -210,7 +210,10 @@ class LateArrivalsScreen extends StatelessWidget {
                       Row(
                         children: [
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.find<LateArrivalsController>()
+                                  .showLateArrivalDetails(e);
+                            },
                             child: const Text("Ver detalles"),
                           ),
                         ],
@@ -253,6 +256,8 @@ class _FilterDatePopupButtonState extends State<FilterDatePopupButton> {
     {"Ayer": 1},
     {"Esta semana": 2},
     {"Este mes": 3},
+    {"Mes pasado": 8},
+    {"Año pasado": 9},
     {"Personalizado": 4},
   ];
   final List<Map<String, int>> _customOptions = [
@@ -410,7 +415,18 @@ class _FilterDatePopupButtonState extends State<FilterDatePopupButton> {
             });
             // Open menu with quick options
             _popupButtonKey.currentState?.showButtonMenu();
-
+            break;
+          case 8:
+            widget.onDateRangeChanged(
+              DateTime(now.year, now.month - 1, 1),
+              DateTime(now.year, now.month, 0),
+            );
+            break;
+          case 9:
+            widget.onDateRangeChanged(
+              DateTime(now.year - 1, 1, 1),
+              DateTime(now.year - 1, 12, 31),
+            );
             break;
         }
       },
