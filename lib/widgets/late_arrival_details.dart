@@ -220,7 +220,7 @@ class LateArrivalDetails extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        "Hora: ${workPermit.horaEntradaFormateada} - ${workPermit.horaSalidaFormateada}",
+                        "Hora: ${workPermit.horaSalidaFormateada} - ${workPermit.horaEntradaFormateada}",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                               color: Theme.of(context).colorScheme.secondary,
                             ),
