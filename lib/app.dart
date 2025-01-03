@@ -42,10 +42,10 @@ class App extends StatelessWidget {
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
       initialRoute: "/",
-      locale: FlutterLocalization.instance.currentLocale,
-      supportedLocales: FlutterLocalization.instance.supportedLocales,
-      localizationsDelegates:
-          FlutterLocalization.instance.localizationsDelegates,
+      locale: const Locale('es', 'CO'),
+      // supportedLocales: FlutterLocalization.instance.supportedLocales,
+      // localizationsDelegates:
+      // FlutterLocalization.instance.localizationsDelegates,
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         Get.put(CurriculumController());

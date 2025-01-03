@@ -1,11 +1,9 @@
-import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tzi;
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:timezone/data/latest.dart' as tzi;
+import 'package:timezone/timezone.dart' as tz;
 
 String formatDateToHuman(DateTime date) {
   final formatter = DateFormat('dd/MM/yyyy HH:mm');
@@ -49,16 +47,7 @@ DateTime convertUTCToBogota(DateTime utcDateTime) {
 }
 
 Future<void> initializeTimezone() async {
-  await FlutterLocalization.instance.ensureInitialized();
-  FlutterLocalization.instance.init(
-    mapLocales: [
-      const MapLocale("es", AppLocale.ES),
-      const MapLocale("en", AppLocale.EN),
-      const MapLocale("KM", AppLocale.KM),
-    ],
-    initLanguageCode: "es",
-  );
-  await initializeDateFormatting("es_CO", null);
+  await initializeDateFormatting("es", null);
   tzi.initializeTimeZones();
 }
 
