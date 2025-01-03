@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 class CustomCard extends StatelessWidget {
   final Widget child;
   final List<Color> colors;
+  final bool enablePadding;
 
-  const CustomCard({super.key, required this.child, this.colors = const []});
+  const CustomCard(
+      {super.key,
+      required this.child,
+      this.colors = const [],
+      this.enablePadding = true});
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.01),
+      padding: enablePadding ? const EdgeInsets.all(20) : null,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: colors.isEmpty
@@ -23,8 +28,6 @@ class CustomCard extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
-        borderRadius:
-            BorderRadius.circular(MediaQuery.of(context).size.width * 0.01),
       ),
       child: child,
     );

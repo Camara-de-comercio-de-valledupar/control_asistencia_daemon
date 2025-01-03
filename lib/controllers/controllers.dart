@@ -3,5 +3,8 @@ export 'assistance.controller.dart';
 export 'auth.controller.dart';
 export 'connection.controller.dart';
 export 'create_room.controller.dart';
+export 'curriculum.controller.dart';
 export 'edit_image_room.controller.dart';
+export 'late_arrival_details.controller.dart';
+export 'late_arrivals.controller.dart';
 export 'room.controller.dart';

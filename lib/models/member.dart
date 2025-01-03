@@ -15,7 +15,6 @@ class Member extends Equatable {
   final String dni;
   final String firstName;
   final String lastName;
-  final String? photo;
   final String jonRole;
   final String email;
   final String role;
@@ -27,7 +26,6 @@ class Member extends Equatable {
     required this.firstName,
     required this.lastName,
     required this.email,
-    required this.photo,
     required this.jonRole,
     required this.role,
     required this.area,
@@ -50,7 +48,6 @@ class Member extends Equatable {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         email: email ?? this.email,
-        photo: photo ?? this.photo,
         jonRole: jonRole ?? this.jonRole,
         role: role ?? this.role,
         area: area ?? this.area,
@@ -62,7 +59,6 @@ class Member extends Equatable {
         firstName: json["nombres"],
         lastName: json["apellidos"],
         email: json["email"],
-        photo: json["foto"],
         jonRole: json["cargo"],
         role: json["role"],
         area: json["area_laboral"],
@@ -74,7 +70,6 @@ class Member extends Equatable {
         "nombres": firstName,
         "apellidos": lastName,
         "email": email,
-        "foto": photo,
         "cargo": jonRole,
         "role": role,
         "area_laboral": area,
@@ -87,7 +82,6 @@ class Member extends Equatable {
         firstName,
         lastName,
         email,
-        photo,
         jonRole,
         role,
         area,

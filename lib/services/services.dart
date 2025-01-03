@@ -1,7 +1,10 @@
 export 'assistance.service.dart';
 export 'authentication.service.dart';
 export 'cache.service.dart';
+export 'curriculum.service.dart';
 export 'file.service.dart';
 export 'http_client.dart';
 export 'image.service.dart';
+export 'late_arrivals.service.dart';
 export 'room.service.dart';
+export 'workpermit.service.dart';
