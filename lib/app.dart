@@ -41,14 +41,13 @@ class App extends StatelessWidget {
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
-      initialRoute: "/llegadastarde",
+      initialRoute: "/",
       locale: FlutterLocalization.instance.currentLocale,
       supportedLocales: FlutterLocalization.instance.supportedLocales,
       localizationsDelegates:
           FlutterLocalization.instance.localizationsDelegates,
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
-        configureDio();
         Get.put(CurriculumController());
         Get.put(PushAlertController());
         Get.put(AuthController());

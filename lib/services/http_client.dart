@@ -1,29 +1,17 @@
 import 'package:dio/dio.dart';
 
-/// Interceptor que agrega el token de autorización a las solicitudes.
-///
-/// Este interceptor se encarga de agregar el token de autorización a las
-/// cabeceras de las solicitudes HTTP si el token está disponible en el
-/// servicio de caché.
-class TokenInterceptor extends Interceptor {
-  @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
-    // ...
-  }
-}
-
 /// URL base de la aplicación.
 const appUrl = "https://appccvalledupar.co/timeit/laravel/public/api/";
 
-/// Instancia global de Dio.
-late Dio dioInstance;
-
 /// Configura la instancia global de Dio con las opciones base y los
 /// interceptores necesarios.
-void configureDio() {
-  // ...
-}
+Dio dioInstance = Dio(BaseOptions(baseUrl: appUrl))
+  ..interceptors.add(LogInterceptor(
+    requestBody: true,
+    responseBody: true,
+    requestHeader: true,
+    responseHeader: true,
+  ));
 
 /// Cliente HTTP para realizar solicitudes HTTP.
 ///
