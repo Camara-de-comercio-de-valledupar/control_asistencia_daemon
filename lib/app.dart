@@ -1,7 +1,6 @@
 import 'package:control_asistencia_daemon/lib.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
