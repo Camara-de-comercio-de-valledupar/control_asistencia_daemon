@@ -32,6 +32,7 @@ dependencies:
   cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
   dio: ^5.7.0
+  dropdown_search: ^6.0.1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -44,7 +45,8 @@ dependencies:
   image_picker: ^1.1.2
   intl: ^0.19.0
   json_annotation: ^4.9.0
-  syncfusion_flutter_charts: ^27.2.3
+  syncfusion_flutter_charts: ^28.1.38
+  syncfusion_flutter_xlsio: ^28.1.39
   timezone: ^0.9.4
   url_launcher: ^6.3.1
 

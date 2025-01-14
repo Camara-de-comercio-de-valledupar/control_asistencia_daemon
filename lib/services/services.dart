@@ -6,4 +6,5 @@ export 'http_client.dart';
 export 'image.service.dart';
 export 'late_arrivals.service.dart';
 export 'room.service.dart';
+export 'warehouse_report.service.dart';
 export 'workpermit.service.dart';
