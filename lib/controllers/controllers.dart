@@ -8,3 +8,4 @@ export 'edit_image_room.controller.dart';
 export 'late_arrival_details.controller.dart';
 export 'late_arrivals.controller.dart';
 export 'room.controller.dart';
+export 'warehouse_report.controller.dart';

@@ -238,6 +238,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  dropdown_search:
+    dependency: "direct main"
+    description:
+      name: dropdown_search
+      sha256: "8c96aaf8d0c0d4307804b28da73866e5a0fc94fd8e6942eceab896450aaa4999"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -546,6 +554,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  jiffy:
+    dependency: transitive
+    description:
+      name: jiffy
+      sha256: "1c1b86459969ff9f32dc5b0ffe392f1e08181e66396cf9dd8fa7c90552a691af"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.3.2"
   js:
     dependency: transitive
     description:
@@ -947,18 +963,34 @@ packages:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_charts
-      sha256: "219ae2f8c2cdca5653270a8a3abf4af7165f1f6e1d1db72964e9c3ee96d3c629"
+      sha256: "9745a1afb3d14f2f8973a4422767d0124217d6727eacbbf4b2ed0dd66bc58887"
       url: "https://pub.dev"
     source: hosted
-    version: "27.2.3"
+    version: "28.1.38"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
-      sha256: a39ddfb22b30c7cba620fec7dc682e46f151998febd25bca5519c17431084951
+      sha256: "794870919ca73e29c6cb25392a097cdfe58da4d6f3f3d3eccc529ecf52f78752"
       url: "https://pub.dev"
     source: hosted
-    version: "27.2.3"
+    version: "28.1.39"
+  syncfusion_flutter_xlsio:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_xlsio
+      sha256: b1f952348f9dfc5b77f6c897a947b704454c6b4a58fcd7cf8263bad72fe6ee05
+      url: "https://pub.dev"
+    source: hosted
+    version: "28.1.39"
+  syncfusion_officecore:
+    dependency: transitive
+    description:
+      name: syncfusion_officecore
+      sha256: "9d3c9b23f73f8b005cc55ef7240107eac44a728e444fcba1b9ab2a95245ad2f4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "28.1.39"
   synchronized:
     dependency: transitive
     description:

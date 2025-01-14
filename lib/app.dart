@@ -37,6 +37,12 @@ class App extends StatelessWidget {
             Get.put(LateArrivalsController());
           }),
         ),
+        GetPage(
+            name: "/reportesalmacen",
+            page: () => const WarehouseReportScreen(),
+            binding: BindingsBuilder(() {
+              Get.put(WarehouseReportController());
+            })),
         // Cuando no se encuentra la ruta
         GetPage(name: "/:path", page: () => const NotFoundScreen()),
       ],
