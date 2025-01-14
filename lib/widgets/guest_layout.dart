@@ -42,7 +42,7 @@ class GuestLayout extends StatelessWidget {
   AppBar _buildAppBar(context) {
     return AppBar(
         toolbarHeight: kToolbarHeight + 40,
-        leadingWidth: 100,
+        leadingWidth: MediaQuery.of(context).size.width < 600 ? 0 : 100,
         leading: const CustomBackButton(),
         title: Obx(
           () {

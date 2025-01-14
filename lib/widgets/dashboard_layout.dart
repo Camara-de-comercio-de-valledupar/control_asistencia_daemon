@@ -6,29 +6,59 @@ import 'package:get/get.dart';
 class DashboardLayout extends StatelessWidget {
   final String title;
   final Widget child;
-  const DashboardLayout({super.key, required this.child, required this.title});
+  final bool runOnMobile;
+  const DashboardLayout(
+      {super.key,
+      required this.child,
+      required this.title,
+      this.runOnMobile = true});
 
   @override
   Widget build(BuildContext context) {
     return GuestLayout(
-      child: Row(
-        children: [
-          if (MediaQuery.of(context).size.width > 600) const SideMenu(),
-          Expanded(
-            child: Column(
+      child: !runOnMobile && MediaQuery.of(context).size.width < 600
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(FontAwesomeIcons.mobile,
+                      size: 100, color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Esta pantalla no está disponible en este tamaño de pantalla",
+                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                          color: Colors.black,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.offAllNamed("/dashboard");
+                    },
+                    child: const Text("Ir al dashboard"),
+                  ),
+                ],
+              ),
+            )
+          : Row(
               children: [
-                DashboardHeader(
-                  title: title,
-                ),
-                const SizedBox(height: 16),
+                if (MediaQuery.of(context).size.width > 600) const SideMenu(),
                 Expanded(
-                  child: child,
-                )
+                  child: Column(
+                    children: [
+                      DashboardHeader(
+                        title: title,
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: child,
+                      )
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

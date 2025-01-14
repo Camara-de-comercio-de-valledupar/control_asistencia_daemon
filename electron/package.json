@@ -1,10 +1,12 @@
 {
   "name": "huella_funcionario",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "description": "",
   "main": "main.js",
+  "productName": "App Funcionario",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +15,12 @@
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
     "path": "^0.12.7"
+  },
+  "build": {
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png",
+      "artifactName": "${productName} Setup ${version}.${ext}"
+    }
   }
 }

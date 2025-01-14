@@ -9,6 +9,7 @@ class RoomScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardLayout(
+      runOnMobile: false,
       title: 'Gestión de salones',
       child: Obx(() {
         final List<Room> rooms = Get.find<RoomController>().filteredRooms;

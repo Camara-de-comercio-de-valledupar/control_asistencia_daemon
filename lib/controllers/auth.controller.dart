@@ -27,10 +27,9 @@ class AuthController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    debounce(
+    ever(
       _currentMember,
       _listeCurrentMemberChanges,
-      time: const Duration(seconds: 1),
     );
     ever(_permissions, _savePermissionsOnCache,
         condition: (_) => !_loading.value);
@@ -90,6 +89,9 @@ class AuthController extends GetxController {
     if (kDebugMode) {
       print(
           "current member changed -> ${member == null ? "null" : member.email}");
+    }
+    if (member != null) {
+      Get.put<AssistanceController>(AssistanceController(member: member));
     }
     _redirectTo(member);
   }

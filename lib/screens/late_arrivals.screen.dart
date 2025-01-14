@@ -8,6 +8,7 @@ class LateArrivalsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DashboardLayout(
+      runOnMobile: false,
       title: "Llegadas tarde",
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),

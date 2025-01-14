@@ -14,7 +14,7 @@ app.on('ready', () => {
       nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),
     },
-    icon: path.join(__dirname, 'assets', 'icon.ico'),
+    icon: path.join(__dirname, 'assets', 'icon.png'),
   });
 
 

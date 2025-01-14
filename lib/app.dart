@@ -16,7 +16,7 @@ class App extends StatelessWidget {
             name: "/dashboard",
             page: () => const DashboardScreen(),
             binding: BindingsBuilder(() {
-              var currentMember = Get.find<AuthController>().currentMember;
+              final currentMember = Get.find<AuthController>().currentMember;
               if (currentMember != null) {
                 Get.put(AssistanceController(member: currentMember));
               }
@@ -48,9 +48,6 @@ class App extends StatelessWidget {
       ],
       initialRoute: "/",
       locale: const Locale('es', 'CO'),
-      // supportedLocales: FlutterLocalization.instance.supportedLocales,
-      // localizationsDelegates:
-      // FlutterLocalization.instance.localizationsDelegates,
       debugShowCheckedModeBanner: false,
       initialBinding: BindingsBuilder(() {
         Get.put(CurriculumController());
